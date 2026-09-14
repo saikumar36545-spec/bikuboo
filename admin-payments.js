@@ -1,3 +1,4 @@
+(function(){const s=document.createElement('script');s.src='seo-meta.js';document.head.appendChild(s)})();
 (function(){'use strict';
 const KEY='bikuboo_admin_commission_rate';let rows=[],ready=false;
 const money=n=>'₹'+(Number(n||0)/100).toLocaleString('en-IN',{maximumFractionDigits:0});
