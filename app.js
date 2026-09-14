@@ -427,7 +427,7 @@ window.openPayment=async function(requestId){
   if(req.status!=='accepted'){alert('Payment is available only after the driver accepts your request.');return;}
   const ride=req.rides||{}; const amount=Number(ride.price ?? ride.contribution ?? 0); if(amount<=0){alert('This ride is free — no payment is required.');return;}
   paymentContext={requestId,ride};
-  document.getElementById('paymentTitle').textContent='Complete booking payment';
+  document.getElementById('paymentTitle').textContent='Pay for this ride';
   document.getElementById('paymentRoute').textContent=`${ride.from_location||'Pickup'} → ${ride.to_location||'Destination'}`;
   document.getElementById('paymentAmount').textContent='₹'+amount.toLocaleString('en-IN');
   document.getElementById('paymentStatus').textContent='Ready to pay';
@@ -459,7 +459,7 @@ async function startRazorpayPayment(){
       setAuthMessage('paymentMsg','Verifying payment securely…','');
       const {data:v,error:vErr}=await supabaseClient.functions.invoke('verify-payment',{body:{transaction_id:data.transaction.id,razorpay_payment_id:response.razorpay_payment_id,razorpay_order_id:response.razorpay_order_id,razorpay_signature:response.razorpay_signature}});
       if(vErr||v?.error)throw (vErr||new Error(v.error));
-      document.getElementById('paymentStatus').textContent='Paid ✓';setAuthMessage('paymentMsg','Booking confirmed! Payment verified successfully.','success');
+      document.getElementById('paymentStatus').textContent='Paid ✓';setAuthMessage('paymentMsg','Payment confirmed successfully.','success');
       await loadMyRequests(); await loadPaymentHistory();
       setTimeout(closePaymentModal,1200);
     },modal:{ondismiss:function(){btn.disabled=false;setAuthMessage('paymentMsg','Payment window closed. You can try again.','error');}}};
@@ -622,7 +622,7 @@ let notificationChannel=null;
 function notificationTime(ts){if(!ts)return '';return new Date(ts).toLocaleString(undefined,{day:'numeric',month:'short',hour:'numeric',minute:'2-digit'});}
 
 window.startRideLifecycle=async function(rideId){
-  if(!confirm('Start this ride? All accepted passengers must have completed UPI payment or have cash confirmed, and each passenger should complete the OTP check.'))return;
+  if(!confirm('Start this ride? Payment can be completed before or after the ride. Each passenger should complete the OTP check.'))return;
   const {error}=await supabaseClient.rpc('bikuboo_set_ride_status',{p_ride_id:rideId,p_status:'started'});
   if(error){alert(error.message);return;} alert('Ride is now started. Use Safety Center to generate/verify the ride-start OTPs.'); await loadMyRides(); await loadSafetyCenter();
 };
