@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 620">
+<defs>
+ <linearGradient id="body" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#ff5b8d"/><stop offset=".45" stop-color="#8a5cff"/><stop offset="1" stop-color="#27d9a4"/></linearGradient>
+ <linearGradient id="seat" x1="0" x2="1"><stop stop-color="#171c25"/><stop offset="1" stop-color="#343b48"/></linearGradient>
+ <linearGradient id="rim" x1="0" x2="1"><stop stop-color="#b9f86d"/><stop offset="1" stop-color="#34d7a5"/></linearGradient>
+ <filter id="shadow"><feDropShadow dx="0" dy="20" stdDeviation="16" flood-color="#111827" flood-opacity=".24"/></filter>
+</defs>
+<ellipse cx="455" cy="535" rx="300" ry="28" fill="#243027" opacity=".13"/>
+<circle cx="450" cy="305" r="250" fill="#fff" opacity=".22"/>
+<circle cx="450" cy="305" r="215" fill="none" stroke="#fff" stroke-width="3" opacity=".42"/>
+<g filter="url(#shadow)" transform="translate(55 30)">
+ <!-- wheels -->
+ <circle cx="205" cy="405" r="83" fill="#121820"/><circle cx="205" cy="405" r="57" fill="#303947"/><circle cx="205" cy="405" r="42" fill="none" stroke="url(#rim)" stroke-width="9"/><circle cx="205" cy="405" r="10" fill="#dce5df"/>
+ <circle cx="650" cy="405" r="83" fill="#121820"/><circle cx="650" cy="405" r="57" fill="#303947"/><circle cx="650" cy="405" r="42" fill="none" stroke="url(#rim)" stroke-width="9"/><circle cx="650" cy="405" r="10" fill="#dce5df"/>
+ <!-- frame -->
+ <path d="M205 405 L310 250 L455 405 L205 405 L380 405 L510 275 L650 405" fill="none" stroke="#202733" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"/>
+ <path d="M302 251 C345 205 405 191 475 210 L550 273 L456 330 L335 318 Z" fill="url(#body)"/>
+ <path d="M342 206 L450 180 L526 216 L477 247 L350 244 Z" fill="#151a22"/>
+ <path d="M465 328 L535 268 L575 276 L529 333 L490 355 Z" fill="#f5fbf4"/>
+ <path d="M548 270 L635 246 L668 275 L603 306 Z" fill="#8a5cff"/>
+ <path d="M520 213 L582 174 L630 205 L575 245 Z" fill="#ffcc4d"/>
+ <path d="M580 171 L625 148 L660 176 L618 202 Z" fill="#fff" opacity=".9"/>
+ <path d="M296 251 L257 204 L281 192 L329 235" fill="none" stroke="#202733" stroke-width="15" stroke-linecap="round"/>
+ <circle cx="246" cy="190" r="15" fill="#202733"/><path d="M238 180 L270 157" stroke="#202733" stroke-width="12" stroke-linecap="round"/>
+ <!-- rider -->
+ <circle cx="398" cy="108" r="45" fill="#171c25"/><path d="M358 113 Q398 70 438 113 L430 137 Q398 118 366 137Z" fill="#27d9a4"/><path d="M381 151 Q415 135 448 161 L495 210 L460 250 L397 207 L361 190 Z" fill="#ff5b8d"/>
+ <path d="M443 160 L523 205 L497 238 L430 193" fill="#8a5cff"/>
+ <path d="M382 202 L350 270" stroke="#171c25" stroke-width="24" stroke-linecap="round"/><path d="M456 207 L510 270" stroke="#171c25" stroke-width="24" stroke-linecap="round"/>
+ <!-- headlight --> <circle cx="664" cy="270" r="20" fill="#fff"/><circle cx="664" cy="270" r="9" fill="#ffcc4d"/>
+</g>
+</svg>

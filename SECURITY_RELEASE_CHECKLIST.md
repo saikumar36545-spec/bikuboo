@@ -1,0 +1,21 @@
+# BIKUBOO Security Release Checklist
+
+- [ ] Supabase Security Advisor reviewed
+- [ ] RLS enabled on every exposed table
+- [ ] No service-role/secret key in frontend
+- [ ] Supabase MFA enabled for owner/admin accounts
+- [ ] Production Site URL configured in Auth
+- [ ] Razorpay secret/webhook secrets stored only as Edge Function secrets
+- [ ] Razorpay Test Mode end-to-end test completed
+- [ ] Geoapify key restricted to production domain where supported
+- [ ] Admin account verified
+- [ ] Driver/passenger access tested separately
+- [ ] Cash payment confirmation tested
+- [ ] Payment signature verification tested
+- [ ] OTP start-ride flow tested
+- [ ] SOS/report/block tested
+- [ ] Chat access tested for only the ride participants
+- [ ] Notification realtime tested
+- [ ] Mobile/PWA tested over HTTPS
+- [ ] Custom domain HTTPS verified
+- [ ] Database backup/recovery plan reviewed
