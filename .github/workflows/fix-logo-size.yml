@@ -1,0 +1,31 @@
+name: Fix BIKUBOO logo sizing
+on:
+  push:
+    branches: [main]
+permissions:
+  contents: write
+jobs:
+  fix-logo:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Constrain header logo image
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p = Path('styles.css')
+          s = p.read_text()
+          marker = '/* BIKUBOO-LOGO-FIX */'
+          css = '''\n/* BIKUBOO-LOGO-FIX */\n.site-header .logo{display:flex;align-items:center;width:150px;height:58px;overflow:hidden;flex:0 0 150px;text-decoration:none}\n.site-header .logo img{display:block;width:145px;height:auto;max-height:54px;object-fit:contain;object-position:left center}\n@media (max-width:900px){.site-header .logo{width:128px;height:52px;flex-basis:128px}.site-header .logo img{width:124px;max-height:48px}}\n@media (max-width:600px){.site-header .logo{width:112px;height:48px;flex-basis:112px}.site-header .logo img{width:108px;max-height:44px}}\n'''
+          if marker not in s:
+              p.write_text(s + css)
+          PY
+      - name: Commit logo sizing fix
+        shell: bash
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add styles.css
+          git diff --cached --quiet || (git commit -m 'Fix BIKUBOO header logo sizing' && git push)
