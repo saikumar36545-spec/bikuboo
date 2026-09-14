@@ -1,0 +1,33 @@
+name: Inject BIKUBOO SEO metadata
+on:
+  push:
+    branches: [main]
+permissions:
+  contents: write
+jobs:
+  seo:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Inject static SEO metadata
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p=Path('index.html')
+          s=p.read_text()
+          marker='<!-- BIKUBOO-SEO -->'
+          if marker not in s:
+              block='''<!-- BIKUBOO-SEO -->\n<meta name="description" content="BIKUBOO is an India-focused bike pooling platform for finding and offering rides with profiles, ratings, safety tools, chat, payments and rewards.">\n<meta name="keywords" content="BIKUBOO, bike pooling India, bike ride sharing, bikepooling, ride sharing India, share bike ride">\n<meta name="robots" content="index,follow,max-image-preview:large">\n<meta name="author" content="BIKUBOO">\n<link rel="canonical" href="https://bikuboo.vercel.app/">\n<meta property="og:type" content="website">\n<meta property="og:site_name" content="BIKUBOO">\n<meta property="og:title" content="BIKUBOO — Share the ride. Ride safer.">\n<meta property="og:description" content="Find verified riders going your way, or offer a seat on your bike.">\n<meta property="og:url" content="https://bikuboo.vercel.app/">\n<meta property="og:image" content="https://bikuboo.vercel.app/icons/icon-512.png">\n<meta name="twitter:card" content="summary">\n<meta name="twitter:title" content="BIKUBOO — Share the ride. Ride safer.">\n<meta name="twitter:description" content="Bike pooling made safer with verified riders, smart routes and safety tools.">\n<meta name="twitter:image" content="https://bikuboo.vercel.app/icons/icon-512.png">\n'''
+              if '</head>' not in s: raise SystemExit('No closing head tag found')
+              s=s.replace('</head>',block+'</head>',1)
+              p.write_text(s)
+          PY
+      - name: Commit SEO metadata
+        shell: bash
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add index.html
+          git diff --cached --quiet || (git commit -m 'Add static SEO and social metadata' && git push)
