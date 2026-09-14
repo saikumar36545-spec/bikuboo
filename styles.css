@@ -225,3 +225,9 @@ html{background:#fbfdf9}body{min-height:100vh;padding-bottom:env(safe-area-inset
 .route-mini-card strong{display:block;font-size:15px}.route-mini-card small{display:block;color:#c8d4c5;margin-top:4px;font-size:11px}
 @keyframes cardFloat{50%{transform:translateX(-50%) translateY(-9px)}}
 @media(max-width:600px){.hero-vibrant{min-height:auto}.route-line{left:13%;right:13%;top:40%}.city-a{left:5%;top:16%;font-size:11px;padding:9px 12px}.city-b{right:5%;top:23%;font-size:11px;padding:9px 12px}.route-mini-card{bottom:27%;min-width:160px}.visual-vibrant{min-height:390px}}
+
+/* BIKUBOO-LOGO-FIX */
+.site-header .logo{display:flex;align-items:center;width:150px;height:58px;overflow:hidden;flex:0 0 150px;text-decoration:none}
+.site-header .logo img{display:block;width:145px;height:auto;max-height:54px;object-fit:contain;object-position:left center}
+@media (max-width:900px){.site-header .logo{width:128px;height:52px;flex-basis:128px}.site-header .logo img{width:124px;max-height:48px}}
+@media (max-width:600px){.site-header .logo{width:112px;height:48px;flex-basis:112px}.site-header .logo img{width:108px;max-height:44px}}
