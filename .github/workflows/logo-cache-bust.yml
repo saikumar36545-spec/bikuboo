@@ -1,0 +1,33 @@
+name: Refresh BIKUBOO logo cache
+on:
+  push:
+    branches: [main]
+permissions:
+  contents: write
+jobs:
+  cache:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Update service worker cache
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p=Path('sw.js')
+          s=p.read_text()
+          s=s.replace("const CACHE = 'bikuboo-shell-v3';", "const CACHE = 'bikuboo-shell-v4';")
+          if "'./brand-logo.js'" not in s:
+              s=s.replace("'./app.js',", "'./app.js', './brand-logo.js',")
+          if "'./assets/bikuboo-logo.webp'" not in s:
+              s=s.replace("'./assets/map-vibe.svg',", "'./assets/bikuboo-logo.webp', './assets/map-vibe.svg',")
+          p.write_text(s)
+          PY
+      - name: Commit cache refresh
+        shell: bash
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add sw.js
+          git diff --cached --quiet || (git commit -m 'Refresh logo cache' && git push)
