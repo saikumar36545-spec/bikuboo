@@ -1,0 +1,33 @@
+name: Add Google Search Console verification
+on:
+  push:
+    branches: [main]
+permissions:
+  contents: write
+jobs:
+  verify:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Add Google verification meta tag
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p = Path('index.html')
+          s = p.read_text()
+          marker = '<meta name="google-site-verification" content="oPoI-Fr1Dqt0ak-qKjVxhGH4PeJJu1pohWr8lfvrr2c" />'
+          if 'name="google-site-verification"' not in s:
+              if '</head>' not in s:
+                  raise SystemExit('No closing head tag found')
+              s = s.replace('</head>', marker + '\n</head>', 1)
+              p.write_text(s)
+          PY
+      - name: Commit verification tag
+        shell: bash
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add index.html
+          git diff --cached --quiet || (git commit -m 'Add Google Search Console verification' && git push)
