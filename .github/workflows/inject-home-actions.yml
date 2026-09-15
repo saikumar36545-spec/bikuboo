@@ -16,7 +16,7 @@ jobs:
           from pathlib import Path
           p=Path('index.html')
           s=p.read_text()
-          for f in ['landing-click-fix.js','phone-auth-actions.js']:
+          for f in ['landing-click-fix.js','phone-auth-actions.js','landing-polish.js']:
               tag=f'<script src="{f}"></script>'
               if tag not in s:
                   s=s.replace('</body>',tag+'\n</body>')
