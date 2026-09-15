@@ -1,0 +1,39 @@
+name: Add BIKUBOO install prompt
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  inject:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Inject install script and bump cache
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p=Path('index.html')
+          s=p.read_text()
+          tag='<script src="install-app.js"></script>'
+          if tag not in s:
+              s=s.replace('</body>', tag+'</body>')
+              p.write_text(s)
+          p=Path('sw.js')
+          s=p.read_text()
+          import re
+          s=re.sub(r"bikuboo-shell-v(\\d+)", lambda m: 'bikuboo-shell-v'+str(int(m.group(1))+1), s, count=1)
+          if "'./install-app.js'" not in s:
+              s=s.replace("'./brand-logo.js'", "'./brand-logo.js', './install-app.js'")
+          p.write_text(s)
+          PY
+      - name: Commit changes
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add index.html sw.js
+          git diff --cached --quiet || git commit -m 'Enable BIKUBOO app installation'
+          git push
