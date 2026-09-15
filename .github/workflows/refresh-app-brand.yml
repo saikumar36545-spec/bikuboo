@@ -1,0 +1,54 @@
+name: Refresh BIKUBOO app branding
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'assets/bikuboo-logo.webp'
+      - 'manifest.webmanifest'
+
+permissions:
+  contents: write
+
+jobs:
+  brand:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Generate app icons from current BIKUBOO logo
+        run: |
+          python - <<'PY'
+          from PIL import Image
+          from pathlib import Path
+          src=Image.open('assets/bikuboo-logo.webp').convert('RGBA')
+          # Fit the full logo inside a square so the complete BIKUBOO mark remains visible.
+          def make(size, name):
+              canvas=Image.new('RGBA',(size,size),(255,255,255,0))
+              img=src.copy()
+              img.thumbnail((int(size*.92),int(size*.92)),Image.Resampling.LANCZOS)
+              x=(size-img.width)//2; y=(size-img.height)//2
+              canvas.alpha_composite(img,(x,y))
+              canvas.save('icons/'+name,optimize=True)
+          make(192,'icon-192.png')
+          make(512,'icon-512.png')
+          make(180,'icon-180.png')
+          PY
+      - name: Bump service worker cache
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p=Path('sw.js')
+          s=p.read_text()
+          import re
+          s=re.sub(r"bikuboo-shell-v\d+", lambda m: 'bikuboo-shell-v'+str(int(re.search(r'v(\d+)',m.group()).group(1))+1), s, count=1)
+          if "'./install-app.js'" not in s:
+              s=s.replace("'./brand-logo.js',", "'./brand-logo.js', './install-app.js',")
+          p.write_text(s)
+          PY
+      - name: Commit refreshed icons and cache
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add icons/icon-192.png icons/icon-512.png icons/icon-180.png sw.js
+          git diff --cached --quiet || git commit -m 'Refresh BIKUBOO app icons and cache'
+          git push
