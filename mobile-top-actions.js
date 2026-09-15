@@ -1,5 +1,11 @@
 (function(){
   function setup(){
+    var staticBar=document.getElementById('mobileAuthActions');
+    if(staticBar){
+      var old=document.getElementById('mobileTopActions');
+      if(old) old.remove();
+      return;
+    }
     var header=document.querySelector('.site-header');
     if(!header || document.getElementById('mobileTopActions')) return;
     var bar=document.createElement('div');
@@ -10,12 +16,11 @@
     style.textContent=`
       #mobileTopActions{display:none}
       @media(max-width:700px){
-        #mobileTopActions{display:grid;grid-template-columns:1fr 1fr 1.25fr;gap:8px;padding:9px 12px;background:#fff;border-bottom:1px solid rgba(15,23,42,.08);position:sticky;top:0;z-index:9999;box-shadow:0 3px 14px rgba(15,23,42,.07)}
+        #mobileTopActions{display:grid;grid-template-columns:1fr 1fr 1.25fr;gap:8px;padding:9px 12px;background:#fff;border-bottom:1px solid rgba(15,23,42,.08);position:relative;z-index:9999;box-shadow:0 3px 14px rgba(15,23,42,.07)}
         #mobileTopActions button{border:0;border-radius:12px;padding:11px 7px;font:700 13px/1 system-ui,sans-serif;cursor:pointer;white-space:nowrap}
         #mobileInstallBtn{background:#b7f36b;color:#08110a}
         #mobileLoginBtn{background:#eef5ff;color:#173b68}
         #mobileSignupBtn{background:#ff7a1a;color:#fff}
-        .site-header .header-tools #authArea,.site-header .header-tools #installAppBtn{display:none!important}
       }
     `;
     document.head.appendChild(style);
