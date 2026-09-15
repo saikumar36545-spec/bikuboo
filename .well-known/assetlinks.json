@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "app.vercel.bikuboo.twa",
+      "sha256_cert_fingerprints": [
+        "4B:82:53:E9:08:30:A4:9D:D1:B3:AD:CB:4B:30:3B:2E:D0:13:BF:47:EE:0E:1E:A1:ED:B0:E2:BB:91:C6:81:57"
+      ]
+    }
+  }
+]
