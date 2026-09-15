@@ -1,4 +1,4 @@
-const CACHE = 'bikuboo-shell-v5';
+const CACHE = 'bikuboo-shell-v7';
 const APP_SHELL = [
   './', './index.html', './styles.css', './app.js', './brand-logo.js', './install-app.js', './auth-launcher.js', './manifest.webmanifest',
   './privacy.html', './terms.html', './refund.html', './safety.html',
