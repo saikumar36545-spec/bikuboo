@@ -1,0 +1,28 @@
+name: Refresh BIKUBOO app icons
+on:
+  push:
+    branches: [main]
+permissions:
+  contents: write
+jobs:
+  refresh:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Generate current app icons
+        run: |
+          mkdir -p icons
+          curl -L --fail -o /tmp/bikuboo-logo.webp https://raw.githubusercontent.com/${GITHUB_REPOSITORY}/${GITHUB_SHA}/assets/bikuboo-logo.webp
+          magick /tmp/bikuboo-logo.webp -background white -alpha remove -alpha off -resize 192x192 -gravity center -extent 192x192 icons/icon-192.png
+          magick /tmp/bikuboo-logo.webp -background white -alpha remove -alpha off -resize 512x512 -gravity center -extent 512x512 icons/icon-512.png
+          magick /tmp/bikuboo-logo.webp -background white -alpha remove -alpha off -resize 180x180 -gravity center -extent 180x180 icons/icon-180.png
+      - name: Refresh PWA cache
+        run: sed -i "s/bikuboo-shell-v[0-9]*/bikuboo-shell-v6/" sw.js
+      - name: Commit updated icons
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add icons/icon-192.png icons/icon-512.png icons/icon-180.png sw.js
+          git diff --cached --quiet || git commit -m 'Refresh BIKUBOO PWA app icons'
+          git push
