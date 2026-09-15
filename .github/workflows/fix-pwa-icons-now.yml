@@ -1,0 +1,35 @@
+name: Force refresh BIKUBOO PWA icons
+on:
+  push:
+    branches: [main]
+permissions:
+  contents: write
+jobs:
+  refresh:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Generate icons from current BIKUBOO logo
+        run: |
+          python3 -m pip install --quiet pillow
+          python3 - <<'PY'
+          from PIL import Image
+          from pathlib import Path
+          src=Image.open('assets/bikuboo-logo.webp').convert('RGBA')
+          for size,name in [(192,'icon-192.png'),(512,'icon-512.png'),(180,'icon-180.png')]:
+              canvas=Image.new('RGBA',(size,size),'white')
+              copy=src.copy()
+              copy.thumbnail((int(size*.88),int(size*.88)),Image.Resampling.LANCZOS)
+              canvas.alpha_composite(copy,((size-copy.width)//2,(size-copy.height)//2))
+              canvas.convert('RGB').save(Path('icons')/name,'PNG',optimize=True)
+          PY
+      - name: Bump service worker cache
+        run: sed -i 's/bikuboo-shell-v[0-9]*/bikuboo-shell-v7/' sw.js
+      - name: Commit refreshed icons
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add icons/icon-192.png icons/icon-512.png icons/icon-180.png sw.js
+          git diff --cached --quiet || git commit -m 'Use new BIKUBOO logo for PWA icons'
+          git push
