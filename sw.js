@@ -1,6 +1,6 @@
 const CACHE = 'bikuboo-shell-v5';
 const APP_SHELL = [
-  './', './index.html', './styles.css', './app.js', './brand-logo.js', './auth-launcher.js', './manifest.webmanifest',
+  './', './index.html', './styles.css', './app.js', './brand-logo.js', './install-app.js', './auth-launcher.js', './manifest.webmanifest',
   './privacy.html', './terms.html', './refund.html', './safety.html',
   './icons/icon-192.png', './icons/icon-512.png', './icons/icon-180.png',
   './assets/bikuboo-logo.webp', './assets/map-vibe.svg', './assets/community-vibe.svg', './assets/safety-vibe.svg'
