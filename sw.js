@@ -1,6 +1,6 @@
-const CACHE = 'bikuboo-shell-v7';
+const CACHE = 'bikuboo-shell-v8';
 const APP_SHELL = [
-  './', './index.html', './styles.css', './app.js', './brand-logo.js', './install-app.js', './auth-launcher.js', './manifest.webmanifest',
+  './', './index.html', './styles.css', './app.js', './brand-logo.js', './install-app.js', './auth-launcher.js', './mobile-top-actions.js', './landing-refresh.js', './landing-click-fix.js', './phone-auth-actions.js', './homepage-visual-cleanup.js', './landing-polish.js', './manifest.webmanifest',
   './privacy.html', './terms.html', './refund.html', './safety.html',
   './icons/icon-192.png', './icons/icon-512.png', './icons/icon-180.png',
   './assets/bikuboo-logo.webp', './assets/map-vibe.svg', './assets/community-vibe.svg', './assets/safety-vibe.svg'
@@ -26,6 +26,23 @@ self.addEventListener('fetch', event => {
   if (event.request.method !== 'GET') return;
   const url = new URL(event.request.url);
   if (url.origin !== self.location.origin) return;
+
+  // Always prefer the network for HTML/navigation so deployments are never
+  // hidden behind an old cached homepage. Fall back to the cached shell offline.
+  if (event.request.mode === 'navigate' || url.pathname === '/' || url.pathname.endsWith('/index.html')) {
+    event.respondWith(
+      fetch(event.request, {cache: 'no-store'})
+        .then(response => {
+          if (response.ok) {
+            const copy = response.clone();
+            caches.open(CACHE).then(cache => cache.put('./index.html', copy));
+          }
+          return response;
+        })
+        .catch(() => caches.match('./index.html'))
+    );
+    return;
+  }
 
   event.respondWith(
     caches.match(event.request).then(cached =>
