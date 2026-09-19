@@ -77,6 +77,24 @@
     <div class="bk-success-safety"><span>🛡️</span><span>Keep your ride details updated and only meet passengers through the BIKUBOO flow.</span></div>
   </div>
 </div>
+<div id="rideLifecycleModal" class="modal"><div class="modalbox bk-lifecycle-modal">
+<button class="close" type="button" onclick="closeModal('rideLifecycleModal')" aria-label="Close">×</button>
+<div id="lifecycleIcon" class="bk-lifecycle-icon">🏍️</div>
+<small id="lifecycleEyebrow" class="bk-lifecycle-eyebrow">RIDE LIFECYCLE</small>
+<h2 id="lifecycleTitle">Start this ride?</h2>
+<p id="lifecycleCopy">Confirm when you are ready to begin the journey.</p>
+<div id="lifecycleSummary" class="bk-lifecycle-summary"></div>
+<div id="lifecycleMsg" class="authmsg"></div>
+<div class="bk-lifecycle-actions"><button class="secondary" type="button" onclick="closeModal('rideLifecycleModal')">Not yet</button><button id="lifecycleConfirm" class="primary" type="button">Start ride</button></div>
+</div></div>
+<div id="rideLifecycleSuccessModal" class="modal"><div class="modal-card bk-lifecycle-success">
+<div id="lifecycleSuccessIcon" class="bk-lifecycle-success-icon">🏁</div>
+<small id="lifecycleSuccessEyebrow">RIDE STARTED</small>
+<h2 id="lifecycleSuccessTitle">You're on your way</h2>
+<p id="lifecycleSuccessCopy">Your ride status has been updated.</p>
+<div id="lifecycleSuccessSummary" class="bk-lifecycle-success-summary"></div>
+<div class="bk-lifecycle-success-actions"><button class="secondary" type="button" onclick="closeModal('rideLifecycleSuccessModal')">Done</button><button class="primary" type="button" onclick="closeModal('rideLifecycleSuccessModal');document.getElementById('safety').scrollIntoView({behavior:'smooth'})">Open Safety Center</button></div>
+</div></div>
 <div id="driverRequestActionModal" class="modal"><div class="modalbox bk-driver-action-modal">
 <button class="close" type="button" onclick="closeModal('driverRequestActionModal')" aria-label="Close">×</button>
 <div id="driverActionIcon" class="bk-driver-action-icon">✓</div>
