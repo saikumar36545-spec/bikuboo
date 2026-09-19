@@ -34,15 +34,38 @@ async function getSession(){return (await supabaseClient.auth.getSession()).data
 
 function render(list){
   const results=document.getElementById('results');
-  results.innerHTML=list.length?list.map(r=>{
-    const driver=r.profiles?.full_name||'BIKUBOO rider'; const from=r.from_location||r.from_place||''; const to=r.to_location||r.to_place||'';
+  results.innerHTML=list.length?list.map((r,i)=>{
+    const driver=r.profiles?.full_name||'BIKUBOO rider';
+    const from=r.from_location||r.from_place||'';
+    const to=r.to_location||r.to_place||'';
+    const initials=driver.split(/\\s+/).filter(Boolean).slice(0,2).map(x=>x[0]).join('').toUpperCase()||'B';
     const tags=[];
-    if(r.verified_only)tags.push('Verified riders');
+    if(r.verified_only)tags.push('✓ Verified');
     if(r.women_only)tags.push('Women only');
     else if(r.women_preferred)tags.push('Women preferred');
-    if(!tags.length)tags.push('Open ride');
+    if(!tags.length)tags.push('Community ride');
+    const seats=Number(r.seats||0);
+    const amount=Number(r.price ?? r.contribution ?? 0);
     const hasCoords=[r.from_lat,r.from_lng,r.to_lat,r.to_lng].every(v=>Number.isFinite(Number(v)));
-    return `<div class="ride result-ride"><div class="ride-main"><b>${escapeHtml(from)} → ${escapeHtml(to)}</b><small>${escapeHtml(formatDate(r.ride_date))} · ${escapeHtml(formatTime(r.ride_time))} · ${escapeHtml(driver)} · ${r.seats} available seat${Number(r.seats)===1?'':'s'}${Number(r.price ?? r.contribution)>0?' · ₹'+escapeHtml(Number(r.price ?? r.contribution)) : ''}</small><span>${tags.map(escapeHtml).join(' · ')}</span></div><div class="ride-actions">${hasCoords?`<button class="map-route-btn" type="button" onclick="showRideRoute(${JSON.stringify(r.id)})">🗺️ View route</button>`:''}${Number(r.seats)>0?`<button class="primary" onclick="requestRide('${r.id}')">Request seat</button>`:`<span class="status-badge status-rejected">Full</span>`}</div></div>`;
+    return `<article class="ride result-ride" style="animation-delay:${Math.min(i*70,420)}ms">
+      <div class="ride-avatar" aria-hidden="true">${escapeHtml(initials)}</div>
+      <div class="ride-main">
+        <div class="ride-route">${escapeHtml(from)} <span aria-hidden="true">→</span> ${escapeHtml(to)}</div>
+        <div class="ride-meta">
+          <span>📅 ${escapeHtml(formatDate(r.ride_date))}</span>
+          <span>🕐 ${escapeHtml(formatTime(r.ride_time))}</span>
+          <span>👤 ${seats} seat${seats===1?'':'s'}</span>
+        </div>
+        <div class="verify-badge">${tags.map(escapeHtml).join(' · ')}</div>
+        <div class="muted" style="margin-top:8px;font-size:12px">Rider: <strong>${escapeHtml(driver)}</strong></div>
+      </div>
+      <div class="ride-price">
+        ${amount>0?'₹'+escapeHtml(amount):'Free'}
+        <small>${amount>0?'per seat':'ride contribution'}</small>
+        ${hasCoords?`<button class="map-route-btn" type="button" onclick="showRideRoute(${JSON.stringify(r.id)})">🗺️ Route</button>`:''}
+        ${seats>0?`<button class="primary" onclick="requestRide('${r.id}')">Request seat</button>`:`<span class="status-badge status-rejected">Full</span>`}
+      </div>
+    </article>`;
   }).join(''):'<div class="ride"><b>No matching rides found.</b><small>Try another route/date or offer the first ride.</small></div>';
 }
 
