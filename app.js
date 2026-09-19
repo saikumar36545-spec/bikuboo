@@ -550,23 +550,33 @@ async function loadDriverRequests(){
   const box=document.getElementById('driverRequestResults');
   if(!box)return;
   const session=await getSession();
-  if(!session){box.innerHTML='<div class="ride"><small>Log in to see requests for your rides.</small></div>';return;}
+  if(!session){box.innerHTML='<div class="bk-driver-empty"><div class="bk-empty-icon">🔐</div><b>Log in to manage requests</b><small>Passenger requests for your rides will appear here.</small></div>';return;}
   const {data,error}=await supabaseClient.from('ride_requests').select('id,ride_id,passenger_id,status,created_at,profiles(full_name),rides(from_location,to_location,ride_date,ride_time,seats,price,contribution,driver_id)').eq('rides.driver_id',session.user.id).order('created_at',{ascending:false});
-  if(error){box.innerHTML='<div class="ride"><b>Could not load driver requests.</b><small>'+escapeHtml(error.message)+'</small></div>';return;}
-  if(!data?.length){box.innerHTML='<div class="ride"><b>No incoming requests yet.</b><small>When a passenger requests one of your rides, it will appear here.</small></div>';return;}
+  if(error){box.innerHTML='<div class="bk-driver-empty"><div class="bk-empty-icon">⚠️</div><b>Could not load requests</b><small>'+escapeHtml(error.message)+'</small></div>';return;}
+  if(!data?.length){box.innerHTML='<div class="bk-driver-empty"><div class="bk-empty-icon">🏍️</div><b>No incoming requests yet</b><small>When a passenger requests one of your rides, their request will appear here.</small></div>';return;}
+
   const acceptedIds=data.filter(r=>(r.status||'').toLowerCase()==='accepted').map(r=>r.id);
   const cashPayments=acceptedIds.length?(await supabaseClient.from('payment_transactions').select('id,request_id,status,payment_method,amount_paise').in('request_id',acceptedIds)).data||[]:[];
   const cashByRequest=Object.fromEntries(cashPayments.map(x=>[x.request_id,x]));
-  box.innerHTML=data.map(r=>{
-    const ride=r.rides||{}, passenger=r.profiles?.full_name||'BIKUBOO rider';
-    const status=(r.status||'pending').toLowerCase(); const payment=cashByRequest[r.id];
-    const cashButton=payment?.payment_method==='cash'&&payment.status==='cash_pending'?`<button class="cash-confirm-btn" onclick="confirmCashPayment('${payment.id}')">💵 Confirm cash received</button>`:'';
-    const buttons=status==='pending' ? `<div class="request-actions"><button class="accept" onclick="acceptRideRequest('${r.id}','${r.ride_id}')">✓ Accept</button><button class="reject" onclick="rejectRideRequest('${r.id}')">Reject</button></div>` : status==='accepted' ? `<div class="request-actions">${cashButton}</div>` : '';
-    const payInfo=payment?.payment_method==='cash'?(payment.status==='cash_pending'?'<span class="booking-pending payment-cash-badge">💵 Cash selected</span>':'<span class="booking-confirmed">✓ Cash received</span>'):'';
-    return `<div class="ride"><b>${escapeHtml(ride.from_location||'')} → ${escapeHtml(ride.to_location||'')}</b><div class="request-meta"><span>Passenger: <strong>${escapeHtml(passenger)}</strong></span><span>${escapeHtml(formatDate(ride.ride_date))} · ${escapeHtml(formatTime(ride.ride_time))}</span><span>${Number(ride.seats||0)} available seat${Number(ride.seats||0)===1?'':'s'}${Number(ride.price ?? ride.contribution)>0?' · ₹'+escapeHtml(Number(ride.price ?? ride.contribution)):''}</span></div><span class="status-badge status-${escapeHtml(status)}">${escapeHtml(status.charAt(0).toUpperCase()+status.slice(1))}</span>${payInfo}${buttons}</div>`;
-  }).join('');
-}
+  const pendingCount=data.filter(r=String(r.status||'pending').toLowerCase()==='pending').length;
+  const acceptedCount=data.filter(r=>String(r.status||'').toLowerCase()==='accepted').length;
 
+  box.innerHTML='<div class="bk-request-summary"><div><span>NEW REQUESTS</span><strong>'+pendingCount+'</strong></div><div><span>ACCEPTED</span><strong>'+acceptedCount+'</strong></div><div><span>TOTAL</span><strong>'+data.length+'</strong></div></div><div class="bk-driver-request-list">'+data.map((r,i)=>{
+    const ride=r.rides||{}, passenger=r.profiles?.full_name||'BIKUBOO rider';
+    const status=(r.status||'pending').toLowerCase();
+    const payment=cashByRequest[r.id];
+    const seats=Number(ride.seats||0);
+    const amount=Number(ride.price ?? ride.contribution ?? 0);
+    const cashButton=payment?.payment_method==='cash'&&payment.status==='cash_pending'?'<button class="bk-cash-confirm" onclick="confirmCashPayment(\''+payment.id+'\')">💵 Confirm cash received</button>':'';
+    const actions=status==='pending'
+      ? '<div class="bk-request-actions"><button class="bk-accept-btn" onclick="acceptRideRequest(\''+r.id+'\',\''+r.ride_id+'\')">✓ Accept request</button><button class="bk-reject-btn" onclick="rejectRideRequest(\''+r.id+'\')">Decline</button></div>'
+      : status==='accepted'
+        ? '<div class="bk-request-actions">'+cashButton+'</div>'
+        : '<div class="bk-request-closed">Request '+escapeHtml(status)+'</div>';
+    const payInfo=payment?.payment_method==='cash'?(payment.status==='cash_pending'?'<span class="bk-payment-pill pending">💵 Cash selected</span>':'<span class="bk-payment-pill paid">✓ Cash received</span>'):'';
+    return '<article class="bk-driver-request-card" style="animation-delay:'+Math.min(i*60,360)+'ms"><div class="bk-request-card-head"><div class="bk-passenger"><div class="bk-passenger-avatar">'+escapeHtml(passenger.split(/\\s+/).filter(Boolean).slice(0,2).map(x=>x[0]).join('').toUpperCase()||'B')+'</div><div><b>'+escapeHtml(passenger)+'</b><small>Passenger · Request received '+escapeHtml(new Date(r.created_at).toLocaleDateString(undefined,{day:'numeric',month:'short'}))+'</small></div></div><span class="bk-request-status '+(status==='accepted'?'accepted':status==='rejected'?'rejected':'pending')+'">'+(status==='accepted'?'Accepted':status==='rejected'?'Declined':'New request')+'</span></div><div class="bk-request-route"><div><small>FROM</small><strong>'+escapeHtml(ride.from_location||'Pickup')+'</strong></div><span>→</span><div><small>TO</small><strong>'+escapeHtml(ride.to_location||'Destination')+'</strong></div></div><div class="bk-request-meta"><span>📅 '+escapeHtml(formatDate(ride.ride_date))+'</span><span>🕐 '+escapeHtml(formatTime(ride.ride_time))+'</span><span>💺 '+seats+' seat'+(seats===1?'':'s')+' available</span><span>💰 '+(amount>0?'₹'+escapeHtml(amount):'Free')+'</span></div>'+payInfo+actions+'</article>';
+  }).join('')+'</div>';
+}
 window.acceptRideRequest=async function(requestId,rideId){
   const session=await getSession(); if(!session)return;
   const {data:ride,error:rideError}=await supabaseClient.from('rides').select('id,seats,driver_id,status').eq('id',rideId).eq('driver_id',session.user.id).single();
