@@ -10,7 +10,7 @@
     if(!header || document.getElementById('mobileTopActions')) return;
     var bar=document.createElement('div');
     bar.id='mobileTopActions';
-    bar.innerHTML='<button id="mobileInstallBtn" type="button">📲 Install App</button><button id="mobileLoginBtn" type="button">Log in</button><button id="mobileSignupBtn" type="button">Create account</button>';
+    bar.innerHTML='<button id="mobileLoginBtn" type="button">Log in</button><button id="mobileSignupBtn" type="button">Create account</button>';
     header.insertAdjacentElement('afterend',bar);
     var style=document.createElement('style');
     style.textContent=`
