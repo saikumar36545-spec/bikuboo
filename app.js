@@ -171,6 +171,17 @@ document.getElementById('search').onsubmit=async e=>{
   render(x);
 };
 
+function initOfferPreview(){
+  const pairs=[['ofrom','bkOfferPreviewFrom','Your starting point'],['oto','bkOfferPreviewTo','Your destination']];
+  pairs.forEach(([src,dst,empty])=>{const a=document.getElementById(src),b=document.getElementById(dst);if(a&&b){const sync=()=>b.textContent=a.value.trim()||empty;a.addEventListener('input',sync);a.addEventListener('change',sync);sync();}});
+  const date=document.getElementById('offerDate'),time=document.getElementById('offerTime'),seats=document.getElementById('offerSeats'),price=document.getElementById('contribution');
+  if(date){date.addEventListener('input',()=>document.getElementById('bkOfferPreviewDate').textContent=date.value?formatDate(date.value):'Choose a date');}
+  if(time){time.addEventListener('input',()=>document.getElementById('bkOfferPreviewTime').textContent=time.value?formatTime(time.value):'Choose a time');}
+  if(seats){seats.addEventListener('input',()=>document.getElementById('bkOfferPreviewSeats').textContent=(seats.value||1)+' seat'+Number(seats.value||1)===1?'':'s');}
+  if(price){price.addEventListener('input',()=>document.getElementById('bkOfferPreviewPrice').textContent=Number(price.value||0)>0?'₹'+Number(price.value):'Free');}
+}
+initOfferPreview();
+
 document.getElementById('offerForm').onsubmit=async e=>{
   e.preventDefault();
   const session=await getSession();
