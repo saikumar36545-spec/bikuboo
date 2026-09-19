@@ -3,6 +3,7 @@
     if(document.getElementById('bikuboo-launch-home')) return;
     var find=document.getElementById('find');
     if(!find) return;
+
     var oldHero=document.querySelector('.hero');
     var oldVibe=document.querySelector('.vibe-strip');
     if(oldHero) oldHero.style.display='none';
@@ -11,52 +12,80 @@
     var style=document.createElement('style');
     style.id='bikuboo-launch-style';
     style.textContent=`
-      :root{--bk-navy:#062b55;--bk-blue:#0b74d1;--bk-orange:#ff5a1f;--bk-orange2:#ff7a21;--bk-soft:#f5f9fd;--bk-line:#dce7f2}
-      body{background:#fff;color:var(--bk-navy)}
-      .bk-launch{font-family:Inter,Arial,sans-serif;overflow:hidden;background:#fff}
-      .bk-hero{min-height:650px;padding:72px 7% 48px;display:grid;grid-template-columns:1.02fr .98fr;gap:35px;align-items:center;position:relative;background:linear-gradient(120deg,#f9fbff 0%,#fff 52%,#eef7ff 100%);isolation:isolate}
-      .bk-hero:before{content:"";position:absolute;right:-140px;top:-180px;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,#dceeff 0,#fff0 68%);z-index:-1}
-      .bk-kicker{display:inline-flex;gap:8px;align-items:center;padding:9px 14px;border-radius:999px;background:#fff;border:1px solid #dce8f4;color:#15548a;font-weight:900;font-size:12px;box-shadow:0 8px 24px #173b5c12}
-      .bk-kicker i{width:8px;height:8px;border-radius:50%;background:var(--bk-orange);display:block}
-      .bk-hero h1{font-size:clamp(50px,6vw,82px);line-height:.92;letter-spacing:-4px;margin:22px 0 18px;font-weight:950;color:var(--bk-navy)}
-      .bk-hero h1 span{display:block;color:var(--bk-orange);background:linear-gradient(90deg,var(--bk-orange),#ff7a18);-webkit-background-clip:text;background-clip:text;color:transparent}
-      .bk-hero p{font-size:19px;line-height:1.6;max-width:590px;color:#52677d;margin:0 0 26px}
-      .bk-actions{display:flex;gap:12px;flex-wrap:wrap}
-      .bk-btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;padding:14px 22px;border-radius:13px;font-weight:950;cursor:pointer;border:1px solid transparent;transition:.2s;text-decoration:none}
-      .bk-btn:hover{transform:translateY(-3px);box-shadow:0 12px 28px #12395a18}
-      .bk-btn.primary{background:linear-gradient(135deg,var(--bk-orange),#ff7022);color:#fff!important}
-      .bk-btn.secondary{background:#fff;border-color:#ff6a2b;color:var(--bk-navy)!important}
-      .bk-trust-row{display:flex;gap:22px;flex-wrap:wrap;margin-top:32px;color:#254d73;font-size:13px;font-weight:850}
-      .bk-trust-row span{display:flex;align-items:center;gap:7px}.bk-trust-row b{color:#159447;font-size:17px}
-      .bk-hero-art{min-height:520px;position:relative;display:flex;align-items:center;justify-content:center}
-      .bk-scene{position:absolute;inset:25px 0 0;border-radius:38px;background:linear-gradient(145deg,#fcebd7 0%,#dceeff 52%,#b9d9f3 100%);overflow:hidden;box-shadow:0 30px 70px #153b5c1c;border:1px solid #d6e5f2}
-      .bk-sky{position:absolute;inset:0;background:radial-gradient(circle at 72% 26%,#fff7d5 0,transparent 25%),linear-gradient(180deg,#f7dfc1 0,#dceafa 55%,#c7d9e9 100%)}
-      .bk-city{position:absolute;left:0;right:0;bottom:115px;height:150px;background:linear-gradient(160deg,transparent 0 15%,#94a9bb 16% 31%,transparent 32%),linear-gradient(170deg,transparent 0 34%,#718ba0 35% 56%,transparent 57%),linear-gradient(155deg,transparent 0 54%,#a9bac7 55% 76%,transparent 77%);opacity:.55}
-      .bk-road{position:absolute;left:-5%;right:-5%;bottom:-90px;height:300px;background:#24394a;transform:perspective(260px) rotateX(55deg);border-radius:50% 50% 0 0}
-      .bk-road:after{content:"";position:absolute;left:49%;top:5%;height:100%;border-left:6px dashed #fff;opacity:.8}
-      .bk-bike{position:absolute;left:23%;bottom:45px;width:290px;height:260px}
-      .bk-wheel{position:absolute;width:92px;height:92px;border:9px solid #101c27;border-radius:50%;bottom:0;background:#667583;box-shadow:inset 0 0 0 12px #1d2a35}
-      .bk-wheel.a{left:0}.bk-wheel.b{right:0}
-      .bk-frame{position:absolute;left:55px;right:55px;bottom:46px;height:70px;border-bottom:13px solid #ff5a1f;border-left:11px solid #0d3154;transform:skew(-22deg)}
-      .bk-rider{position:absolute;left:105px;bottom:115px;width:80px;height:120px;border-radius:45px 45px 18px 18px;background:#172d42;transform:rotate(10deg)}
-      .bk-rider:before{content:"";position:absolute;left:8px;top:-53px;width:62px;height:62px;border-radius:50%;background:#142c45;border:7px solid #ff9a2f}
-      .bk-rider:after{content:"BIKU";position:absolute;left:23px;top:37px;color:#ff7626;font-weight:950;font-size:11px;transform:rotate(-10deg)}
-      .bk-phone{position:absolute;right:-10px;top:10px;width:250px;height:500px;border:10px solid #101923;border-radius:36px;background:#fff;box-shadow:0 28px 55px #071a2b55;z-index:5;overflow:hidden}
-      .bk-phone-top{height:28px;background:#101923;border-radius:0 0 18px 18px;margin:0 auto;width:105px}
-      .bk-phone-screen{padding:22px 16px;background:linear-gradient(180deg,#f7fbff,#fff);height:100%;text-align:center}
-      .bk-phone-screen img{width:118px;height:98px;object-fit:contain;margin:18px auto 8px;display:block}
-      .bk-phone-screen h3{margin:5px 0;font-size:18px;color:var(--bk-navy)}.bk-phone-screen p{font-size:10px;line-height:1.4;color:#65778b;margin:6px 10px 18px}
-      .bk-phone-btn{display:block;width:100%;padding:11px;border-radius:11px;margin:9px 0;font-weight:900;font-size:12px}.bk-phone-btn.o{background:var(--bk-orange);color:#fff}.bk-phone-btn.w{border:1px solid #12385d;background:#fff;color:#12385d}
-      .bk-phone-icons{display:flex;justify-content:center;gap:10px;margin-top:18px}.bk-phone-icons span{width:34px;height:34px;border:1px solid #dce6ef;border-radius:9px;display:grid;place-items:center;font-size:16px;background:#fff}
-      .bk-mini-card{position:absolute;left:24px;top:34px;background:#fff;padding:13px 16px;border-radius:15px;box-shadow:0 15px 35px #173b5c1d;z-index:4}.bk-mini-card b{display:block;color:var(--bk-navy);font-size:13px}.bk-mini-card small{color:#6c7c8c}
-      .bk-features{padding:34px 7% 25px;display:grid;grid-template-columns:repeat(4,1fr);gap:16px;background:#fff}
-      .bk-feature{padding:25px 18px;border:1px solid #e2ebf3;border-radius:22px;background:#fff;box-shadow:0 10px 30px #12395a0c;text-align:center;transition:.2s}.bk-feature:hover{transform:translateY(-5px);box-shadow:0 18px 35px #12395a15}.bk-feature-icon{width:62px;height:62px;border-radius:50%;margin:0 auto 13px;display:grid;place-items:center;font-size:28px;background:#eef7ff}.bk-feature:nth-child(2) .bk-feature-icon{background:#eefcf0}.bk-feature:nth-child(3) .bk-feature-icon{background:#edf8ff}.bk-feature:nth-child(4) .bk-feature-icon{background:#fff3df}.bk-feature h3{margin:7px 0;color:var(--bk-navy);font-size:18px}.bk-feature p{margin:0;color:#697b8d;font-size:13px;line-height:1.45}
-      .bk-benefits{margin:0 7%;padding:26px 18px;display:grid;grid-template-columns:repeat(4,1fr);background:#f4f8fc;border-radius:20px;gap:10px}.bk-benefit{text-align:center;border-right:1px solid #d7e2ed;padding:7px}.bk-benefit:last-child{border:0}.bk-benefit b{display:block;color:var(--bk-navy);font-size:14px}.bk-benefit span{color:#728397;font-size:12px}
-      .bk-how{padding:80px 7% 60px;text-align:center}.bk-how h2{font-size:clamp(34px,4vw,50px);letter-spacing:-2px;color:var(--bk-navy);margin:0 0 8px}.bk-how h2 span{color:var(--bk-orange)}.bk-how>p{color:#6b7d8e;margin:0 0 45px}.bk-steps{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}.bk-step{position:relative}.bk-step:not(:last-child):after{content:"→";position:absolute;right:-17px;top:30px;color:#7c91a5;font-size:26px}.bk-step-num{width:42px;height:42px;border-radius:50%;background:#edf4fa;color:var(--bk-navy);display:grid;place-items:center;font-weight:950;margin:0 auto 12px}.bk-step-icon{font-size:30px}.bk-step h3{font-size:15px;color:var(--bk-navy);margin:8px}.bk-step p{font-size:12px;color:#748597;line-height:1.45;margin:0}
-      .bk-safety{margin:10px 7% 45px;padding:22px 26px;border:1px solid #dfeaf4;border-radius:20px;display:flex;align-items:center;justify-content:space-between;gap:20px;background:linear-gradient(90deg,#fff,#f5faff);box-shadow:0 12px 35px #173b5c0a}.bk-safety-copy{display:flex;align-items:center;gap:15px}.bk-safety-icon{width:52px;height:52px;border-radius:15px;background:#fff0e9;display:grid;place-items:center;font-size:25px}.bk-safety h3{margin:0 0 5px;color:var(--bk-navy)}.bk-safety p{margin:0;color:#708195;font-size:13px}.bk-safety p span{margin:0 7px;color:#9aa8b6}
-      .bk-cta{margin:0 0 0;padding:70px 7%;background:linear-gradient(110deg,#062b55,#0b4c83);color:#fff;position:relative;overflow:hidden}.bk-cta:after{content:"";position:absolute;right:-100px;bottom:-170px;width:500px;height:500px;border-radius:50%;border:80px solid #ffffff10}.bk-cta-inner{display:flex;align-items:center;justify-content:space-between;gap:30px;position:relative;z-index:1}.bk-cta h2{font-size:clamp(34px,4vw,54px);line-height:1;margin:0 0 10px;letter-spacing:-2px}.bk-cta h2 span{color:#ff6a22}.bk-cta p{margin:0;color:#c8d9e8}.bk-cta .bk-btn{background:var(--bk-orange);color:#fff!important;min-width:190px}
-      @media(max-width:1000px){.bk-hero{grid-template-columns:1fr;padding-top:55px}.bk-hero-art{min-height:520px}.bk-features,.bk-steps{grid-template-columns:repeat(2,1fr)}.bk-benefits{grid-template-columns:repeat(2,1fr)}.bk-benefit:nth-child(2){border:0}.bk-phone{right:3%}}
-      @media(max-width:600px){.bk-hero{padding:42px 5% 30px}.bk-hero h1{font-size:52px;letter-spacing:-3px}.bk-hero p{font-size:16px}.bk-hero-art{min-height:430px}.bk-scene{inset:20px 0 0;border-radius:25px}.bk-phone{width:185px;height:390px;right:-5px;border-width:7px;border-radius:27px}.bk-phone-screen{padding:12px 10px}.bk-phone-screen img{width:88px;height:72px;margin:14px auto 4px}.bk-phone-screen h3{font-size:14px}.bk-phone-btn{padding:8px;font-size:10px}.bk-mini-card{left:10px;top:25px}.bk-bike{transform:scale(.72);transform-origin:left bottom;left:2%;bottom:18px}.bk-features,.bk-steps{grid-template-columns:1fr}.bk-benefits{grid-template-columns:1fr 1fr;margin:0 5%}.bk-benefit{border-right:0}.bk-safety{margin:10px 5% 35px;display:block}.bk-safety .bk-btn{margin-top:15px;width:100%}.bk-cta{padding:55px 5%}.bk-cta-inner{display:block}.bk-cta .bk-btn{margin-top:20px;width:100%}}
+      :root{
+        --bk-green:#a8df65;--bk-green-dark:#5c8d2f;--bk-ink:#182019;
+        --bk-muted:#68736a;--bk-soft:#f4f7f1;--bk-line:#dfe7da;
+        --bk-white:#fff;--bk-orange:#ff6a2a
+      }
+      .bk-launch{font-family:Inter,Arial,sans-serif;background:#fff;color:var(--bk-ink);overflow:hidden}
+      .bk-launch *{box-sizing:border-box}
+      .bk-top{background:#f7faf4;border-bottom:1px solid #e7eee2;padding:9px 7%;text-align:center;font-size:12px;font-weight:800;color:#5b675d}
+      .bk-top b{color:var(--bk-green-dark)}
+      .bk-mainhero{padding:64px 7% 52px;background:linear-gradient(180deg,#f7faf4 0%,#fff 88%);position:relative}
+      .bk-mainhero:before{content:"";position:absolute;width:520px;height:520px;right:-180px;top:-250px;border-radius:50%;background:#eaf5dc}
+      .bk-hero-grid{position:relative;display:grid;grid-template-columns:1fr 1.05fr;gap:60px;align-items:center;max-width:1240px;margin:auto}
+      .bk-eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:900;color:#557c31;text-transform:uppercase;letter-spacing:1.4px}
+      .bk-eyebrow i{width:8px;height:8px;border-radius:50%;background:var(--bk-orange)}
+      .bk-mainhero h1{font-size:clamp(46px,6vw,76px);line-height:.98;letter-spacing:-4px;margin:15px 0 18px;max-width:620px}
+      .bk-mainhero h1 span{color:#6fa83c}
+      .bk-mainhero .lead{font-size:18px;line-height:1.6;color:#647067;max-width:590px;margin:0 0 26px}
+      .bk-proof{display:flex;gap:20px;flex-wrap:wrap;color:#526054;font-size:13px;font-weight:800;margin-top:22px}
+      .bk-proof span{display:flex;align-items:center;gap:7px}.bk-proof b{color:#6b9e3b}
+      .bk-search-card{background:#fff;border:1px solid #dce6d8;border-radius:22px;padding:22px;box-shadow:0 22px 55px #2d41240f}
+      .bk-search-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:17px}
+      .bk-search-head h2{font-size:21px;margin:0;letter-spacing:-.5px}
+      .bk-search-head span{font-size:12px;font-weight:800;color:#728073}
+      .bk-route-fields{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+      .bk-field{border:1px solid #d9e2d5;border-radius:12px;padding:11px 13px;background:#fff}
+      .bk-field small{display:block;color:#778277;font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:.8px;margin-bottom:5px}
+      .bk-field strong{font-size:14px;color:#273229}
+      .bk-field input{border:0;outline:0;width:100%;font:inherit;color:#273229;background:transparent}
+      .bk-search-row{display:grid;grid-template-columns:1fr 1fr auto;gap:10px;margin-top:10px}
+      .bk-search-btn,.bk-offer-btn{border:0;border-radius:12px;padding:13px 17px;font-weight:900;cursor:pointer;text-align:center}
+      .bk-search-btn{background:var(--bk-green);color:#17200f}
+      .bk-offer-btn{background:#fff;border:1px solid #cfdacb!important;color:#29362b}
+      .bk-search-note{display:flex;gap:8px;align-items:center;margin-top:14px;padding-top:13px;border-top:1px solid #edf1eb;color:#758076;font-size:11px}
+      .bk-search-note b{color:#5f8f34}
+      .bk-route-preview{margin-top:18px;border-radius:16px;background:#f5f8f2;border:1px solid #e3eadf;padding:13px 15px}
+      .bk-route-preview-top{display:flex;justify-content:space-between;font-size:11px;color:#68756a;font-weight:800}
+      .bk-route-line{height:38px;position:relative;margin:2px 7px}
+      .bk-route-line:before{content:"";position:absolute;left:8px;right:8px;top:18px;border-top:2px dashed #91ad78}
+      .bk-dot{position:absolute;top:12px;width:13px;height:13px;border-radius:50%;background:#fff;border:4px solid #6d9f3e}
+      .bk-dot.a{left:0}.bk-dot.b{right:0}
+      .bk-route-labels{display:flex;justify-content:space-between;font-size:12px;font-weight:900;color:#2c382e}
+      .bk-quick{padding:0 7% 42px;max-width:1240px;margin:auto}
+      .bk-quick-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+      .bk-quick-card{border:1px solid var(--bk-line);border-radius:17px;padding:19px;background:#fff;transition:.2s}
+      .bk-quick-card:hover{transform:translateY(-3px);box-shadow:0 12px 28px #24351f10}
+      .bk-quick-icon{font-size:23px;margin-bottom:10px}.bk-quick-card h3{font-size:15px;margin:0 0 5px}.bk-quick-card p{font-size:12px;line-height:1.45;color:#748075;margin:0}
+      .bk-popular{padding:65px 7%;background:#fff;max-width:1240px;margin:auto}
+      .bk-section-head{text-align:center;max-width:650px;margin:0 auto 30px}
+      .bk-section-head small{font-size:11px;font-weight:900;letter-spacing:1.5px;color:#69953d}
+      .bk-section-head h2{font-size:clamp(32px,4vw,46px);letter-spacing:-2.5px;margin:7px 0 9px}
+      .bk-section-head p{color:#717d73;margin:0;line-height:1.55}
+      .bk-route-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+      .bk-route-card{display:flex;align-items:center;justify-content:space-between;gap:14px;border:1px solid var(--bk-line);border-radius:16px;padding:17px 18px;background:#fff}
+      .bk-route-card strong{display:block;font-size:14px}.bk-route-card small{display:block;color:#7b857d;margin-top:4px;font-size:11px}
+      .bk-route-card span{font-size:18px;color:#7ba44d}
+      .bk-split{margin:10px 7% 65px;border-radius:26px;background:#f4f8ef;padding:55px 6%;display:grid;grid-template-columns:1fr 1fr;gap:50px;align-items:center}
+      .bk-split h2{font-size:clamp(32px,4vw,48px);letter-spacing:-2.5px;margin:8px 0 13px}.bk-split p{color:#69756b;line-height:1.6;max-width:560px}
+      .bk-split-points{display:grid;gap:13px;margin-top:22px}.bk-split-point{display:flex;gap:11px;align-items:flex-start}.bk-split-point b{display:grid;place-items:center;width:25px;height:25px;border-radius:50%;background:#dfeecf;color:#5c8d2f;font-size:12px;flex:none}.bk-split-point strong{font-size:13px}.bk-split-point span{display:block;color:#788278;font-size:11px;margin-top:2px}
+      .bk-visual-card{min-height:300px;border-radius:23px;background:linear-gradient(145deg,#dfead6,#f9fbf7);border:1px solid #d5e1cd;position:relative;overflow:hidden}
+      .bk-road-art{position:absolute;left:-10%;right:-10%;bottom:-100px;height:270px;background:#344336;border-radius:50% 50% 0 0;transform:perspective(300px) rotateX(52deg)}
+      .bk-road-art:after{content:"";position:absolute;left:50%;height:100%;border-left:5px dashed #dce7d6}
+      .bk-bike-art{position:absolute;left:50%;top:54%;transform:translate(-50%,-50%);font-size:95px;filter:drop-shadow(0 15px 14px #1b2a1a22)}
+      .bk-badge{position:absolute;top:18px;left:18px;background:#fff;border:1px solid #dce6d8;border-radius:13px;padding:10px 12px;box-shadow:0 10px 25px #24351f10;font-size:11px;font-weight:900}
+      .bk-how2{padding:65px 7%;background:#fff}
+      .bk-steps2{max-width:1000px;margin:auto;display:grid;grid-template-columns:repeat(4,1fr);gap:25px}
+      .bk-step2{text-align:center;position:relative}.bk-step2:not(:last-child):after{content:"→";position:absolute;right:-20px;top:19px;color:#9aaa96;font-size:22px}
+      .bk-num{width:40px;height:40px;border-radius:50%;background:#eff5e9;color:#5e8e35;display:grid;place-items:center;font-weight:900;margin:0 auto 12px}
+      .bk-step2 h3{font-size:14px;margin:0 0 6px}.bk-step2 p{font-size:11px;line-height:1.5;color:#7a857c;margin:0}
+      .bk-safety2{margin:0 7% 65px;padding:24px 28px;border:1px solid #dce7d8;border-radius:20px;background:#fff;display:flex;align-items:center;justify-content:space-between;gap:25px}
+      .bk-safe-copy{display:flex;align-items:center;gap:14px}.bk-safe-icon{width:48px;height:48px;border-radius:14px;background:#edf6e6;display:grid;place-items:center;font-size:23px}.bk-safe-copy h3{margin:0 0 4px;font-size:16px}.bk-safe-copy p{margin:0;color:#78837a;font-size:12px}
+      .bk-safe-btn{background:#fff;border:1px solid #cbd8c6;border-radius:11px;padding:11px 16px;font-weight:900;cursor:pointer}
+      .bk-final{background:#182019;color:#fff;padding:62px 7%;text-align:center}.bk-final h2{font-size:clamp(32px,4vw,50px);letter-spacing:-2.5px;margin:0 0 10px}.bk-final h2 span{color:var(--bk-green)}.bk-final p{color:#b9c2b8;margin:0 0 22px}.bk-final a{display:inline-flex;background:var(--bk-green);color:#182019;padding:13px 20px;border-radius:12px;font-weight:900}
+      @media(max-width:950px){.bk-hero-grid{grid-template-columns:1fr;gap:35px}.bk-quick-grid{grid-template-columns:repeat(2,1fr)}.bk-route-grid{grid-template-columns:repeat(2,1fr)}.bk-split{grid-template-columns:1fr}.bk-steps2{grid-template-columns:repeat(2,1fr)}.bk-step2:nth-child(2):after{display:none}}
+      @media(max-width:600px){.bk-mainhero{padding:42px 5% 35px}.bk-mainhero h1{letter-spacing:-3px}.bk-mainhero .lead{font-size:16px}.bk-route-fields,.bk-search-row{grid-template-columns:1fr}.bk-search-row .bk-search-btn,.bk-search-row .bk-offer-btn{width:100%}.bk-quick{padding:0 5% 30px}.bk-quick-grid,.bk-route-grid{grid-template-columns:1fr}.bk-popular{padding:48px 5%}.bk-split{margin:0 5% 48px;padding:35px 25px}.bk-how2{padding:48px 5%}.bk-steps2{grid-template-columns:1fr 1fr;gap:24px 14px}.bk-step2:after{display:none!important}.bk-safety2{margin:0 5% 48px;display:block}.bk-safe-btn{margin-top:15px;width:100%}.bk-final{padding:50px 5%}}
     `;
     document.head.appendChild(style);
 
@@ -64,32 +93,103 @@
     section.id='bikuboo-launch-home';
     section.className='bk-launch';
     section.innerHTML=`
-      <div class="bk-hero">
+      <div class="bk-top"><b>BIKUBOO</b> · Share everyday rides, save on travel and meet trusted riders.</div>
+
+      <div class="bk-mainhero">
+        <div class="bk-hero-grid">
+          <div>
+            <div class="bk-eyebrow"><i></i> Bike pooling made simple</div>
+            <h1>Travel together.<br><span>Spend smarter.</span></h1>
+            <p class="lead">Find a trusted rider going your way, or share your empty seat. BIKUBOO makes everyday bike pooling simple, social and safety-focused.</p>
+            <div class="bk-proof"><span><b>✓</b> Verified profiles</span><span><b>✓</b> Private chat</span><span><b>✓</b> Safety tools</span></div>
+          </div>
+
+          <div class="bk-search-card">
+            <div class="bk-search-head"><h2>Find a ride</h2><span>Go where you need to go</span></div>
+            <div class="bk-route-fields">
+              <label class="bk-field"><small>From</small><input id="bkHomeFrom" placeholder="City or place"></label>
+              <label class="bk-field"><small>To</small><input id="bkHomeTo" placeholder="City or place"></label>
+            </div>
+            <div class="bk-search-row">
+              <label class="bk-field"><small>Date</small><input id="bkHomeDate" type="date"></label>
+              <label class="bk-field"><small>Passengers</small><input id="bkHomePassengers" type="number" min="1" max="3" value="1"></label>
+              <button class="bk-search-btn" id="bkHomeSearch" type="button">Search rides</button>
+            </div>
+            <div class="bk-route-preview"><div class="bk-route-preview-top"><span>Popular route example</span><span>Today</span></div><div class="bk-route-line"><i class="bk-dot a"></i><i class="bk-dot b"></i></div><div class="bk-route-labels"><span>Narasaraopet</span><span>Hyderabad</span></div></div>
+            <div class="bk-search-note"><b>🛡</b> Ride with verified community members and keep conversations inside BIKUBOO.</div>
+            <button class="bk-offer-btn" id="bkHomeOffer" type="button" style="width:100%;margin-top:10px">＋ Offer a ride</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="bk-quick">
+        <div class="bk-quick-grid">
+          <article class="bk-quick-card"><div class="bk-quick-icon">🏍️</div><h3>Find a ride</h3><p>Search routes and discover riders going your way.</p></article>
+          <article class="bk-quick-card"><div class="bk-quick-icon">＋</div><h3>Offer a ride</h3><p>Share an empty seat and split everyday travel costs.</p></article>
+          <article class="bk-quick-card"><div class="bk-quick-icon">🛡️</div><h3>Ride with confidence</h3><p>Profiles, verification and safety tools before you ride.</p></article>
+          <article class="bk-quick-card"><div class="bk-quick-icon">💬</div><h3>Stay connected</h3><p>Coordinate through private in-platform conversations.</p></article>
+        </div>
+      </div>
+
+      <div class="bk-popular">
+        <div class="bk-section-head"><small>POPULAR ROUTES</small><h2>Where are people going?</h2><p>Start with a route, then choose the ride that fits your plans.</p></div>
+        <div class="bk-route-grid">
+          <div class="bk-route-card"><div><strong>Narasaraopet → Hyderabad</strong><small>Everyday travel</small></div><span>→</span></div>
+          <div class="bk-route-card"><div><strong>Guntur → Vijayawada</strong><small>Popular local route</small></div><span>→</span></div>
+          <div class="bk-route-card"><div><strong>Hyderabad → Vijayawada</strong><small>City-to-city</small></div><span>→</span></div>
+          <div class="bk-route-card"><div><strong>Guntur → Hyderabad</strong><small>Shared journeys</small></div><span>→</span></div>
+          <div class="bk-route-card"><div><strong>Vijayawada → Guntur</strong><small>Daily commuters</small></div><span>→</span></div>
+          <div class="bk-route-card"><div><strong>Narasaraopet → Guntur</strong><small>Nearby rides</small></div><span>→</span></div>
+        </div>
+      </div>
+
+      <div class="bk-split">
         <div>
-          <span class="bk-kicker"><i></i> A safer, smarter way to share rides</span>
-          <h1>Ride Together<span>Go Further</span></h1>
-          <p>A safer, smarter and more affordable bike pooling community. Find trusted riders going your way or share your own ride.</p>
-          <div class="bk-actions"><a class="bk-btn primary" href="#find">⌕&nbsp; Find a Ride</a><a class="bk-btn secondary" href="#offer">＋&nbsp; Offer a Ride</a></div>
-          <div class="bk-trust-row"><span><b>✓</b> Verified users</span><span><b>✓</b> Safety tools</span><span><b>✓</b> In-app chat</span></div>
+          <div class="bk-eyebrow"><i></i> Share the journey</div>
+          <h2>Turn empty seats into shared journeys.</h2>
+          <p>Driving somewhere anyway? Offer your spare seat and let another rider share the journey and the cost.</p>
+          <div class="bk-split-points">
+            <div class="bk-split-point"><b>✓</b><div><strong>Keep your route</strong><span>You decide where and when you travel.</span></div></div>
+            <div class="bk-split-point"><b>✓</b><div><strong>Choose who rides with you</strong><span>Review rider details before accepting a request.</span></div></div>
+            <div class="bk-split-point"><b>✓</b><div><strong>Share travel costs</strong><span>Make everyday journeys more affordable.</span></div></div>
+          </div>
         </div>
-        <div class="bk-hero-art">
-          <div class="bk-scene"><div class="bk-sky"></div><div class="bk-city"></div><div class="bk-road"></div><div class="bk-bike"><div class="bk-wheel a"></div><div class="bk-wheel b"></div><div class="bk-frame"></div><div class="bk-rider"></div></div></div>
-          <div class="bk-mini-card"><b>🏍️ BIKUBOO ride</b><small>Verified • nearby • trusted</small></div>
-          <div class="bk-phone"><div class="bk-phone-top"></div><div class="bk-phone-screen"><img src="assets/bikuboo-logo.webp" alt="BIKUBOO"><h3>Welcome to BIKUBOO</h3><p>A safer, smarter and more affordable bike pooling community.</p><span class="bk-phone-btn o">Create Account</span><span class="bk-phone-btn w">Login</span><div class="bk-phone-icons"><span>G</span><span>●</span><span>⌕</span></div></div></div>
+        <div class="bk-visual-card"><div class="bk-badge">🛡 Verified community</div><div class="bk-bike-art">🏍️</div><div class="bk-road-art"></div></div>
+      </div>
+
+      <div class="bk-how2">
+        <div class="bk-section-head"><small>HOW IT WORKS</small><h2>Simple from search to ride.</h2><p>Everything you need is right inside BIKUBOO.</p></div>
+        <div class="bk-steps2">
+          <div class="bk-step2"><div class="bk-num">1</div><h3>Create your profile</h3><p>Add your details and build trust with other riders.</p></div>
+          <div class="bk-step2"><div class="bk-num">2</div><h3>Find or offer a ride</h3><p>Search your route or publish your own journey.</p></div>
+          <div class="bk-step2"><div class="bk-num">3</div><h3>Connect safely</h3><p>Request, accept and chat privately inside BIKUBOO.</p></div>
+          <div class="bk-step2"><div class="bk-num">4</div><h3>Ride together</h3><p>Confirm the ride and travel with confidence.</p></div>
         </div>
       </div>
-      <div class="bk-features">
-        <article class="bk-feature"><div class="bk-feature-icon">🏍️</div><h3>Find a Ride</h3><p>Discover verified riders going your way.</p></article>
-        <article class="bk-feature"><div class="bk-feature-icon">👤＋</div><h3>Offer a Ride</h3><p>Share your ride and help others.</p></article>
-        <article class="bk-feature"><div class="bk-feature-icon">🛡️</div><h3>Verified Users</h3><p>Trusted community with safety first.</p></article>
-        <article class="bk-feature"><div class="bk-feature-icon">🎁</div><h3>Earn Rewards</h3><p>Refer friends and earn ₹50 rewards.</p></article>
-      </div>
-      <div class="bk-benefits"><div class="bk-benefit"><b>👥 SHARE RIDES</b><span>Travel together</span></div><div class="bk-benefit"><b>🪙 SAVE COSTS</b><span>Spend less</span></div><div class="bk-benefit"><b>🌿 CLEANER TOMORROW</b><span>A greener planet</span></div><div class="bk-benefit"><b>❤️ STRONGER COMMUNITIES</b><span>A better tomorrow</span></div></div>
-      <div class="bk-how"><h2>How <span>BIKUBOO</span> Works</h2><p>Get started in minutes and make every ride count.</p><div class="bk-steps"><div class="bk-step"><div class="bk-step-num">1</div><div class="bk-step-icon">👤</div><h3>Create Account</h3><p>Sign up and build your trusted profile.</p></div><div class="bk-step"><div class="bk-step-num">2</div><div class="bk-step-icon">⌕</div><h3>Find or Offer a Ride</h3><p>Choose your route or share your ride.</p></div><div class="bk-step"><div class="bk-step-num">3</div><div class="bk-step-icon">👥</div><h3>Connect & Ride</h3><p>Chat, confirm and ride together.</p></div><div class="bk-step"><div class="bk-step-num">4</div><div class="bk-step-icon">✓</div><h3>Reach Your Destination</h3><p>Save money and make a difference.</p></div></div></div>
-      <div class="bk-safety"><div class="bk-safety-copy"><div class="bk-safety-icon">🛡️</div><div><h3>Your Safety, Our Priority</h3><p>Verified users <span>•</span> OTP verification <span>•</span> In-app chat <span>•</span> SOS support</p></div></div><a class="bk-btn secondary" href="#safety">Learn More</a></div>
-      <div class="bk-cta"><div class="bk-cta-inner"><div><h2>Join BIKUBOO for a <span>Smarter Tomorrow</span></h2><p>Same routes. New connections. A better tomorrow.</p></div><a class="bk-btn" href="#find">Get Started Today →</a></div></div>
+
+      <div class="bk-safety2"><div class="bk-safe-copy"><div class="bk-safe-icon">🛡️</div><div><h3>Safety comes first</h3><p>Verification, ride-start checks, private chat and emergency tools help make every journey more comfortable.</p></div></div><button class="bk-safe-btn" id="bkSafetyBtn" type="button">Explore safety</button></div>
+
+      <div class="bk-final"><h2>Ready to <span>share the ride?</span></h2><p>Find your next journey or offer a seat to someone going your way.</p><a href="#find" id="bkFinalFind">Find a ride →</a></div>
     `;
     find.parentNode.insertBefore(section,find);
+
+    function wire(){
+      var from=document.getElementById('bkHomeFrom'),to=document.getElementById('bkHomeTo'),date=document.getElementById('bkHomeDate'),pass=document.getElementById('bkHomePassengers');
+      var findBtn=document.getElementById('bkHomeSearch'),offerBtn=document.getElementById('bkHomeOffer'),safetyBtn=document.getElementById('bkSafetyBtn');
+      if(date && !date.value) date.value=new Date().toISOString().slice(0,10);
+      if(findBtn) findBtn.onclick=function(){
+        var realFrom=document.getElementById('from'),realTo=document.getElementById('to'),realDate=document.getElementById('date'),realPass=document.getElementById('passengers');
+        if(realFrom && from) realFrom.value=from.value;
+        if(realTo && to) realTo.value=to.value;
+        if(realDate && date) realDate.value=date.value;
+        if(realPass && pass) realPass.value=pass.value;
+        if(typeof window.searchRides==='function') window.searchRides();
+        else document.getElementById('find')?.scrollIntoView({behavior:'smooth'});
+      };
+      if(offerBtn) offerBtn.onclick=function(){document.getElementById('offer')?.scrollIntoView({behavior:'smooth'});};
+      if(safetyBtn) safetyBtn.onclick=function(){document.getElementById('safety')?.scrollIntoView({behavior:'smooth'});};
+    }
+    wire();
   }
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',init); else init();
 })();
