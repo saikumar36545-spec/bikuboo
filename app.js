@@ -193,7 +193,12 @@ document.getElementById('offerForm').onsubmit=async e=>{
   const {error}=await supabaseClient.from('rides').insert(payload);
   btn.disabled=false;btn.textContent='Publish ride';
   if(error){alert('Could not publish ride: '+error.message);return;}
-  alert('Your ride was published successfully!');e.target.reset();document.getElementById('offerSeats').value=1;document.getElementById('verifiedOnly').checked=true;await loadRides();document.getElementById('find').scrollIntoView({behavior:'smooth'});
+  const publishedFrom=fromPlace, publishedTo=toPlace, publishedDate=document.getElementById('offerDate').value, publishedTime=document.getElementById('offerTime').value, publishedSeats=Number(document.getElementById('offerSeats').value||1), publishedContribution=contribution;
+  const successSummary=document.getElementById('bkPublishSuccessSummary');
+  if(successSummary){successSummary.innerHTML='<div class="bk-summary-route"><span>FROM</span>'+escapeHtml(publishedFrom)+' <span>→</span> '+escapeHtml(publishedTo)+'</div><div class="bk-summary-item"><small>DATE</small><b>'+escapeHtml(formatDate(publishedDate))+'</b></div><div class="bk-summary-item"><small>TIME</small><b>'+escapeHtml(formatTime(publishedTime))+'</b></div><div class="bk-summary-item"><small>SEATS</small><b>'+publishedSeats+' seat'+(publishedSeats===1?'':'s')+'</b></div><div class="bk-summary-item"><small>CONTRIBUTION</small><b>'+(publishedContribution>0?'₹'+publishedContribution:'Free')+'</b></div>';}
+  e.target.reset();document.getElementById('offerSeats').value=1;document.getElementById('verifiedOnly').checked=true;initOfferPreview();await loadRides();
+  if(window.loadMyRides)await window.loadMyRides();
+  openModal('ridePublishSuccessModal');
 };
 
 document.getElementById('signupForm').onsubmit=async e=>{
