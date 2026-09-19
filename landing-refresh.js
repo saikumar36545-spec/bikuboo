@@ -100,6 +100,32 @@
       .bk-route-node{position:absolute;z-index:8;width:14px;height:14px;border-radius:50%;background:#fff;border:4px solid #159447;box-shadow:0 5px 12px rgba(20,60,35,.25)}.bk-node-a{top:21%;left:45%}.bk-node-b{top:37%;left:59%}.bk-node-c{top:51%;left:64%}.bk-node-d{top:65%;left:71%}
       .bk-intercity-sign{position:absolute;z-index:7;right:5%;bottom:9%;padding:12px 17px;border-radius:9px;background:#1d4c3a;color:#fff;font-size:13px;font-weight:900;box-shadow:0 10px 20px rgba(20,30,20,.2)}.bk-intercity-sign span{display:block;margin-top:3px;color:#b9ef83;font-size:9px}
       @media(max-width:760px){.bk-intercity-wrap{padding:0 5% 48px}.bk-intercity-visual{min-height:430px;border-radius:24px}.bk-intercity-copy{right:5%;top:10%;max-width:190px}.bk-intercity-copy strong{font-size:21px}.bk-intercity-rider{font-size:78px;left:4%;bottom:10%}.bk-city-card{font-size:9px;padding:7px 9px;gap:6px}.bk-city-hyd{top:20%;left:42%}.bk-city-viz{top:40%;left:3%}.bk-city-vij{top:35%;right:3%}.bk-city-tir{top:52%;right:6%}.bk-city-bng{top:67%;right:18%}.bk-route-path{left:31%;width:42%}.bk-intercity-sign{right:3%;bottom:7%;font-size:10px}}
+      .bk-intercity-hero{padding:0;min-height:calc(100vh - 72px);background:#fff;position:relative;overflow:hidden}
+      .bk-intercity-bg{position:absolute;inset:0;background:linear-gradient(90deg,#fff 0%,#fffdf8 35%,rgba(237,247,255,.65) 58%,#dcefcf 100%);z-index:0}
+      .bk-intercity-bg:after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 45% 62%,rgba(255,211,125,.38),transparent 28%),linear-gradient(180deg,rgba(191,225,255,.28),transparent 42%)}
+      .bk-intercity-hero .bk-hero-grid{min-height:calc(100vh - 72px);max-width:1500px;width:100%;grid-template-columns:minmax(520px,.9fr) minmax(620px,1.25fr);gap:10px;padding:40px 4% 0;align-items:center}
+      .bk-hero-copy{position:relative;z-index:10;padding-left:2%;padding-bottom:45px}
+      .bk-intercity-hero .bk-eyebrow{font-size:12px;letter-spacing:3px;color:#087d42}
+      .bk-intercity-hero h1{font-size:clamp(58px,6vw,88px);line-height:.9;letter-spacing:-5px;margin:18px 0 20px;max-width:700px}
+      .bk-intercity-hero h1 span{color:#0a934b}
+      .bk-intercity-hero .lead{font-size:22px;line-height:1.4;color:#47566c;max-width:600px;margin-bottom:28px}
+      .bk-hero-search{display:grid;grid-template-columns:1fr 42px 1fr 200px;align-items:center;max-width:720px;background:#fff;border:1px solid #e4e8e4;border-radius:18px;padding:7px;box-shadow:0 15px 35px rgba(24,40,25,.12)}
+      .bk-inline-field{padding:10px 14px;border-right:1px solid #e6e9e5}.bk-inline-field small{display:block;color:#5e6a62;font-size:10px;font-weight:900;margin-bottom:4px}.bk-inline-field input{width:100%;border:0;outline:0;font-size:15px;color:#29352d;background:transparent}
+      .bk-swap{border:0;background:transparent;font-size:23px;color:#182019;cursor:pointer}.bk-hero-search .bk-search-btn{height:58px;border-radius:14px;background:#0aa24e;color:#fff;font-size:16px;box-shadow:0 10px 22px rgba(10,162,78,.22)}.bk-hero-search .bk-search-btn span{font-size:25px;vertical-align:-2px}
+      .bk-hero-benefits{display:flex;gap:34px;margin-top:32px}.bk-hero-benefits div{text-align:center;min-width:78px}.bk-hero-benefits b{display:grid;place-items:center;width:40px;height:40px;border:3px solid #14241a;border-radius:50%;margin:0 auto 7px;color:#087d42;font-size:22px}.bk-hero-benefits strong{font-size:11px;line-height:1.15;color:#202b24}
+      .bk-hero-tagline{margin-top:28px;font-size:27px;line-height:1.05;font-weight:900;font-style:italic;color:#172019;letter-spacing:-1px}.bk-hero-tagline span{color:#079447}
+      .bk-landmark-map{position:relative;height:min(760px,calc(100vh - 80px));min-height:620px;overflow:hidden}
+      .bk-map-sky{position:absolute;inset:0;background:radial-gradient(circle at 38% 22%,#fff 0 8%,transparent 24%),radial-gradient(circle at 68% 12%,#fff 0 8%,transparent 25%),linear-gradient(180deg,#bde2fb 0%,#eef8fc 48%,#cfe6c2 100%);border-radius:0 0 0 42%}
+      .bk-map-sky:after{content:"";position:absolute;inset:35% 0 0;background:linear-gradient(180deg,transparent,#9db58c 80%,#7f9b78);clip-path:polygon(0 46%,20% 35%,42% 47%,62% 30%,80% 40%,100% 22%,100% 100%,0 100%)}
+      .bk-map-route{position:absolute;z-index:5;top:18%;left:40%;width:37%;height:54%;border-right:4px dashed #15241a;border-bottom:4px dashed #15241a;border-radius:0 0 65% 0;transform:rotate(-10deg)}
+      .bk-map-node{position:absolute;z-index:8;width:17px;height:17px;border-radius:50%;background:#fff;border:5px solid #0b9850;box-shadow:0 0 0 6px rgba(11,152,80,.12)}.bk-map-node.n1{top:19%;left:43%}.bk-map-node.n2{top:32%;left:60%}.bk-map-node.n3{top:49%;left:57%}.bk-map-node.n4{top:65%;left:67%}
+      .bk-map-title{position:absolute;z-index:7;right:5%;top:5%;font-size:34px;line-height:1.05;font-style:italic;font-weight:900;text-align:right;color:#172019}.bk-map-title span{color:#079447}
+      .bk-landmark-card{position:absolute;z-index:9;width:205px;border-radius:16px;background:#fff;box-shadow:0 13px 28px rgba(22,44,26,.15);overflow:hidden;border:2px solid rgba(255,255,255,.9)}.bk-landmark-img{height:108px;background-size:cover;background-position:center}.bk-landmark-label{padding:8px 12px 10px}.bk-landmark-label b{display:block;color:#243128;font-size:12px}.bk-landmark-label b:first-letter{color:#0a9a4d}.bk-landmark-label small{display:block;color:#68746a;font-size:10px;margin-top:2px}.bk-landmark-card.hyd{top:12%;left:24%}.bk-landmark-card.viz{top:39%;left:20%}.bk-landmark-card.vij{top:29%;right:2%}.bk-landmark-card.tir{top:49%;right:9%}.bk-landmark-card.bng{top:67%;right:16%}
+      .bk-landmark-card.hyd .bk-landmark-img{background-image:url('https://www.indiatravelforum.in/media/charminar-image-credit-wikimedia-commons.571/full')}.bk-landmark-card.viz .bk-landmark-img{background-image:url('https://www.ambicaseagreen.com/vizag/vizag.jpg')}.bk-landmark-card.vij .bk-landmark-img{background-image:url('https://assets.thehansindia.com/h-upload/2020/11/29/1015125-prakasam-barrage.webp')}.bk-landmark-card.tir .bk-landmark-img{background-image:url('https://upload.wikimedia.org/wikipedia/commons/d/d9/Tirumala_Venkateswara_temple_entrance_09062015.JPG')}.bk-landmark-card.bng .bk-landmark-img{background-image:url('https://images.trvl-media.com/place/1654/70bb5f88-3da2-4e38-a3a0-2ea4d9f6a8ae.jpg')}
+      .bk-road-scene{position:absolute;z-index:4;left:0;right:0;bottom:-3px;height:35%;overflow:hidden}.bk-road{position:absolute;left:-10%;right:-10%;bottom:-42%;height:90%;background:linear-gradient(180deg,#4d5d51,#27362b);border-radius:50% 50% 0 0;transform:perspective(450px) rotateX(43deg)}.bk-road:after{content:"";position:absolute;left:50%;top:0;height:100%;border-left:6px dashed #fff;opacity:.85}.bk-bike{position:absolute;z-index:6;left:22%;bottom:4%;font-size:125px;filter:drop-shadow(0 16px 12px rgba(20,30,20,.25))}
+      .bk-road-sign{position:absolute;z-index:10;right:1%;bottom:8%;background:#15523c;color:#fff;border-radius:7px;padding:12px 18px;font-size:14px;font-weight:900;box-shadow:0 12px 24px rgba(20,40,25,.2)}.bk-road-sign span{display:block;color:#bce995;font-size:9px;margin-top:3px}
+      @media(max-width:1050px){.bk-intercity-hero .bk-hero-grid{grid-template-columns:1fr;min-height:auto;padding-top:55px}.bk-hero-copy{padding-bottom:10px}.bk-landmark-map{height:620px;min-height:620px}.bk-hero-search{max-width:100%}}
+      @media(max-width:700px){.bk-intercity-hero .bk-hero-grid{padding:34px 5% 0}.bk-intercity-hero h1{font-size:54px;letter-spacing:-3px}.bk-intercity-hero .lead{font-size:17px}.bk-hero-search{grid-template-columns:1fr 32px 1fr;gap:0}.bk-hero-search .bk-search-btn{grid-column:1/-1;margin-top:6px}.bk-hero-benefits{gap:8px;justify-content:space-between}.bk-hero-benefits div{min-width:0}.bk-hero-tagline{font-size:21px}.bk-landmark-map{height:600px;min-height:600px;margin:0 -5%}.bk-landmark-card{width:150px}.bk-landmark-img{height:78px}.bk-landmark-card.hyd{left:8%;top:11%}.bk-landmark-card.viz{left:4%;top:37%}.bk-landmark-card.vij{right:2%;top:27%}.bk-landmark-card.tir{right:4%;top:48%}.bk-landmark-card.bng{right:10%;top:67%}.bk-map-title{font-size:24px;right:4%;top:4%}.bk-bike{font-size:80px;left:10%}.bk-road-sign{font-size:10px;right:3%;bottom:8%}}
     `;
     document.head.appendChild(style);
 
@@ -109,29 +135,42 @@
     section.innerHTML=`
       <div class="bk-top"><b>BIKUBOO</b> · Share everyday rides, save on travel and meet trusted riders.</div>
 
-      <div class="bk-floating-orb orb1"></div><div class="bk-floating-orb orb2"></div><div class="bk-mainhero">
+      <div class="bk-mainhero bk-intercity-hero">
+        <div class="bk-intercity-bg"></div>
         <div class="bk-hero-grid">
-          <div>
-            <div class="bk-eyebrow"><i></i> Bike pooling made simple</div>
-            <h1>Travel together.<br><span>Spend smarter.</span></h1>
-            <p class="lead">Find a trusted rider going your way, or share your empty seat. BIKUBOO makes everyday bike pooling simple, social and safety-focused.</p>
-            <div class="bk-proof"><span><b>✓</b> Verified profiles</span><span><b>✓</b> Private chat</span><span><b>✓</b> Safety tools</span></div>
+          <div class="bk-hero-copy">
+            <div class="bk-eyebrow"><i></i> INTERCITY RIDE SHARING</div>
+            <h1>One ride.<br><span>Many destinations.</span></h1>
+            <p class="lead">Connect cities, share the journey and travel farther together.</p>
+            <div class="bk-hero-search" aria-label="Find a BIKUBOO ride">
+              <label class="bk-inline-field"><small>From</small><input id="bkHomeFrom" placeholder="Leaving from?"></label>
+              <button class="bk-swap" type="button" aria-label="Swap locations">⇄</button>
+              <label class="bk-inline-field"><small>To</small><input id="bkHomeTo" placeholder="Going to?"></label>
+              <button class="bk-search-btn" id="bkHomeSearch" type="button"><span>⌕</span> Find a Ride</button>
+            </div>
+            <div class="bk-hero-benefits">
+              <div><b>₹</b><strong>Lower<br>Travel Cost</strong></div>
+              <div><b>♧</b><strong>Meet<br>New People</strong></div>
+              <div><b>⌁</b><strong>Greener<br>Travel</strong></div>
+              <div><b>✦</b><strong>Safer<br>Journeys</strong></div>
+            </div>
+            <div class="bk-hero-tagline">Same Roads.<br>More People.<br><span>Greater Destinations.</span></div>
           </div>
 
-          <div class="bk-search-card" aria-label="Find a BIKUBOO ride">
-            <div class="bk-search-head"><h2>Find a ride</h2><span>Go where you need to go</span></div>
-            <div class="bk-route-fields">
-              <label class="bk-field"><small>From</small><input id="bkHomeFrom" placeholder="City or place"></label>
-              <label class="bk-field"><small>To</small><input id="bkHomeTo" placeholder="City or place"></label>
-            </div>
-            <div class="bk-search-row">
-              <label class="bk-field"><small>Date</small><input id="bkHomeDate" type="date"></label>
-              <label class="bk-field"><small>Passengers</small><input id="bkHomePassengers" type="number" min="1" max="3" value="1"></label>
-              <button class="bk-search-btn" id="bkHomeSearch" type="button">Search rides</button>
-            </div>
-            <div class="bk-route-preview"><div class="bk-route-preview-top"><span>Popular route example</span><span id="bkRouteLive">Live</span></div><div class="bk-route-line"><i class="bk-dot a"></i><i class="bk-dot b"></i></div><div class="bk-route-labels"><span>Narasaraopet</span><span>Hyderabad</span></div></div>
-            <div class="bk-search-note"><b>🛡</b> Ride with verified community members and keep conversations inside BIKUBOO.</div>
-            <button class="bk-offer-btn" id="bkHomeOffer" type="button" style="width:100%;margin-top:10px">＋ Offer a ride</button>
+          <div class="bk-landmark-map" aria-label="BIKUBOO intercity destinations">
+            <div class="bk-map-sky"></div>
+            <div class="bk-map-route"></div>
+            <div class="bk-map-node n1"></div><div class="bk-map-node n2"></div><div class="bk-map-node n3"></div><div class="bk-map-node n4"></div>
+            <div class="bk-map-title">Explore Together<br><span>Across Cities</span></div>
+
+            <article class="bk-landmark-card hyd"><div class="bk-landmark-img"></div><div class="bk-landmark-label"><b>● Hyderabad</b><small>Charminar</small></div></article>
+            <article class="bk-landmark-card viz"><div class="bk-landmark-img"></div><div class="bk-landmark-label"><b>● Visakhapatnam</b><small>RK Beach</small></div></article>
+            <article class="bk-landmark-card vij"><div class="bk-landmark-img"></div><div class="bk-landmark-label"><b>● Vijayawada</b><small>Prakasam Barrage</small></div></article>
+            <article class="bk-landmark-card tir"><div class="bk-landmark-img"></div><div class="bk-landmark-label"><b>● Tirupati</b><small>Tirumala Temple</small></div></article>
+            <article class="bk-landmark-card bng"><div class="bk-landmark-img"></div><div class="bk-landmark-label"><b>● Bengaluru</b><small>Vidhana Soudha</small></div></article>
+
+            <div class="bk-road-scene"><div class="bk-bike">🏍️</div><div class="bk-road"></div></div>
+            <div class="bk-road-sign">More Cities<br>More People<br><span>A Greener Tomorrow ↑</span></div>
           </div>
         </div>
       </div>
@@ -142,24 +181,6 @@
           <article class="bk-quick-card"><div class="bk-quick-icon">＋</div><h3>Offer a ride</h3><p>Share an empty seat and split everyday travel costs.</p></article>
           <article class="bk-quick-card"><div class="bk-quick-icon">🛡️</div><h3>Ride with confidence</h3><p>Profiles, verification and safety tools before you ride.</p></article>
           <article class="bk-quick-card"><div class="bk-quick-icon">💬</div><h3>Stay connected</h3><p>Coordinate through private in-platform conversations.</p></article>
-        </div>
-      </div>
-
-      <div class="bk-intercity-wrap bk-reveal">
-        <div class="bk-section-head"><small>INTERCITY RIDE SHARING</small><h2>One ride. Many destinations.</h2><p>Connect cities, share the journey and travel farther together.</p></div>
-        <div class="bk-intercity-visual" aria-label="Intercity ride sharing visual">
-          <div class="bk-intercity-sky"></div>
-          <div class="bk-intercity-badge">BIKUBOO · INTERCITY</div>
-          <div class="bk-intercity-copy"><small>Same roads. More people.</small><strong>Greater <span>destinations.</span></strong></div>
-          <div class="bk-city-card bk-city-hyd"><i></i>Hyderabad</div>
-          <div class="bk-city-card bk-city-vij"><i></i>Vijayawada</div>
-          <div class="bk-city-card bk-city-tir"><i></i>Tirupati</div>
-          <div class="bk-city-card bk-city-bng"><i></i>Bengaluru</div>
-          <div class="bk-city-card bk-city-viz"><i></i>Visakhapatnam</div>
-          <div class="bk-route-path"></div>
-          <i class="bk-route-node bk-node-a"></i><i class="bk-route-node bk-node-b"></i><i class="bk-route-node bk-node-c"></i><i class="bk-route-node bk-node-d"></i>
-          <div class="bk-intercity-road"></div><div class="bk-intercity-rider">🏍️</div>
-          <div class="bk-intercity-sign">More cities · More people<span>Travel together. Go further.</span></div>
         </div>
       </div>
 
