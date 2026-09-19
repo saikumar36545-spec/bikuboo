@@ -577,39 +577,86 @@ async function loadDriverRequests(){
     return '<article class="bk-driver-request-card" style="animation-delay:'+Math.min(i*60,360)+'ms"><div class="bk-request-card-head"><div class="bk-passenger"><div class="bk-passenger-avatar">'+escapeHtml(passenger.split(/\\s+/).filter(Boolean).slice(0,2).map(x=>x[0]).join('').toUpperCase()||'B')+'</div><div><b>'+escapeHtml(passenger)+'</b><small>Passenger · Request received '+escapeHtml(new Date(r.created_at).toLocaleDateString(undefined,{day:'numeric',month:'short'}))+'</small></div></div><span class="bk-request-status '+(status==='accepted'?'accepted':status==='rejected'?'rejected':'pending')+'">'+(status==='accepted'?'Accepted':status==='rejected'?'Declined':'New request')+'</span></div><div class="bk-request-route"><div><small>FROM</small><strong>'+escapeHtml(ride.from_location||'Pickup')+'</strong></div><span>→</span><div><small>TO</small><strong>'+escapeHtml(ride.to_location||'Destination')+'</strong></div></div><div class="bk-request-meta"><span>📅 '+escapeHtml(formatDate(ride.ride_date))+'</span><span>🕐 '+escapeHtml(formatTime(ride.ride_time))+'</span><span>💺 '+seats+' seat'+(seats===1?'':'s')+' available</span><span>💰 '+(amount>0?'₹'+escapeHtml(amount):'Free')+'</span></div>'+payInfo+actions+'</article>';
   }).join('')+'</div>';
 }
-window.acceptRideRequest=async function(requestId,rideId){
-  const session=await getSession(); if(!session)return;
-  const {data:ride,error:rideError}=await supabaseClient.from('rides').select('id,seats,driver_id,status').eq('id',rideId).eq('driver_id',session.user.id).single();
-  if(rideError){alert(rideError.message);return;}
-  if(Number(ride.seats)<=0){alert('No available seats remain on this ride.');await loadDriverRequests();return;}
-  const {data:req,error:reqError}=await supabaseClient.from('ride_requests').select('id,status').eq('id',requestId).eq('ride_id',rideId).single();
-  if(reqError){alert(reqError.message);return;}
-  if(req.status!=='pending'){alert('This request has already been processed.');await loadDriverRequests();return;}
-  const {error:updateError}=await supabaseClient.from('ride_requests').update({status:'accepted'}).eq('id',requestId).eq('ride_id',rideId);
-  if(updateError){alert('Could not accept request: '+updateError.message);return;}
-  const newSeats=Math.max(0,Number(ride.seats)-1);
-  const {error:seatError}=await supabaseClient.from('rides').update({seats:newSeats}).eq('id',rideId).eq('driver_id',session.user.id);
-  if(seatError){await supabaseClient.from('ride_requests').update({status:'pending'}).eq('id',requestId);alert('Request was not finalized because the seat update failed: '+seatError.message);return;}
-  alert(newSeats===0?'Request accepted. The ride is now full.':'Request accepted.');
-  await loadDriverRequests(); await loadRides(); await loadMyRequests();
-};
+let driverActionContext=null;
+
+function openDriverRequestAction(action,requestId,rideId){
+  driverActionContext={action,requestId,rideId};
+  const title=document.getElementById('driverActionTitle');
+  const copy=document.getElementById('driverActionCopy');
+  const icon=document.getElementById('driverActionIcon');
+  const confirmBtn=document.getElementById('driverActionConfirm');
+  const eyebrow=document.getElementById('driverActionEyebrow');
+  if(action==='accept'){
+    eyebrow.textContent='ACCEPT RIDER';
+    icon.textContent='✓'; icon.className='bk-driver-action-icon accept';
+    title.textContent='Accept this rider?';
+    copy.textContent='Confirming will reserve one available seat for this passenger.';
+    confirmBtn.textContent='Accept request';
+    confirmBtn.className='primary';
+  }else{
+    eyebrow.textContent='DECLINE REQUEST';
+    icon.textContent='×'; icon.className='bk-driver-action-icon reject';
+    title.textContent='Decline this request?';
+    copy.textContent='The passenger will be notified that their request was not accepted.';
+    confirmBtn.textContent='Decline request';
+    confirmBtn.className='bk-danger-action';
+  }
+  document.getElementById('driverActionSummary').innerHTML='<div><span>REQUEST</span><b>Review the passenger details in the card behind this dialog.</b></div>';
+  clearAuthMessage('driverActionMsg');
+  confirmBtn.disabled=false;
+  openModal('driverRequestActionModal');
+}
+
+document.getElementById('driverActionConfirm')?.addEventListener('click',async function(){
+  if(!driverActionContext)return;
+  const ctx=driverActionContext,btn=this;
+  btn.disabled=true;btn.textContent=ctx.action==='accept'?'Accepting…':'Declining…';
+  clearAuthMessage('driverActionMsg');
+  const session=await getSession();
+  if(!session){closeModal('driverRequestActionModal');openModal('login');return;}
+  if(ctx.action==='accept'){
+    const {data:ride,error:rideError}=await supabaseClient.from('rides').select('id,seats,driver_id,status').eq('id',ctx.rideId).eq('driver_id',session.user.id).single();
+    if(rideError){setAuthMessage('driverActionMsg',rideError.message,'error');btn.disabled=false;btn.textContent='Accept request';return;}
+    if(Number(ride.seats)<=0){setAuthMessage('driverActionMsg','No available seats remain on this ride.','error');btn.disabled=false;btn.textContent='Accept request';await loadDriverRequests();return;}
+    const {data:req,error:reqError}=await supabaseClient.from('ride_requests').select('id,status').eq('id',ctx.requestId).eq('ride_id',ctx.rideId).single();
+    if(reqError){setAuthMessage('driverActionMsg',reqError.message,'error');btn.disabled=false;btn.textContent='Accept request';return;}
+    if(req.status!=='pending'){setAuthMessage('This request has already been processed.','error');btn.disabled=false;btn.textContent='Accept request';await loadDriverRequests();return;}
+    const {error:updateError}=await supabaseClient.from('ride_requests').update({status:'accepted'}).eq('id',ctx.requestId).eq('ride_id',ctx.rideId);
+    if(updateError){setAuthMessage('driverActionMsg','Could not accept request: '+updateError.message,'error');btn.disabled=false;btn.textContent='Accept request';return;}
+    const newSeats=Math.max(0,Number(ride.seats)-1);
+    const {error:seatError}=await supabaseClient.from('rides').update({seats:newSeats}).eq('id',ctx.rideId).eq('driver_id',session.user.id);
+    if(seatError){await supabaseClient.from('ride_requests').update({status:'pending'}).eq('id',ctx.requestId);setAuthMessage('driverActionMsg','The request was not finalized because the seat update failed.','error');btn.disabled=false;btn.textContent='Accept request';return;}
+    closeModal('driverRequestActionModal');
+    document.getElementById('driverSuccessTitle').textContent='Rider accepted ✓';
+    document.getElementById('driverSuccessCopy').textContent=newSeats===0?'The passenger is confirmed and your ride is now full.':'The passenger is confirmed and one seat has been reserved.';
+    document.getElementById('driverSuccessSummary').innerHTML='<span>SEATS REMAINING</span><strong>'+newSeats+'</strong>';
+    openModal('driverActionSuccessModal');
+    await loadDriverRequests();await loadRides();await loadMyRequests();
+  }else{
+    const {data:req,error:reqError}=await supabaseClient.from('ride_requests').select('id,status').eq('id',ctx.requestId).single();
+    if(reqError){setAuthMessage('driverActionMsg',reqError.message,'error');btn.disabled=false;btn.textContent='Decline request';return;}
+    if(req.status!=='pending'){setAuthMessage('This request has already been processed.','error');btn.disabled=false;btn.textContent='Decline request';await loadDriverRequests();return;}
+    const {error}=await supabaseClient.from('ride_requests').update({status:'rejected'}).eq('id',ctx.requestId);
+    if(error){setAuthMessage('driverActionMsg','Could not decline request: '+error.message,'error');btn.disabled=false;btn.textContent='Decline request';return;}
+    closeModal('driverRequestActionModal');
+    document.getElementById('driverSuccessTitle').textContent='Request declined';
+    document.getElementById('driverSuccessCopy').textContent='The passenger request has been closed and they will see the updated status.';
+    document.getElementById('driverSuccessSummary').innerHTML='<span>STATUS</span><strong>Declined</strong>';
+    openModal('driverActionSuccessModal');
+    await loadDriverRequests();await loadMyRequests();
+  }
+  driverActionContext=null;
+});
+
+window.acceptRideRequest=async function(requestId,rideId){openDriverRequestAction('accept',requestId,rideId);};
+window.rejectRideRequest=async function(requestId){openDriverRequestAction('reject',requestId,null);};
 
 window.confirmCashPayment=async function(transactionId){
   const session=await getSession(); if(!session)return;
-  if(!confirm('Confirm that you received the cash payment from this passenger?'))return;
+  const ok=window.confirm(''); if(!ok)return;
   const {data,error}=await supabaseClient.functions.invoke('confirm-cash-payment',{body:{transaction_id:transactionId}});
   if(error||data?.error){alert(error?.message||data?.error||'Could not confirm cash payment.');return;}
   alert('Cash payment confirmed.'); await loadDriverRequests(); await loadMyRequests(); await loadPaymentHistory();
-};
-
-window.rejectRideRequest=async function(requestId){
-  const session=await getSession(); if(!session)return;
-  const {data:req,error:reqError}=await supabaseClient.from('ride_requests').select('id,status,ride_id').eq('id',requestId).single();
-  if(reqError){alert(reqError.message);return;}
-  if(req.status!=='pending'){alert('This request has already been processed.');await loadDriverRequests();return;}
-  const {error}=await supabaseClient.from('ride_requests').update({status:'rejected'}).eq('id',requestId);
-  if(error){alert('Could not reject request: '+error.message);return;}
-  alert('Request rejected.'); await loadDriverRequests(); await loadMyRequests();
 };
 
 const originalUpdateAuthArea=updateAuthArea;
