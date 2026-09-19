@@ -156,7 +156,7 @@ document.getElementById('confirmRideRequestBtn').onclick=async function(){
 let lastRideSearch=[];
 function sortRideResults(list){const mode=document.getElementById('rideSort')?.value||'soonest';return [...list].sort((a,b)=>mode==='price'?Number(a.price??a.contribution??0)-Number(b.price??b.contribution??0):mode==='seats'?Number(b.seats||0)-Number(a.seats||0):(String(a.ride_date)+'T'+String(a.ride_time||'')).localeCompare(String(b.ride_date)+'T'+String(b.ride_time||'')));}
 document.getElementById('search').onsubmit=async e=>{
-e.preventDefault();const session=await getSession();if(!session){openModal('login');setAuthMessage('loginMsg','Please log in to find and request rides.','error');return;}
+e.preventDefault();const session=await getSession();
 const f=document.getElementById('from').value.trim().toLowerCase(),t=document.getElementById('to').value.trim().toLowerCase(),date=window.bkHomepageSearch?'':document.getElementById('searchDate').value,pref=document.getElementById('pref').value,summary=document.getElementById('searchSummary');
 const oneCitySearch=window.bkHomepageSearch&&f&&t&&f===t;
 if(summary)summary.innerHTML='<span class="bk-search-pulse"></span> Finding matching rides…';
