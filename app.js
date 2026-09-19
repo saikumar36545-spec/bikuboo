@@ -1077,26 +1077,34 @@ async function loadSafetyCenter(){
   }).join('');
 }
 
+let safetyOtpTimer=null;
+function startSafetyOtpCountdown(expiresAt){
+  clearInterval(safetyOtpTimer);
+  const el=document.getElementById('safetyOtpCountdown'); if(!el)return;
+  const tick=()=>{const left=Math.max(0,new Date(expiresAt)-Date.now()),mins=Math.floor(left/60000),secs=Math.floor(left/1000)%60;el.textContent=left?('Expires in '+mins+':'+String(secs).padStart(2,'0')):'OTP expired';el.classList.toggle('expired',!left);if(!left)clearInterval(safetyOtpTimer);};
+  tick();safetyOtpTimer=setInterval(tick,1000);
+}
 window.startSafetyRide=async function(requestId){
   const {data,error}=await supabaseClient.rpc('bikuboo_start_ride',{p_request_id:requestId});
   if(error){alert(error.message);return;}
   const row=data?.[0]||data;
   safetyActiveRequestId=requestId;
-  document.getElementById('safetyModalTitle').textContent='Share the ride-start OTP';
-  document.getElementById('safetyModalSubtitle').textContent='Show this 4-digit code to your accepted passenger. Never post it publicly.';
-  document.getElementById('safetyModalBody').innerHTML=`<div class="safety-otp-box"><div class="safety-otp">${escapeHtml(row?.otp_code||'----')}</div><p class="safety-modal-note">The passenger must enter this code in their Safety Center. It expires after 30 minutes.</p></div><div class="safety-modal-actions"><button class="secondary" onclick="closeModal('safetyModal');loadSafetyCenter()">Done</button><button class="safety-danger" onclick="sendSafetySOS('${requestId}')">🚨 SOS</button></div>`;
-  openModal('safetyModal');
-  await loadSafetyCenter();
+  const expiresAt=row?.expires_at||new Date(Date.now()+30*60000).toISOString();
+  document.getElementById('safetyModalTitle').textContent='Share your ride OTP';
+  document.getElementById('safetyModalSubtitle').textContent='Show this code privately to your accepted passenger. Never post it publicly.';
+  document.getElementById('safetyModalBody').innerHTML=`<div class="bk-safety-otp-panel"><div class="bk-safety-otp-label">RIDE-START CODE</div><div class="bk-safety-otp">${escapeHtml(row?.otp_code||'----').split('').map(d=>'<span>'+d+'</span>').join('')}</div><div id="safetyOtpCountdown" class="bk-safety-otp-countdown"></div><div class="bk-safety-otp-tip">🔐 This code is for this ride only. Ask your passenger to enter it before departure.</div></div><div class="safety-modal-actions"><button class="secondary" onclick="closeModal('safetyModal');loadSafetyCenter()">Done</button><button class="safety-danger" onclick="sendSafetySOS('${requestId}')">🚨 SOS</button></div>`;
+  openModal('safetyModal');startSafetyOtpCountdown(expiresAt);await loadSafetyCenter();
 };
 
 window.verifySafetyRide=async function(requestId){
   safetyActiveRequestId=requestId;
   document.getElementById('safetyModalTitle').textContent='Verify your ride';
-  document.getElementById('safetyModalSubtitle').textContent='Ask the driver for the 4-digit ride-start OTP, then enter it below.';
-  document.getElementById('safetyModalBody').innerHTML=`<form id="safetyOtpForm"><label>Ride-start OTP<input id="safetyOtpInput" class="safety-code-input" inputmode="numeric" autocomplete="one-time-code" maxlength="4" pattern="[0-9]{4}" placeholder="••••" required></label><div class="safety-modal-actions"><button type="button" class="secondary" onclick="closeModal('safetyModal')">Cancel</button><button class="primary" type="submit">Verify & start ride</button></div><div id="safetyOtpMsg" class="authmsg"></div></form>`;
+  document.getElementById('safetyModalSubtitle').textContent='Enter the 4-digit code shared by your driver before you leave.';
+  document.getElementById('safetyModalBody').innerHTML=`<form id="safetyOtpForm" class="bk-safety-verify-form"><div class="bk-safety-verify-badge">🔐 SECURE RIDE CHECK</div><p class="bk-safety-verify-help">Your driver should show you the code in person. Never accept an OTP sent publicly.</p><div class="bk-otp-inputs" id="bkOtpInputs"><input class="bk-otp-input" maxlength="1" inputmode="numeric" autocomplete="one-time-code" aria-label="OTP digit 1"><input class="bk-otp-input" maxlength="1" inputmode="numeric" aria-label="OTP digit 2"><input class="bk-otp-input" maxlength="1" inputmode="numeric" aria-label="OTP digit 3"><input class="bk-otp-input" maxlength="1" inputmode="numeric" aria-label="OTP digit 4"></div><div id="safetyOtpMsg" class="authmsg"></div><div class="safety-modal-actions"><button type="button" class="secondary" onclick="closeModal('safetyModal')">Cancel</button><button id="bkVerifyOtpBtn" class="primary" type="submit">Verify ride</button></div></form>`;
   openModal('safetyModal');
-  document.getElementById('safetyOtpForm').onsubmit=async e=>{e.preventDefault();const code=document.getElementById('safetyOtpInput').value.trim();const btn=e.target.querySelector('button[type="submit"]');btn.disabled=true;try{const {error}=await supabaseClient.rpc('bikuboo_verify_ride_otp',{p_request_id:requestId,p_otp:code});if(error)throw error;setAuthMessage('safetyOtpMsg','Ride verified. Have a safe journey! ✓','success');await loadSafetyCenter();setTimeout(()=>closeModal('safetyModal'),650);}catch(err){setAuthMessage('safetyOtpMsg',err.message||'Could not verify OTP.','error');}finally{btn.disabled=false;}};
-  document.getElementById('safetyOtpInput')?.focus();
+  const inputs=[...document.querySelectorAll('.bk-otp-input')];inputs[0]?.focus();
+  inputs.forEach((input,i)=>{input.addEventListener('input',()=>{input.value=input.value.replace(/\\D/g,'').slice(0,1);if(input.value&&inputs[i+1])inputs[i+1].focus();});input.addEventListener('keydown',e=>{if(e.key==='Backspace'&&!input.value&&inputs[i-1])inputs[i-1].focus();});});
+  document.getElementById('safetyOtpForm').onsubmit=async e=>{e.preventDefault();const code=inputs.map(x=>x.value).join('');const btn=document.getElementById('bkVerifyOtpBtn');if(code.length!==4){setAuthMessage('safetyOtpMsg','Enter all 4 digits to verify the ride.','error');return;}btn.disabled=true;btn.textContent='Verifying…';try{const {error}=await supabaseClient.rpc('bikuboo_verify_ride_otp',{p_request_id:requestId,p_otp:code});if(error)throw error;document.getElementById('safetyModalBody').innerHTML='<div class="bk-otp-success"><div class="bk-otp-success-icon">✓</div><b>Ride verified</b><p>You’re verified and ready to go. Have a safe journey!</p></div>';await loadSafetyCenter();setTimeout(()=>closeModal('safetyModal'),1100);}catch(err){setAuthMessage('safetyOtpMsg',err.message||'Could not verify OTP. Check the code and try again.','error');btn.disabled=false;btn.textContent='Verify ride';inputs.forEach(x=>x.classList.remove('error'));inputs.forEach(x=>x.classList.add('shake'));setTimeout(()=>inputs.forEach(x=>x.classList.remove('shake')),450);}};
 };
 
 window.completeSafetyRide=async function(requestId){
