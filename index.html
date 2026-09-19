@@ -62,6 +62,21 @@
 <div class="request-modal-actions"><button class="secondary" type="button" onclick="closeModal('rideRequestModal')">Cancel</button><button id="confirmRideRequestBtn" class="primary" type="button">Request seat</button></div>
 </div></div>
 
+<div class="modal bk-publish-success-modal" id="ridePublishSuccessModal" aria-hidden="true">
+  <div class="modal-card bk-publish-success-card" role="dialog" aria-modal="true" aria-labelledby="bkPublishSuccessTitle">
+    <button class="modal-close" type="button" aria-label="Close" onclick="closeModal('ridePublishSuccessModal')">×</button>
+    <div class="bk-success-icon" aria-hidden="true"><span>✓</span></div>
+    <div class="bk-success-eyebrow">RIDE PUBLISHED</div>
+    <h2 id="bkPublishSuccessTitle">Your ride is live!</h2>
+    <p class="bk-success-copy">Your journey is now visible to BIKUBOO riders. You’ll see requests here as passengers join.</p>
+    <div id="bkPublishSuccessSummary" class="bk-publish-summary"></div>
+    <div class="bk-publish-success-actions">
+      <button class="secondary" type="button" onclick="closeModal('ridePublishSuccessModal');document.getElementById('find').scrollIntoView({behavior:'smooth'})">Find a ride</button>
+      <button class="primary" type="button" onclick="closeModal('ridePublishSuccessModal');document.getElementById('myRides').scrollIntoView({behavior:'smooth'});if(window.loadMyRides)window.loadMyRides()">View my ride</button>
+    </div>
+    <div class="bk-success-safety"><span>🛡️</span><span>Keep your ride details updated and only meet passengers through the BIKUBOO flow.</span></div>
+  </div>
+</div>
 <div id="login" class="modal"><div class="modalbox"><button class="close" onclick="closeModal('login')">×</button><h2>Welcome back</h2><p>Log in to your BIKUBOO account.</p><form id="loginForm"><input id="loginEmail" type="email" placeholder="Email address" autocomplete="email" required><input id="loginPassword" type="password" placeholder="Password" autocomplete="current-password" required><button class="primary" type="submit">Log in</button><div id="loginMsg" class="authmsg"></div></form><p class="switch">New to BIKUBOO? <button type="button" class="textbtn" onclick="closeModal('login');openModal('signup')">Create an account</button></p></div></div>
 
 <div id="signup" class="modal"><div class="modalbox"><button class="close" onclick="closeModal('signup')">×</button><h2>Create your account</h2><p>Join BIKUBOO in a few seconds.</p><form id="signupForm"><input id="signupName" type="text" placeholder="Your name" autocomplete="name" required><input id="signupEmail" type="email" placeholder="Email address" autocomplete="email" required><input id="signupPassword" type="password" placeholder="Password (min 6 characters)" autocomplete="new-password" minlength="6" required><input id="signupReferral" type="text" placeholder="Referral code (optional)" autocomplete="off"><select id="signupRole"><option value="Passenger">Passenger</option><option value="Driver">Driver</option><option value="Both">Both</option></select><button class="primary" type="submit">Create account</button><div id="signupMsg" class="authmsg"></div></form><p class="switch">Already registered? <button type="button" class="textbtn" onclick="closeModal('signup');openModal('login')">Log in</button></p></div></div>
