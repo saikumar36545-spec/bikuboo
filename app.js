@@ -756,19 +756,60 @@ setTimeout(()=>{loadMyRides();},0);
 let notificationChannel=null;
 function notificationTime(ts){if(!ts)return '';return new Date(ts).toLocaleString(undefined,{day:'numeric',month:'short',hour:'numeric',minute:'2-digit'});}
 
-window.startRideLifecycle=async function(rideId){
-  if(!confirm('Start this ride? Payment can be completed before or after the ride. Each passenger should complete the OTP check.'))return;
-  const {error}=await supabaseClient.rpc('bikuboo_set_ride_status',{p_ride_id:rideId,p_status:'started'});
-  if(error){alert(error.message);return;} alert('Ride is now started. Use Safety Center to generate/verify the ride-start OTPs.'); await loadMyRides(); await loadSafetyCenter();
-};
-window.completeRideLifecycle=async function(rideId){
-  if(!confirm('Mark this ride as completed?'))return;
-  const session=await getSession(); if(!session)return;
-  const {data:reqs,error:reqErr}=await supabaseClient.from('ride_requests').select('id').eq('ride_id',rideId).eq('status','accepted').limit(1);
-  if(reqErr||!reqs?.length){alert('No accepted passenger request was found.');return;}
-  const {error}=await supabaseClient.rpc('bikuboo_mark_ride_completed',{p_request_id:reqs[0].id});
-  if(error){alert(error.message);return;} alert('Ride completed. Ratings are now available.'); await loadMyRides(); await loadMyRequests(); await loadSafetyCenter();
-};
+let lifecycleContext=null;
+
+async function openRideLifecycle(action,rideId){
+  const session=await getSession();if(!session){openModal('login');return;}
+  const {data:ride,error}=await supabaseClient.from('rides').select('id,from_location,to_location,from_place,to_place,ride_date,ride_time,seats,status').eq('id',rideId).eq('driver_id',session.user.id).single();
+  if(error){alert(error.message);return;}
+  lifecycleContext={action,rideId,ride};
+  const starting=action==='start';
+  document.getElementById('lifecycleIcon').textContent=starting?'🏍️':'🏁';
+  document.getElementById('lifecycleEyebrow').textContent=starting?'START JOURNEY':'COMPLETE JOURNEY';
+  document.getElementById('lifecycleTitle').textContent=starting?'Ready to start this ride?':'Complete this ride?';
+  document.getElementById('lifecycleCopy').textContent=starting?'Start only when you and your accepted passenger are ready. Complete the ride-start OTP check for each passenger.':'Mark the journey completed after you have safely reached the destination.';
+  document.getElementById('lifecycleSummary').innerHTML='<div class="bk-life-route"><strong>'+escapeHtml(ride.from_location||ride.from_place||'Pickup')+'</strong><span>→</span><strong>'+escapeHtml(ride.to_location||ride.to_place||'Destination')+'</strong></div><div class="bk-life-meta"><span>📅 '+escapeHtml(formatDate(ride.ride_date))+'</span><span>🕐 '+escapeHtml(formatTime(ride.ride_time))+'</span></div>'+(starting?'<div class="bk-life-note">🔐 After starting, use the Safety Center to generate the 4-digit OTP for your passenger.</div>':'<div class="bk-life-note">⭐ Completing the ride unlocks ratings and closes the active journey.</div>');
+  clearAuthMessage('lifecycleMsg');
+  const btn=document.getElementById('lifecycleConfirm');btn.disabled=false;btn.textContent=starting?'Start ride':'Complete ride';
+  openModal('rideLifecycleModal');
+}
+
+document.getElementById('lifecycleConfirm')?.addEventListener('click',async function(){
+  if(!lifecycleContext)return;
+  const {action,rideId}=lifecycleContext,btn=this;
+  btn.disabled=true;btn.textContent=action==='start'?'Starting…':'Completing…';
+  clearAuthMessage('lifecycleMsg');
+  if(action==='start'){
+    const {error}=await supabaseClient.rpc('bikuboo_set_ride_status',{p_ride_id:rideId,p_status:'started'});
+    if(error){setAuthMessage('lifecycleMsg',error.message,'error');btn.disabled=false;btn.textContent='Start ride';return;}
+    closeModal('rideLifecycleModal');
+    document.getElementById('lifecycleSuccessIcon').textContent='🏍️';
+    document.getElementById('lifecycleSuccessEyebrow').textContent='RIDE STARTED';
+    document.getElementById('lifecycleSuccessTitle').textContent='You’re on your way';
+    document.getElementById('lifecycleSuccessCopy').textContent='The ride is now in progress. Verify each accepted passenger with the ride-start OTP.';
+    document.getElementById('lifecycleSuccessSummary').innerHTML='<div><span>NEXT STEP</span><strong>Generate ride OTP in Safety Center</strong></div>';
+    openModal('rideLifecycleSuccessModal');
+    await loadMyRides();await loadSafetyCenter();
+  }else{
+    const session=await getSession();if(!session)return;
+    const {data:reqs,error:reqErr}=await supabaseClient.from('ride_requests').select('id').eq('ride_id',rideId).eq('status','accepted').limit(1);
+    if(reqErr||!reqs?.length){setAuthMessage('lifecycleMsg','No accepted passenger request was found for this ride.','error');btn.disabled=false;btn.textContent='Complete ride';return;}
+    const {error}=await supabaseClient.rpc('bikuboo_mark_ride_completed',{p_request_id:reqs[0].id});
+    if(error){setAuthMessage('lifecycleMsg',error.message,'error');btn.disabled=false;btn.textContent='Complete ride';return;}
+    closeModal('rideLifecycleModal');
+    document.getElementById('lifecycleSuccessIcon').textContent='🏁';
+    document.getElementById('lifecycleSuccessEyebrow').textContent='RIDE COMPLETED';
+    document.getElementById('lifecycleSuccessTitle').textContent='Journey completed ✓';
+    document.getElementById('lifecycleSuccessCopy').textContent='The ride has been completed successfully. Ratings are now available for the journey.';
+    document.getElementById('lifecycleSuccessSummary').innerHTML='<div><span>STATUS</span><strong>Completed</strong></div>';
+    openModal('rideLifecycleSuccessModal');
+    await loadMyRides();await loadMyRequests();await loadSafetyCenter();
+  }
+  lifecycleContext=null;
+});
+
+window.startRideLifecycle=async function(rideId){openRideLifecycle('start',rideId);};
+window.completeRideLifecycle=async function(rideId){openRideLifecycle('complete',rideId);};
 
 function notificationIcon(type){return ({ride_request:'📩',request_accepted:'✅',request_rejected:'❌',ride_full:'💺',payment_paid:'💳',payment_failed:'⚠️',cash_payment_selected:'💵',cash_payment_confirmed:'✅',chat_message:'💬',ride_started:'🏁',ride_completed:'🏆',ride_cancelled:'❌',safety_alert:'🚨',verification_approved:'🛡️',verification_rejected:'⚠️'})[type]||'🔔';}
 function notificationCategory(type){const t=String(type||'').toLowerCase();if(t.includes('payment')||t.includes('cash'))return 'payments';if(t.includes('chat')||t.includes('message'))return 'chat';if(t.includes('safety')||t.includes('sos')||t.includes('report')||t.includes('verification'))return 'safety';return 'rides';}
