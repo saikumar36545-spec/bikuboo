@@ -23,10 +23,10 @@
       .bk-top b{color:var(--bk-green-dark)}
       .bk-mainhero{padding:64px 7% 52px;background:linear-gradient(180deg,#f7faf4 0%,#fff 88%);position:relative}
       .bk-mainhero:after{content:"";position:absolute;left:-120px;bottom:-180px;width:380px;height:380px;border-radius:50%;background:#eef7e5;filter:blur(4px);z-index:0}.bk-floating-orb{position:absolute;border-radius:50%;z-index:1;pointer-events:none}.orb1{width:12px;height:12px;background:#a8df65;right:17%;top:20%;animation:bkFloat 5s ease-in-out infinite}.orb2{width:8px;height:8px;background:#ff6a2a;right:8%;bottom:28%;animation:bkFloat 7s ease-in-out infinite reverse}@keyframes bkFloat{0%,100%{transform:translate3d(0,0,0)}50%{transform:translate3d(0,-18px,0)}}.bk-mainhero:before{content:"";position:absolute;width:520px;height:520px;right:-180px;top:-250px;border-radius:50%;background:#eaf5dc}
-      .bk-hero-grid{z-index:2;position:relative;display:grid;grid-template-columns:1fr 1.05fr;gap:60px;align-items:center;max-width:1240px;margin:auto}
+      .bk-hero-grid{z-index:2;position:relative;display:grid;grid-template-columns:minmax(0,.88fr) minmax(0,1.12fr);gap:42px;align-items:center;max-width:1240px;margin:auto}
       .bk-eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:900;color:#557c31;text-transform:uppercase;letter-spacing:1.4px}
       .bk-eyebrow i{width:8px;height:8px;border-radius:50%;background:var(--bk-orange)}
-      .bk-mainhero h1{font-size:clamp(46px,6vw,76px);line-height:.98;letter-spacing:-4px;margin:15px 0 18px;max-width:620px}
+      .bk-mainhero h1{font-size:clamp(46px,5.6vw,72px);line-height:.98;letter-spacing:-4px;margin:15px 0 18px;max-width:620px}
       .bk-mainhero h1 span{color:#6fa83c}
       .bk-mainhero .lead{font-size:18px;line-height:1.6;color:#647067;max-width:590px;margin:0 0 26px}
       .bk-proof{display:flex;gap:20px;flex-wrap:wrap;color:#526054;font-size:13px;font-weight:800;margin-top:22px}
@@ -131,18 +131,25 @@
         </div>
       </div>
 
-      <div class="bk-rider-gallery bk-reveal">
-        <div class="bk-section-head"><small>THE BIKUBOO JOURNEY</small><h2>Ride together. Go further.</h2><p>Real road moments, shared journeys and the freedom of getting where you need to go.</p></div>
-        <div class="bk-gallery-grid">
-          <article class="bk-gallery-card"><img src="https://images.unsplash.com/photo-1784480674917-69ccda6fa937?auto=format&fit=crop&fm=jpg&q=88&w=2400" alt="Two motorcycle riders sharing a scenic road journey" loading="lazy"><div class="bk-gallery-copy"><small>Shared journey</small><strong>More miles. More memories.</strong><span>Built for riders who are already going your way.</span></div></article>
-          <div class="bk-gallery-side">
-            <article class="bk-gallery-card"><img src="https://images.unsplash.com/photo-1669283149120-d539f814aa03?auto=format&fit=crop&fm=jpg&q=88&w=1800" alt="Motorcycle rider travelling through a city" loading="lazy"><div class="bk-gallery-copy"><small>City rides</small><strong>Your route, your ride.</strong></div></article>
-            <article class="bk-gallery-card" style="background:linear-gradient(145deg,#dfeecf,#f8fbf5);display:grid;place-items:center"><div style="text-align:center;padding:24px;color:#42612d"><div style="font-size:40px;margin-bottom:8px">🏍️</div><strong style="font-size:18px">Your next ride<br>starts here.</strong><span style="display:block;font-size:11px;color:#70806f;margin-top:7px">Find a rider. Share a seat. Travel smarter.</span></div></article>
-          </div>
+      <div class="bk-intercity-wrap bk-reveal">
+        <div class="bk-section-head"><small>INTERCITY RIDE SHARING</small><h2>One ride. Many destinations.</h2><p>Connect cities, share the journey and travel farther together.</p></div>
+        <div class="bk-intercity-visual" aria-label="Intercity ride sharing visual">
+          <div class="bk-intercity-sky"></div>
+          <div class="bk-intercity-badge">BIKUBOO · INTERCITY</div>
+          <div class="bk-intercity-copy"><small>Same roads. More people.</small><strong>Greater <span>destinations.</span></strong></div>
+          <div class="bk-city-card bk-city-hyd"><i></i>Hyderabad</div>
+          <div class="bk-city-card bk-city-vij"><i></i>Vijayawada</div>
+          <div class="bk-city-card bk-city-tir"><i></i>Tirupati</div>
+          <div class="bk-city-card bk-city-bng"><i></i>Bengaluru</div>
+          <div class="bk-city-card bk-city-viz"><i></i>Visakhapatnam</div>
+          <div class="bk-route-path"></div>
+          <i class="bk-route-node bk-node-a"></i><i class="bk-route-node bk-node-b"></i><i class="bk-route-node bk-node-c"></i><i class="bk-route-node bk-node-d"></i>
+          <div class="bk-intercity-road"></div><div class="bk-intercity-rider">🏍️</div>
+          <div class="bk-intercity-sign">More cities · More people<span>Travel together. Go further.</span></div>
         </div>
       </div>
 
-            <div class="bk-popular bk-reveal">
+      <div class="bk-popular bk-reveal">
         <div class="bk-section-head"><small>POPULAR ROUTES</small><h2>Where are people going?</h2><p>Start with a route, then choose the ride that fits your plans.</p></div>
         <div class="bk-route-grid">
           <div class="bk-route-card"><div><strong>Narasaraopet → Hyderabad</strong><small>Everyday travel</small></div><span>→</span></div>
