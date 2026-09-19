@@ -239,10 +239,11 @@
       if(findBtn) findBtn.onclick=function(){
         var realFrom=document.getElementById('from'),realTo=document.getElementById('to'),realDate=document.getElementById('searchDate'),realPass=document.getElementById('passengers');
         if(realFrom && from) realFrom.value=from.value;
-        if(realTo && to) realTo.value=to.value;
+        if(realTo && to) realTo.value=to.value||from.value;
         if(realDate && date) realDate.value=date.value;
         if(realPass && pass) realPass.value=pass.value;
         var form=document.getElementById('search');
+        window.bkHomepageSearch=true;
         if(form){form.requestSubmit();document.getElementById('find')?.scrollIntoView({behavior:'smooth',block:'start'});}
         else document.getElementById('find')?.scrollIntoView({behavior:'smooth'});
       };
