@@ -906,12 +906,35 @@ document.getElementById('profileForm')?.addEventListener('submit',async e=>{
 document.getElementById('requestVerificationBtn')?.addEventListener('click',async()=>{const btn=document.getElementById('requestVerificationBtn');btn.disabled=true;btn.textContent='Requesting...';const {error}=await supabaseClient.rpc('bikuboo_request_verification');if(error)alert(error.message);else alert('Verification request submitted.');await loadProfilePage();});
 
 // Rating modal for completed/older accepted trips.
-function ensureRatingModal(){if(document.getElementById('ratingModal'))return;document.body.insertAdjacentHTML('beforeend',`<div id="ratingModal" class="modal"><div class="modalbox rating-modal"><button class="close" onclick="closeModal('ratingModal')">×</button><h2>Rate your ride</h2><p id="ratingRideLabel">Share your experience.</p><form id="ratingForm"><div id="ratingStars" class="rating-picker">${[1,2,3,4,5].map(n=>`<button type="button" data-rating="${n}">★</button>`).join('')}</div><textarea id="ratingReview" maxlength="500" rows="4" placeholder="Optional review"></textarea><button class="primary" type="submit">Submit rating</button><div id="ratingMsg" class="authmsg"></div></form></div></div>`);
-  document.querySelectorAll('#ratingStars button').forEach(b=>b.onclick=()=>{document.querySelectorAll('#ratingStars button').forEach(x=>x.classList.toggle('selected',Number(x.dataset.rating)<=Number(b.dataset.rating)));document.getElementById('ratingForm').dataset.rating=b.dataset.rating;});
-  document.getElementById('ratingForm').onsubmit=async e=>{e.preventDefault();const rating=Number(e.target.dataset.rating||0),rideId=e.target.dataset.rideId,ratee=e.target.dataset.ratee;if(!rating){setAuthMessage('ratingMsg','Choose a rating first.','error');return;}const {error}=await supabaseClient.rpc('bikuboo_submit_rating',{p_ride_id:rideId,p_ratee_id:ratee,p_rating:rating,p_review:document.getElementById('ratingReview').value.trim()});if(error){setAuthMessage('ratingMsg',error.message,'error');return;}setAuthMessage('ratingMsg','Thanks for rating this ride!','success');setTimeout(()=>{closeModal('ratingModal');loadMyRides();},500);};
+function ensureRatingModal(){
+  if(document.getElementById('ratingModal'))return;
+  document.body.insertAdjacentHTML('beforeend',`<div id="ratingModal" class="modal"><div class="modalbox bk-rating-modal">
+  <button class="close" type="button" onclick="closeModal('ratingModal')">×</button>
+  <div class="bk-rating-icon">★</div><small class="bk-rating-eyebrow">RIDE FEEDBACK</small>
+  <h2>How was your ride?</h2><p id="ratingRideLabel">Share your experience with this rider.</p>
+  <form id="ratingForm"><div id="ratingStars" class="bk-rating-stars" role="radiogroup" aria-label="Ride rating">${[1,2,3,4,5].map(n=>`<button type="button" data-rating="${n}" aria-label="${n} stars">★</button>`).join('')}</div>
+  <div id="ratingScoreHint" class="bk-rating-score-hint">Tap a star to rate</div>
+  <div class="bk-rating-tags" id="ratingTags">${['Friendly','On time','Safe ride','Good communication','Comfortable'].map(x=>`<button type="button" data-tag="${x}">${x}</button>`).join('')}</div>
+  <textarea id="ratingReview" maxlength="500" rows="4" placeholder="Add an optional note about your experience…"></textarea>
+  <button id="ratingSubmitBtn" class="primary" type="submit">Submit rating</button><div id="ratingMsg" class="authmsg"></div></form>
+  </div></div>`);
+  const stars=[...document.querySelectorAll('#ratingStars button')],form=document.getElementById('ratingForm'),hint=document.getElementById('ratingScoreHint');
+  const labels=['','Not great','Could be better','Good ride','Great ride','Excellent ride'];
+  stars.forEach(b=>b.onclick=()=>{const n=Number(b.dataset.rating);stars.forEach(x=>x.classList.toggle('selected',Number(x.dataset.rating)<=n));form.dataset.rating=n;hint.textContent=n+' / 5 · '+labels[n];});
+  document.querySelectorAll('#ratingTags button').forEach(b=>b.onclick=()=>b.classList.toggle('selected'));
+  form.onsubmit=async e=>{
+    e.preventDefault();const rating=Number(form.dataset.rating||0),rideId=form.dataset.rideId,ratee=form.dataset.ratee;
+    if(!rating){setAuthMessage('ratingMsg','Choose a star rating first.','error');return;}
+    const btn=document.getElementById('ratingSubmitBtn');btn.disabled=true;btn.textContent='Submitting…';
+    const tags=[...document.querySelectorAll('#ratingTags button.selected')].map(x=>x.dataset.tag);
+    let review=document.getElementById('ratingReview').value.trim();if(tags.length)review=tags.join(' · ')+(review?' — '+review:'');
+    const {error}=await supabaseClient.rpc('bikuboo_submit_rating',{p_ride_id:rideId,p_ratee_id:ratee,p_rating:rating,p_review:review});
+    if(error){setAuthMessage('ratingMsg',error.message,'error');btn.disabled=false;btn.textContent='Submit rating';return;}
+    document.querySelector('.bk-rating-modal').innerHTML='<div class="bk-rating-success"><div class="bk-rating-success-icon">✓</div><small>FEEDBACK RECEIVED</small><h2>Thanks for rating!</h2><p>Your feedback helps make BIKUBOO better for every rider.</p><div class="bk-rating-success-stars">'+('★'.repeat(rating))+'</div></div>';
+    setTimeout(()=>{closeModal('ratingModal');loadMyRides();loadProfilePage();},1200);
+  };
 }
-window.openRating=async function(rideId,rateeId,label){ensureRatingModal();const f=document.getElementById('ratingForm');f.dataset.rideId=rideId;f.dataset.ratee=rateeId;f.dataset.rating='';document.getElementById('ratingRideLabel').textContent=label||'Share your experience.';document.getElementById('ratingReview').value='';document.querySelectorAll('#ratingStars button').forEach(x=>x.classList.remove('selected'));clearAuthMessage('ratingMsg');openModal('ratingModal');};
-
+window.openRating=async function(rideId,rateeId,label){ensureRatingModal();const f=document.getElementById('ratingForm');f.dataset.rideId=rideId;f.dataset.ratee=rateeId;f.dataset.rating='';document.getElementById('ratingRideLabel').textContent=label||'Share your experience with this rider.';document.getElementById('ratingReview').value='';document.querySelectorAll('#ratingStars button').forEach(x=>x.classList.remove('selected'));document.querySelectorAll('#ratingTags button').forEach(x=>x.classList.remove('selected'));document.getElementById('ratingScoreHint').textContent='Tap a star to rate';clearAuthMessage('ratingMsg');const btn=document.getElementById('ratingSubmitBtn');btn.disabled=false;btn.textContent='Submit rating';openModal('ratingModal');};
 // Add a rate action to joined rides once the scheduled ride time has passed.
 const _loadMyRidesProfileHook=loadMyRides;
 loadMyRides=async function(){await _loadMyRidesProfileHook();const session=await getSession();if(!session)return;const box=document.getElementById('myRidesResults');if(!box)return;if(myRidesTab==='driver'){const ids=[...box.querySelectorAll('[data-ride-id]')].map(x=>x.dataset.rideId);if(!ids.length)return;const {data}=await supabaseClient.from('ride_requests').select('id,ride_id,passenger_id,profiles!ride_requests_passenger_id_fkey(full_name)').in('ride_id',ids).eq('status','accepted');for(const req of (data||[])){const card=box.querySelector(`[data-ride-id="${req.ride_id}"]`),actions=card?.querySelector('.ride-actions');if(!actions)continue;const {data:already}=await supabaseClient.from('ride_ratings').select('id').eq('ride_id',req.ride_id).eq('rater_id',session.user.id).maybeSingle();if(!already&&!actions.querySelector(`[data-rate-passenger="${req.passenger_id}"]`))actions.insertAdjacentHTML('beforeend',`<button class="secondary" data-rate-passenger="${escapeHtml(req.passenger_id)}" onclick="openRating('${req.ride_id}','${req.passenger_id}','Rate ${escapeHtml(req.profiles?.full_name||'your passenger')}')">⭐ Rate passenger</button>`);}}};
