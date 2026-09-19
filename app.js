@@ -653,7 +653,7 @@ window.rejectRideRequest=async function(requestId){openDriverRequestAction('reje
 
 window.confirmCashPayment=async function(transactionId){
   const session=await getSession(); if(!session)return;
-  const ok=window.confirm(''); if(!ok)return;
+  if(!window.confirm('Confirm that you received the cash payment from this passenger?'))return;
   const {data,error}=await supabaseClient.functions.invoke('confirm-cash-payment',{body:{transaction_id:transactionId}});
   if(error||data?.error){alert(error?.message||data?.error||'Could not confirm cash payment.');return;}
   alert('Cash payment confirmed.'); await loadDriverRequests(); await loadMyRequests(); await loadPaymentHistory();
