@@ -157,7 +157,8 @@ let lastRideSearch=[];
 function sortRideResults(list){const mode=document.getElementById('rideSort')?.value||'soonest';return [...list].sort((a,b)=>mode==='price'?Number(a.price??a.contribution??0)-Number(b.price??b.contribution??0):mode==='seats'?Number(b.seats||0)-Number(a.seats||0):(String(a.ride_date)+'T'+String(a.ride_time||'')).localeCompare(String(b.ride_date)+'T'+String(b.ride_time||'')));}
 document.getElementById('search').onsubmit=async e=>{
 e.preventDefault();const session=await getSession();if(!session){openModal('login');setAuthMessage('loginMsg','Please log in to find and request rides.','error');return;}
-const f=document.getElementById('from').value.trim().toLowerCase(),t=document.getElementById('to').value.trim().toLowerCase(),date=document.getElementById('searchDate').value,pref=document.getElementById('pref').value,summary=document.getElementById('searchSummary');
+const f=document.getElementById('from').value.trim().toLowerCase(),t=document.getElementById('to').value.trim().toLowerCase(),date=window.bkHomepageSearch?'':document.getElementById('searchDate').value,pref=document.getElementById('pref').value,summary=document.getElementById('searchSummary');
+const oneCitySearch=window.bkHomepageSearch&&f&&t&&f===t;
 if(summary)summary.innerHTML='<span class="bk-search-pulse"></span> Finding matching rides…';
 const {data,error}=await supabaseClient.from('rides').select('id,driver_id,from_place,to_place,from_location,to_location,from_lat,from_lng,to_lat,to_lng,ride_date,ride_time,seats,price,contribution,status,women_only,women_preferred,verified_only,profiles(full_name,rating_avg,rating_count,verification_status)').eq('status','open').order('ride_date',{ascending:true}).order('ride_time',{ascending:true});
 if(error){if(summary)summary.textContent='Could not load rides right now';document.getElementById('results').innerHTML='<div class="ride"><b>Could not search rides.</b><small>'+escapeHtml(error.message)+'</small></div>';return;}
@@ -169,7 +170,7 @@ let x=(data||[]).filter(r=>{
   const toMatches=matches(rt,t)||matches(r.to_place,t);
   // If the user enters only one city in the homepage/search form, treat it as a smart city search
   // so rides involving that city are still discoverable.
-  const locationMatches=f&& !t ? fromMatches||toMatches : (!f||fromMatches)&&(!t||toMatches);
+  const locationMatches=oneCitySearch ? (fromMatches||toMatches) : (f&&!t ? fromMatches||toMatches : (!f||fromMatches)&&(!t||toMatches));
   return locationMatches&&(!date||r.ride_date===date);
 });
 if(pref==='Women only')x=x.filter(r=>r.women_only);if(pref==='Women preferred')x=x.filter(r=>r.women_only||r.women_preferred);if(pref==='Verified riders only')x=x.filter(r=>r.verified_only||r.profiles?.verification_status==='verified');
