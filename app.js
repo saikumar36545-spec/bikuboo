@@ -161,7 +161,17 @@ const f=document.getElementById('from').value.trim().toLowerCase(),t=document.ge
 if(summary)summary.innerHTML='<span class="bk-search-pulse"></span> Finding matching rides…';
 const {data,error}=await supabaseClient.from('rides').select('id,driver_id,from_place,to_place,from_location,to_location,from_lat,from_lng,to_lat,to_lng,ride_date,ride_time,seats,price,contribution,status,women_only,women_preferred,verified_only,profiles(full_name,rating_avg,rating_count,verification_status)').eq('status','open').order('ride_date',{ascending:true}).order('ride_time',{ascending:true});
 if(error){if(summary)summary.textContent='Could not load rides right now';document.getElementById('results').innerHTML='<div class="ride"><b>Could not search rides.</b><small>'+escapeHtml(error.message)+'</small></div>';return;}
-const norm=v=>String(v||'').trim().toLowerCase();let x=(data||[]).filter(r=>{const rf=norm(r.from_location||r.from_place),rt=norm(r.to_location||r.to_place);return (!f||rf.includes(f)||norm(r.from_place).includes(f))&&(!t||rt.includes(t)||norm(r.to_place).includes(t))&&(!date||r.ride_date===date);});
+const norm=v=>String(v||'').trim().toLowerCase();
+const matches=(value,query)=>{const s=norm(value),q=norm(query);if(!q)return true;return s.includes(q)||q.split(/[,\s]+/).filter(Boolean).every(part=>s.includes(part));};
+let x=(data||[]).filter(r=>{
+  const rf=norm(r.from_location||r.from_place),rt=norm(r.to_location||r.to_place);
+  const fromMatches=matches(rf,f)||matches(r.from_place,f);
+  const toMatches=matches(rt,t)||matches(r.to_place,t);
+  // If the user enters only one city in the homepage/search form, treat it as a smart city search
+  // so rides involving that city are still discoverable.
+  const locationMatches=f&& !t ? fromMatches||toMatches : (!f||fromMatches)&&(!t||toMatches);
+  return locationMatches&&(!date||r.ride_date===date);
+});
 if(pref==='Women only')x=x.filter(r=>r.women_only);if(pref==='Women preferred')x=x.filter(r=>r.women_only||r.women_preferred);if(pref==='Verified riders only')x=x.filter(r=>r.verified_only||r.profiles?.verification_status==='verified');
 if(document.getElementById('verifiedFilter')?.checked)x=x.filter(r=>r.verified_only||r.profiles?.verification_status==='verified');if(document.getElementById('womenFilter')?.checked)x=x.filter(r=>r.women_only||r.women_preferred);
 lastRideSearch=sortRideResults(x);render(lastRideSearch);if(summary)summary.textContent=lastRideSearch.length+' ride'+(lastRideSearch.length===1?'':'s')+' found';
