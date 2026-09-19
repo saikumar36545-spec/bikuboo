@@ -153,23 +153,20 @@ document.getElementById('confirmRideRequestBtn').onclick=async function(){
   setTimeout(()=>{closeModal('rideRequestModal');btn.disabled=false;btn.textContent='Request seat';pendingRideRequestId=null;},850);
 };
 
+let lastRideSearch=[];
+function sortRideResults(list){const mode=document.getElementById('rideSort')?.value||'soonest';return [...list].sort((a,b)=>mode==='price'?Number(a.price??a.contribution??0)-Number(b.price??b.contribution??0):mode==='seats'?Number(b.seats||0)-Number(a.seats||0):(String(a.ride_date)+'T'+String(a.ride_time||'')).localeCompare(String(b.ride_date)+'T'+String(b.ride_time||'')));}
 document.getElementById('search').onsubmit=async e=>{
-  e.preventDefault();
-  const session=await getSession();
-  if(!session){openModal('login');setAuthMessage('loginMsg','Please log in to find and request rides.','error');return;}
-  const f=document.getElementById('from').value.trim().toLowerCase();
-  const t=document.getElementById('to').value.trim().toLowerCase();
-  const date=document.getElementById('searchDate').value;
-  const pref=document.getElementById('pref').value;
-  const {data,error}=await supabaseClient.from('rides').select('id,driver_id,from_place,to_place,from_location,to_location,from_lat,from_lng,to_lat,to_lng,ride_date,ride_time,seats,price,contribution,status,women_only,women_preferred,verified_only,profiles(full_name)').eq('status','open').order('ride_date',{ascending:true}).order('ride_time',{ascending:true});
-  if(error){console.error('Find rides error:',error);document.getElementById('results').innerHTML='<div class="ride"><b>Could not search rides.</b><small>'+escapeHtml(error.message)+'</small></div>';return;}
-  const norm=v=>String(v||'').trim().toLowerCase();
-  let x=(data||[]).filter(r=>{const rf=norm(r.from_location||r.from_place),rt=norm(r.to_location||r.to_place);return (!f||rf.includes(f)||norm(r.from_place).includes(f))&&(!t||rt.includes(t)||norm(r.to_place).includes(t))&&(!date||r.ride_date===date);});
-  if(pref==='Women only')x=x.filter(r=>r.women_only);
-  if(pref==='Women preferred')x=x.filter(r=>r.women_only||r.women_preferred);
-  if(pref==='Verified riders only')x=x.filter(r=>r.verified_only);
-  render(x);
+e.preventDefault();const session=await getSession();if(!session){openModal('login');setAuthMessage('loginMsg','Please log in to find and request rides.','error');return;}
+const f=document.getElementById('from').value.trim().toLowerCase(),t=document.getElementById('to').value.trim().toLowerCase(),date=document.getElementById('searchDate').value,pref=document.getElementById('pref').value,summary=document.getElementById('searchSummary');
+if(summary)summary.innerHTML='<span class="bk-search-pulse"></span> Finding matching rides…';
+const {data,error}=await supabaseClient.from('rides').select('id,driver_id,from_place,to_place,from_location,to_location,from_lat,from_lng,to_lat,to_lng,ride_date,ride_time,seats,price,contribution,status,women_only,women_preferred,verified_only,profiles(full_name,rating_avg,rating_count,verification_status)').eq('status','open').order('ride_date',{ascending:true}).order('ride_time',{ascending:true});
+if(error){if(summary)summary.textContent='Could not load rides right now';document.getElementById('results').innerHTML='<div class="ride"><b>Could not search rides.</b><small>'+escapeHtml(error.message)+'</small></div>';return;}
+const norm=v=>String(v||'').trim().toLowerCase();let x=(data||[]).filter(r=>{const rf=norm(r.from_location||r.from_place),rt=norm(r.to_location||r.to_place);return (!f||rf.includes(f)||norm(r.from_place).includes(f))&&(!t||rt.includes(t)||norm(r.to_place).includes(t))&&(!date||r.ride_date===date);});
+if(pref==='Women only')x=x.filter(r=>r.women_only);if(pref==='Women preferred')x=x.filter(r=>r.women_only||r.women_preferred);if(pref==='Verified riders only')x=x.filter(r=>r.verified_only||r.profiles?.verification_status==='verified');
+if(document.getElementById('verifiedFilter')?.checked)x=x.filter(r=>r.verified_only||r.profiles?.verification_status==='verified');if(document.getElementById('womenFilter')?.checked)x=x.filter(r=>r.women_only||r.women_preferred);
+lastRideSearch=sortRideResults(x);render(lastRideSearch);if(summary)summary.textContent=lastRideSearch.length+' ride'+(lastRideSearch.length===1?'':'s')+' found';
 };
+document.getElementById('rideSort')?.addEventListener('change',()=>{lastRideSearch=sortRideResults(lastRideSearch);render(lastRideSearch);});document.getElementById('verifiedFilter')?.addEventListener('change',()=>document.getElementById('search').requestSubmit());document.getElementById('womenFilter')?.addEventListener('change',()=>document.getElementById('search').requestSubmit());
 
 function initOfferPreview(){
   const pairs=[['ofrom','bkOfferPreviewFrom','Your starting point'],['oto','bkOfferPreviewTo','Your destination']];
