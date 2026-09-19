@@ -119,21 +119,38 @@ async function loadRides(){
   if(error){console.error(error);render([]);return [];} render(data||[]); return data||[];
 }
 
+let pendingRideRequestId=null;
 window.requestRide=async function(rideId){
   const session=await getSession();
   if(!session){openModal('login');setAuthMessage('loginMsg','Please log in before requesting a ride.','error');return;}
   const {error:profileError}=await ensureProfile(session.user);
   if(profileError){alert(profileError.message);return;}
-  const {data:ride,error:rideError}=await supabaseClient.from('rides').select('id,seats,driver_id,status').eq('id',rideId).single();
+  const {data:ride,error:rideError}=await supabaseClient.from('rides').select('id,seats,driver_id,status,from_location,from_place,to_location,to_place,ride_date,ride_time,price,contribution,women_only,women_preferred,verified_only,profiles(full_name)').eq('id',rideId).single();
   if(rideError){alert(rideError.message);return;}
   if(ride.driver_id===session.user.id){alert('You cannot request your own ride.');return;}
   if(Number(ride.seats)<=0){alert('This ride is already full.');await loadRides();return;}
   const {data:existing}=await supabaseClient.from('ride_requests').select('id,status').eq('ride_id',rideId).eq('passenger_id',session.user.id).maybeSingle();
   if(existing){alert(existing.status==='rejected'?'Your earlier request was rejected. Please choose another ride.':'You already requested this ride.');return;}
-  const {error}=await supabaseClient.from('ride_requests').insert({ride_id:rideId,passenger_id:session.user.id,status:'pending'});
-  if(error){alert(error.code==='23505'?'You already requested this ride.':error.message);return;}
-  alert('Ride request sent successfully.');
+  pendingRideRequestId=ride.id;
+  const driver=ride.profiles?.full_name||'BIKUBOO rider';
+  const amount=Number(ride.price ?? ride.contribution ?? 0);
+  const tags=[ride.verified_only?'✓ Verified riders':'Community ride',ride.women_only?'Women only':ride.women_preferred?'Women preferred':null].filter(Boolean);
+  const summary=document.getElementById('rideRequestSummary');
+  summary.innerHTML=`<div class="request-route"><div><small>FROM</small><strong>${escapeHtml(ride.from_location||ride.from_place||'')}</strong></div><span>→</span><div><small>TO</small><strong>${escapeHtml(ride.to_location||ride.to_place||'')}</strong></div></div><div class="request-detail-grid"><div><small>DATE</small><b>${escapeHtml(formatDate(ride.ride_date))}</b></div><div><small>TIME</small><b>${escapeHtml(formatTime(ride.ride_time))}</b></div><div><small>RIDER</small><b>${escapeHtml(driver)}</b></div><div><small>SEATS</small><b>${escapeHtml(ride.seats)} available</b></div></div><div class="request-tags">${tags.map(x=>`<span>${escapeHtml(x)}</span>`).join('')}</div><div class="request-price"><span>Contribution</span><strong>${amount>0?'₹'+escapeHtml(amount):'Free'}</strong></div>`;
+  const btn=document.getElementById('confirmRideRequestBtn');
+  btn.disabled=false;btn.textContent='Request seat';clearAuthMessage('rideRequestMsg');
+  openModal('rideRequestModal');
+};
+document.getElementById('confirmRideRequestBtn').onclick=async function(){
+  if(!pendingRideRequestId)return;
+  const btn=this;btn.disabled=true;btn.textContent='Sending…';clearAuthMessage('rideRequestMsg');
+  const session=await getSession();
+  if(!session){closeModal('rideRequestModal');openModal('login');return;}
+  const {error}=await supabaseClient.from('ride_requests').insert({ride_id:pendingRideRequestId,passenger_id:session.user.id,status:'pending'});
+  if(error){btn.disabled=false;btn.textContent='Request seat';setAuthMessage('rideRequestMsg',error.code==='23505'?'You already requested this ride.':error.message,'error');return;}
+  btn.textContent='✓ Request sent';setAuthMessage('rideRequestMsg','Your request has been sent to the rider.','success');
   await loadMyRequests();
+  setTimeout(()=>{closeModal('rideRequestModal');btn.disabled=false;btn.textContent='Request seat';pendingRideRequestId=null;},850);
 };
 
 document.getElementById('search').onsubmit=async e=>{
