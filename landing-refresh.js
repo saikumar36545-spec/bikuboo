@@ -39,14 +39,14 @@
       .bk-field{border:1px solid #d9e2d5;border-radius:12px;padding:11px 13px;background:#fff}
       .bk-field small{display:block;color:#778277;font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:.8px;margin-bottom:5px}
       .bk-field strong{font-size:14px;color:#273229}
-      .bk-field input{border:0;outline:0;width:100%;font:inherit;color:#273229;background:transparent}
+      .bk-field{transition:border-color .2s,box-shadow .2s,transform .2s}.bk-field:focus-within{border-color:#a8df65;box-shadow:0 0 0 4px #a8df651f;transform:translateY(-1px)}.bk-field input{border:0;outline:0;width:100%;font:inherit;color:#273229;background:transparent}
       .bk-search-row{display:grid;grid-template-columns:1fr 1fr auto;gap:10px;margin-top:10px}
       .bk-search-btn,.bk-offer-btn{border:0;border-radius:12px;padding:13px 17px;font-weight:900;cursor:pointer;text-align:center}
       .bk-search-btn{position:relative;overflow:hidden;transition:transform .2s,box-shadow .2s;background:var(--bk-green);color:#17200f}
       .bk-offer-btn{background:#fff;border:1px solid #cfdacb!important;color:#29362b}
       .bk-search-note{display:flex;gap:8px;align-items:center;margin-top:14px;padding-top:13px;border-top:1px solid #edf1eb;color:#758076;font-size:11px}
       .bk-search-note b{color:#5f8f34}
-      .bk-route-preview{margin-top:18px;border-radius:16px;background:#f5f8f2;border:1px solid #e3eadf;padding:13px 15px}
+      .bk-route-preview{transition:transform .25s,box-shadow .25s}.bk-route-preview:hover{transform:translateY(-2px);box-shadow:0 12px 25px #24351f0c}.bk-route-preview{margin-top:18px;border-radius:16px;background:#f5f8f2;border:1px solid #e3eadf;padding:13px 15px}
       .bk-route-preview-top{display:flex;justify-content:space-between;font-size:11px;color:#68756a;font-weight:800}
       .bk-route-line{height:38px;position:relative;margin:2px 7px}
       .bk-route-line:before{content:"";position:absolute;left:8px;right:8px;top:18px;border-top:2px dashed #91ad78;animation:bkRouteDash 2s linear infinite}@keyframes bkRouteDash{to{transform:translateX(12px)}}
@@ -80,7 +80,7 @@
       .bk-step2{text-align:center;position:relative;transition:transform .25s}.bk-step2:hover{transform:translateY(-7px)}.bk-step2:hover .bk-num{background:#dfeecf;box-shadow:0 8px 18px #6b9e3b20}.bk-step2:not(:last-child):after{content:"→";position:absolute;right:-20px;top:19px;color:#9aaa96;font-size:22px}
       .bk-num{width:40px;height:40px;border-radius:50%;background:#eff5e9;color:#5e8e35;display:grid;place-items:center;font-weight:900;margin:0 auto 12px}
       .bk-step2 h3{font-size:14px;margin:0 0 6px}.bk-step2 p{font-size:11px;line-height:1.5;color:#7a857c;margin:0}
-      .bk-safety2{margin:0 7% 65px;padding:24px 28px;border:1px solid #dce7d8;border-radius:20px;background:#fff;display:flex;align-items:center;justify-content:space-between;gap:25px}
+      .bk-safety2{transition:transform .25s,box-shadow .25s}.bk-safety2:hover{transform:translateY(-3px);box-shadow:0 15px 30px #24351f0d}.bk-safety2{margin:0 7% 65px;padding:24px 28px;border:1px solid #dce7d8;border-radius:20px;background:#fff;display:flex;align-items:center;justify-content:space-between;gap:25px}
       .bk-safe-copy{display:flex;align-items:center;gap:14px}.bk-safe-icon{width:48px;height:48px;border-radius:14px;background:#edf6e6;display:grid;place-items:center;font-size:23px}.bk-safe-copy h3{margin:0 0 4px;font-size:16px}.bk-safe-copy p{margin:0;color:#78837a;font-size:12px}
       .bk-safe-btn{background:#fff;border:1px solid #cbd8c6;border-radius:11px;padding:11px 16px;font-weight:900;cursor:pointer}
       @keyframes bkBikeFloat{0%,100%{transform:translate(-50%,-50%) rotate(-2deg)}50%{transform:translate(-50%,-56%) rotate(2deg)}}.bk-final{background:#182019;color:#fff;padding:62px 7%;text-align:center}.bk-final{position:relative;overflow:hidden}.bk-final:before,.bk-final:after{content:"";position:absolute;border:1px solid #a8df6522;border-radius:50%;pointer-events:none}.bk-final:before{width:420px;height:420px;left:-220px;top:-210px}.bk-final:after{width:560px;height:560px;right:-300px;bottom:-300px}.bk-final h2{font-size:clamp(32px,4vw,50px);letter-spacing:-2.5px;margin:0 0 10px}.bk-final h2 span{color:var(--bk-green)}.bk-final p{color:#b9c2b8;margin:0 0 22px}.bk-final a{display:inline-flex;transition:transform .2s,box-shadow .2s;background:var(--bk-green);color:#182019;padding:13px 20px;border-radius:12px;font-weight:900}.bk-final a:hover{transform:translateY(-3px);box-shadow:0 12px 25px #a8df6540}
@@ -104,7 +104,7 @@
             <div class="bk-proof"><span><b>✓</b> Verified profiles</span><span><b>✓</b> Private chat</span><span><b>✓</b> Safety tools</span></div>
           </div>
 
-          <div class="bk-search-card">
+          <div class="bk-search-card" aria-label="Find a BIKUBOO ride">
             <div class="bk-search-head"><h2>Find a ride</h2><span>Go where you need to go</span></div>
             <div class="bk-route-fields">
               <label class="bk-field"><small>From</small><input id="bkHomeFrom" placeholder="City or place"></label>
@@ -115,7 +115,7 @@
               <label class="bk-field"><small>Passengers</small><input id="bkHomePassengers" type="number" min="1" max="3" value="1"></label>
               <button class="bk-search-btn" id="bkHomeSearch" type="button">Search rides</button>
             </div>
-            <div class="bk-route-preview"><div class="bk-route-preview-top"><span>Popular route example</span><span>Today</span></div><div class="bk-route-line"><i class="bk-dot a"></i><i class="bk-dot b"></i></div><div class="bk-route-labels"><span>Narasaraopet</span><span>Hyderabad</span></div></div>
+            <div class="bk-route-preview"><div class="bk-route-preview-top"><span>Popular route example</span><span id="bkRouteLive">Live</span></div><div class="bk-route-line"><i class="bk-dot a"></i><i class="bk-dot b"></i></div><div class="bk-route-labels"><span>Narasaraopet</span><span>Hyderabad</span></div></div>
             <div class="bk-search-note"><b>🛡</b> Ride with verified community members and keep conversations inside BIKUBOO.</div>
             <button class="bk-offer-btn" id="bkHomeOffer" type="button" style="width:100%;margin-top:10px">＋ Offer a ride</button>
           </div>
@@ -174,6 +174,8 @@
     find.parentNode.insertBefore(section,find);
 
     function wire(){
+      var live=document.getElementById('bkRouteLive');
+      if(live){setInterval(function(){live.textContent=live.textContent==='Live'?'Updating':'Live'},2400)}
       var from=document.getElementById('bkHomeFrom'),to=document.getElementById('bkHomeTo'),date=document.getElementById('bkHomeDate'),pass=document.getElementById('bkHomePassengers');
       var findBtn=document.getElementById('bkHomeSearch'),offerBtn=document.getElementById('bkHomeOffer'),safetyBtn=document.getElementById('bkSafetyBtn');
       if(date && !date.value) date.value=new Date().toISOString().slice(0,10);
