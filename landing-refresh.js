@@ -142,18 +142,7 @@
         </div>
       </div>
 
-      <div class="bk-rider-gallery bk-reveal">
-        <div class="bk-section-head"><small>THE BIKUBOO JOURNEY</small><h2>Ride together. Go further.</h2><p>Real road moments, shared journeys and the freedom of getting where you need to go.</p></div>
-        <div class="bk-gallery-grid">
-          <article class="bk-gallery-card"><img src="https://images.unsplash.com/photo-1784480674917-69ccda6fa937?auto=format&fit=crop&fm=jpg&q=88&w=2400" alt="Two motorcycle riders sharing a scenic road journey" loading="lazy"><div class="bk-gallery-copy"><small>Shared journey</small><strong>More miles. More memories.</strong><span>Built for riders who are already going your way.</span></div></article>
-          <div class="bk-gallery-side">
-            <article class="bk-gallery-card"><img src="https://images.unsplash.com/photo-1669283149120-d539f814aa03?auto=format&fit=crop&fm=jpg&q=88&w=1800" alt="Motorcycle rider travelling through a city" loading="lazy"><div class="bk-gallery-copy"><small>City rides</small><strong>Your route, your ride.</strong></div></article>
-            <article class="bk-gallery-card" style="background:linear-gradient(145deg,#dfeecf,#f8fbf5);display:grid;place-items:center"><div style="text-align:center;padding:24px;color:#42612d"><div style="font-size:40px;margin-bottom:8px">🏍️</div><strong style="font-size:18px">Your next ride<br>starts here.</strong><span style="display:block;font-size:11px;color:#70806f;margin-top:7px">Find a rider. Share a seat. Travel smarter.</span></div></article>
-          </div>
-        </div>
-      </div>
-
-      <div class="bk-popular bk-reveal">
+            <div class="bk-popular bk-reveal">
         <div class="bk-section-head"><small>POPULAR ROUTES</small><h2>Where are people going?</h2><p>Start with a route, then choose the ride that fits your plans.</p></div>
         <div class="bk-route-grid">
           <div class="bk-route-card"><div><strong>Narasaraopet → Hyderabad</strong><small>Everyday travel</small></div><span>→</span></div>
