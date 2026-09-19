@@ -172,7 +172,7 @@
             <article class="bk-landmark-card tir"><img class="bk-landmark-img" src="https://commons.wikimedia.org/wiki/Special:FilePath/Tirumala%20Venkateswara%20temple%20entrance%2009062015.JPG?width=900" alt="Tirumala Temple, Tirupati" loading="eager"><div class="bk-landmark-label"><b>● Tirupati</b><small>Tirumala Temple</small></div></article>
             <article class="bk-landmark-card bng"><img class="bk-landmark-img" src="https://commons.wikimedia.org/wiki/Special:FilePath/Vidhana%20Soudha%20in%20Bengaluru.jpg?width=900" alt="Vidhana Soudha, Bengaluru" loading="eager"><div class="bk-landmark-label"><b>● Bengaluru</b><small>Vidhana Soudha</small></div></article>
 
-            <div class="bk-road-scene"><div class="bk-bike-photo"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Royal%20Enfield%20motorcycle.jpg?width=900" alt="Motorcycle rider" loading="lazy" onerror="this.style.display='none';this.parentElement.classList.add('fallback')"></div><div class="bk-road"></div></div>
+            <div class="bk-road-scene"><div class="bk-bike-photo"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Royal%20Enfield%20motorcycle%20rider.jpg?width=900" alt="Motorcycle rider" loading="lazy" onerror="this.parentElement.classList.add('fallback')"></div><div class="bk-road"></div></div>
             <div class="bk-road-sign">More Cities<br>More People<br><span>A Greener Tomorrow ↑</span></div>
           </div>
         </div>
