@@ -1100,9 +1100,9 @@ window.verifySafetyRide=async function(requestId){
 };
 
 window.completeSafetyRide=async function(requestId){
-  if(!confirm('Mark this accepted ride as completed?'))return;
-  const {error}=await supabaseClient.rpc('bikuboo_mark_ride_completed',{p_request_id:requestId});
-  if(error){alert(error.message);return;} alert('Ride marked completed.'); await loadSafetyCenter();
+  const {data:req,error:reqErr}=await supabaseClient.from('ride_requests').select('ride_id').eq('id',requestId).single();
+  if(reqErr||!req?.ride_id){alert(reqErr?.message||'Ride not found.');return;}
+  openRideLifecycle('complete',req.ride_id);
 };
 
 window.sendSafetySOS=async function(requestId){
