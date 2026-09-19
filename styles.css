@@ -475,3 +475,22 @@ html{background:#fbfdf9}body{min-height:100vh;padding-bottom:env(safe-area-inset
 .bk-rating-success{padding:20px 5px 8px}.bk-rating-success-icon{width:72px;height:72px;margin:0 auto 14px;border-radius:50%;display:grid;place-items:center;background:#dff6d0;color:#39752d;font-size:32px;font-weight:950;animation:bkRatingPop .5s cubic-bezier(.2,.9,.25,1.25)}.bk-rating-success small{font-size:9px;letter-spacing:.15em;font-weight:900;color:#6f9b49}.bk-rating-success h2{margin:7px 0}.bk-rating-success p{margin:0 auto;color:#748078;font-size:12px;line-height:1.5;max-width:320px}.bk-rating-success-stars{margin-top:15px;color:#dfa329;font-size:24px;letter-spacing:3px}
 @keyframes bkRatingIn{from{opacity:0;transform:translateY(14px) scale(.98)}to{opacity:1;transform:none}}@keyframes bkRatingPop{0%{transform:scale(.4);opacity:0}70%{transform:scale(1.08)}100%{transform:scale(1);opacity:1}}
 @media(max-width:520px){.bk-rating-modal{padding:25px 18px!important}.bk-rating-stars{gap:5px}.bk-rating-stars button{width:45px;height:45px;font-size:24px}.bk-rating-tags{gap:5px}}
+
+/* ---------- Premium Private Ride Chat ---------- */
+.bk-chat-modal{width:min(680px,calc(100% - 20px));padding:18px!important;border-radius:24px!important}
+.bk-chat-head{padding:4px 8px 12px 4px;align-items:center}
+.bk-chat-person{display:flex;align-items:center;gap:12px}
+.bk-chat-avatar{width:46px;height:46px;border-radius:15px;display:grid;place-items:center;background:linear-gradient(135deg,#dff3c9,#a9d87b);color:#31541e;font-weight:950;font-size:14px;box-shadow:0 7px 18px rgba(73,119,42,.14)}
+.bk-chat-head h2{font-size:21px;margin:3px 0}.bk-chat-head p{max-width:390px}
+.bk-chat-route{display:grid;grid-template-columns:auto 1fr auto;gap:8px;align-items:center;margin:0 0 12px;padding:10px 12px;border:1px solid #e0e9dc;border-radius:13px;background:#f7faf5}
+.bk-chat-route>span{color:#65a33d;font-size:11px}.bk-chat-route b{font-size:11px;color:#4d5c50;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.bk-chat-route small{font-size:9px;color:#879187;font-weight:800}
+.bk-chat-modal .chat-messages{height:390px;background:linear-gradient(180deg,#f6faf3,#f1f7ee);border-radius:18px;padding:17px}
+.bk-chat-modal .chat-bubble{animation:bkChatIn .18s ease both}
+.bk-chat-modal .chat-bubble.mine{background:#dff3c9;border:1px solid #d0e9bc}.bk-chat-modal .chat-bubble.theirs{background:#fff}
+.bk-chat-quick{display:flex;gap:7px;overflow-x:auto;padding:10px 1px 1px;scrollbar-width:none}.bk-chat-quick::-webkit-scrollbar{display:none}
+.bk-chat-quick button{flex:none;border:1px solid #dbe6d7;background:#f8fbf6;color:#52604f;border-radius:999px;padding:7px 10px;font-size:10px;font-weight:800;cursor:pointer;transition:.16s}
+.bk-chat-quick button:hover{background:#edf7e7;border-color:#b8d69f;transform:translateY(-1px)}
+.bk-chat-modal .chat-compose{margin-top:9px;background:#f7faf5;border:1px solid #e1e9de;border-radius:15px;padding:6px}
+.bk-chat-modal .chat-compose textarea{border:0;background:transparent;min-height:38px;padding:8px;box-shadow:none!important}.bk-chat-modal .chat-compose .primary{min-height:40px;border-radius:10px}
+@keyframes bkChatIn{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+@media(max-width:600px){.bk-chat-modal{width:calc(100% - 12px);padding:13px!important}.bk-chat-head{padding-right:27px}.bk-chat-status{display:none}.bk-chat-route{grid-template-columns:auto 1fr}.bk-chat-route small{grid-column:2}.bk-chat-modal .chat-messages{height:52vh;min-height:280px}.bk-chat-modal .chat-compose{grid-template-columns:1fr auto}.bk-chat-modal .chat-compose .primary{width:auto;min-width:70px}}
