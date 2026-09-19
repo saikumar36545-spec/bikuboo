@@ -392,3 +392,29 @@ html{background:#fbfdf9}body{min-height:100vh;padding-bottom:env(safe-area-inset
 @keyframes bkDriverReqIn{from{opacity:0;transform:translateY(13px)}to{opacity:1;transform:none}}
 @media(max-width:850px){.bk-driver-request-list{grid-template-columns:1fr}}
 @media(max-width:600px){.bk-request-summary{gap:7px}.bk-request-summary>div{padding:13px 11px}.bk-request-summary strong{font-size:21px}.bk-request-card-head{align-items:flex-start}.bk-request-status{font-size:9px;padding:6px 8px}.bk-request-route{grid-template-columns:1fr}.bk-request-route>span{justify-self:center;transform:rotate(90deg)}.bk-request-actions{display:grid;grid-template-columns:1fr 1fr}.bk-request-actions button{width:100%}}
+
+/* ---------- Driver request confirmation experience ---------- */
+.bk-driver-action-modal{width:min(470px,calc(100% - 28px));padding:30px!important;text-align:center;animation:bkDriverModalIn .25s cubic-bezier(.2,.8,.2,1)}
+.bk-driver-action-icon{width:62px;height:62px;margin:0 auto 13px;border-radius:19px;display:grid;place-items:center;background:#edf6e6;color:#4f8a31;font-size:28px;font-weight:950;box-shadow:0 10px 25px rgba(70,130,40,.12)}
+.bk-driver-action-icon.reject{background:#fff0ee;color:#b4544c}
+.bk-driver-action-eyebrow{font-size:9px;letter-spacing:.16em;font-weight:900;color:#719b4c}
+.bk-driver-action-modal h2{margin:6px 0 6px;font-size:27px;letter-spacing:-.04em;color:#1c281f}
+.bk-driver-action-modal>p{margin:0 auto;color:#748078;font-size:13px;line-height:1.5;max-width:360px}
+.bk-driver-action-summary{margin:19px 0 15px;padding:13px;text-align:left;border:1px solid #e2e9df;border-radius:14px;background:#f7faf5}
+.bk-driver-action-summary span{display:block;font-size:8px;letter-spacing:.12em;font-weight:900;color:#879188;margin-bottom:4px}
+.bk-driver-action-summary b{font-size:11px;color:#4b584e;line-height:1.45}
+.bk-driver-action-buttons{display:grid;grid-template-columns:1fr 1.3fr;gap:9px;margin-top:15px}
+.bk-driver-action-buttons button{min-height:45px;border-radius:12px;font-weight:850}
+.bk-danger-action{border:0;border-radius:12px;background:#c95b52;color:#fff;font-weight:850;cursor:pointer;min-height:45px;transition:transform .18s,box-shadow .18s}
+.bk-danger-action:hover{transform:translateY(-2px);box-shadow:0 10px 22px rgba(180,75,67,.2)}
+.bk-driver-success-card{width:min(440px,calc(100% - 28px));padding:34px 28px 27px;text-align:center;animation:bkDriverModalIn .28s cubic-bezier(.2,.8,.2,1)}
+.bk-driver-success-icon{width:68px;height:68px;margin:0 auto 14px;border-radius:50%;display:grid;place-items:center;background:#dff6d0;color:#347329;font-size:31px;font-weight:950;box-shadow:0 0 0 8px #8bd84a16;animation:bkDriverSuccessPop .5s cubic-bezier(.2,.9,.25,1.25)}
+.bk-driver-success-card>small{font-size:9px;letter-spacing:.15em;font-weight:900;color:#6f9d48}
+.bk-driver-success-card h2{margin:7px 0 7px;font-size:28px;letter-spacing:-.04em}
+.bk-driver-success-card>p{margin:0 auto 18px;color:#748078;font-size:13px;line-height:1.5;max-width:350px}
+.bk-driver-success-summary{display:flex;flex-direction:column;gap:4px;padding:13px;border-radius:14px;background:#f5f9f3;border:1px solid #e2e9df;margin-bottom:17px}
+.bk-driver-success-summary span{font-size:8px;letter-spacing:.12em;font-weight:900;color:#849087}
+.bk-driver-success-summary strong{font-size:21px;color:#27352b}
+@keyframes bkDriverModalIn{from{opacity:0;transform:translateY(14px) scale(.98)}to{opacity:1;transform:none}}
+@keyframes bkDriverSuccessPop{0%{transform:scale(.45);opacity:0}70%{transform:scale(1.08)}100%{transform:scale(1);opacity:1}}
+@media(max-width:520px){.bk-driver-action-modal{padding:24px 18px!important}.bk-driver-action-buttons{grid-template-columns:1fr}.bk-driver-success-card{padding:29px 18px 22px}}
