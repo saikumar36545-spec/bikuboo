@@ -172,6 +172,7 @@
       <div class="bk-final bk-reveal"><h2>Ready to <span>share the ride?</span></h2><p>Find your next journey or offer a seat to someone going your way.</p><a href="#find" id="bkFinalFind">Find a ride →</a></div>
     `;
     find.parentNode.insertBefore(section,find);
+    document.body.classList.add('bk-home-ready');
 
     function wire(){
       var live=document.getElementById('bkRouteLive');
