@@ -1,7 +1,7 @@
-name: Add BIKUBOO install prompt
+name: Disabled BIKUBOO install prompt
+# Disabled intentionally: app install button removed from website
 on:
-  push:
-    branches: [main]
+  workflow_dispatch:
 
 permissions:
   contents: write
