@@ -818,13 +818,19 @@ function notificationTarget(n){if(n.ride_id){if(n.type&&String(n.type).includes(
 async function loadNotifications(){
   const wrap=document.getElementById('notificationWrap'),list=document.getElementById('notificationList'),count=document.getElementById('notificationCount');
   if(!wrap||!list||!count)return;
-  const session=await getSession(); if(!session){wrap.hidden=true;return;} wrap.hidden=false;
+  const session=await getSession();if(!session){wrap.hidden=true;return;}wrap.hidden=false;
   const {data,error}=await supabaseClient.from('notifications').select('id,type,title,message,ride_id,request_id,is_read,created_at').eq('user_id',session.user.id).order('created_at',{ascending:false}).limit(100);
-  if(error){console.warn('Notifications load failed:',error.message);list.innerHTML='<div class="notification-empty">Run NOTIFICATIONS_SETUP.sql in Supabase first.</div>';renderActivity([]);return;}
-  const unread=(data||[]).filter(n=>!n.is_read).length; count.textContent=unread>99?'99+':String(unread);count.hidden=unread===0;
-  list.innerHTML=(data||[]).slice(0,12).map(n=>`<div class="notification-item ${n.is_read?'status-read':'unread'}" data-id="${escapeHtml(n.id)}"><b>${notificationIcon(n.type)} ${escapeHtml(n.title)}</b><p>${escapeHtml(n.message)}</p><small>${escapeHtml(notificationTime(n.created_at))}</small></div>`).join('')||'<div class="notification-empty">No notifications yet.</div>';
-  list.querySelectorAll('.notification-item').forEach(el=>el.addEventListener('click',async()=>{await supabaseClient.from('notifications').update({is_read:true}).eq('id',el.dataset.id);await loadNotifications();}));
-  renderActivity(data||[]);
+  if(error){console.warn('Notifications load failed:',error.message);list.innerHTML='<div class="notification-empty">Notifications are temporarily unavailable.</div>';renderActivity([]);return;}
+  const rows=data||[],unread=rows.filter(n=>!n.is_read).length;
+  count.textContent=unread>99?'99+':String(unread);count.hidden=unread===0;
+  list.innerHTML=rows.slice(0,12).map(n=>`<button type="button" class="notification-item ${n.is_read?'status-read':'unread'}" data-id="${escapeHtml(n.id)}" data-target="${escapeHtml(notificationTarget(n))}">
+    <span class="notification-icon">${notificationIcon(n.type)}</span><span class="notification-copy"><b>${escapeHtml(n.title)}</b><p>${escapeHtml(n.message)}</p><small>${escapeHtml(notificationTime(n.created_at))} · ${escapeHtml(notificationCategory(n.type))}</small></span>${n.is_read?'':'<i class="notification-dot" aria-label="Unread"></i>'}</button>`).join('')||'<div class="notification-empty"><div class="notification-empty-icon">✨</div><b>You’re all caught up</b><span>Ride, payment and safety updates will appear here.</span></div>';
+  list.querySelectorAll('.notification-item').forEach(el=>el.addEventListener('click',async()=>{
+    await supabaseClient.from('notifications').update({is_read:true}).eq('id',el.dataset.id);
+    document.querySelector(el.dataset.target)?.scrollIntoView({behavior:'smooth',block:'start'});
+    await loadNotifications();
+  }));
+  renderActivity(rows);
 }
 function renderActivity(data){
   const box=document.getElementById('activityList'); if(!box)return;
@@ -848,10 +854,18 @@ async function startNotificationRealtime(){
   stopNotificationRealtime();const s=await getSession();if(!s)return;
   notificationChannel=supabaseClient.channel('bikuboo-notifications-'+s.user.id).on('postgres_changes',{event:'INSERT',schema:'public',table:'notifications',filter:`user_id=eq.${s.user.id}`},async payload=>{
     await loadNotifications();
+    showNotificationToast(payload.new);
     if(document.hidden && 'Notification' in window && Notification.permission==='granted'){try{new Notification('BIKUBOO · '+payload.new.title,{body:payload.new.message});}catch(_) {}}
   }).subscribe(status=>console.log('BIKUBOO realtime notifications:',status));
 }
 async function enableBrowserNotifications(){if('Notification' in window && Notification.permission==='default'){try{await Notification.requestPermission();}catch(_){}}}
+function showNotificationToast(n){
+  let toast=document.getElementById('bkNotificationToast');
+  if(!toast){toast=document.createElement('div');toast.id='bkNotificationToast';toast.className='bk-notification-toast';document.body.appendChild(toast);}
+  toast.innerHTML=`<span class="bk-toast-icon">${notificationIcon(n.type)}</span><span><b>${escapeHtml(n.title||'New BIKUBOO update')}</b><small>${escapeHtml(n.message||'You have a new update.')}</small></span><button type="button" aria-label="Dismiss">×</button>`;
+  toast.classList.add('show');toast.querySelector('button').onclick=()=>toast.classList.remove('show');
+  clearTimeout(window.bikubooToastTimer);window.bikubooToastTimer=setTimeout(()=>toast.classList.remove('show'),5200);
+}
 function setupNotificationUI(){
   const btn=document.getElementById('notificationBtn'),panel=document.getElementById('notificationPanel'),mark=document.getElementById('markNotificationsRead');
   if(btn)btn.onclick=async()=>{panel.classList.toggle('open');if(panel.classList.contains('open'))await loadNotifications();};
