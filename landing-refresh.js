@@ -49,11 +49,11 @@
       .bk-route-preview{margin-top:18px;border-radius:16px;background:#f5f8f2;border:1px solid #e3eadf;padding:13px 15px}
       .bk-route-preview-top{display:flex;justify-content:space-between;font-size:11px;color:#68756a;font-weight:800}
       .bk-route-line{height:38px;position:relative;margin:2px 7px}
-      .bk-route-line:before{content:"";position:absolute;left:8px;right:8px;top:18px;border-top:2px dashed #91ad78}
+      .bk-route-line:before{content:"";position:absolute;left:8px;right:8px;top:18px;border-top:2px dashed #91ad78;animation:bkRouteDash 2s linear infinite}@keyframes bkRouteDash{to{transform:translateX(12px)}}
       .bk-dot{position:absolute;top:12px;width:13px;height:13px;border-radius:50%;background:#fff;border:4px solid #6d9f3e}
       .bk-dot.a{left:0}.bk-dot.b{right:0}
       .bk-route-labels{display:flex;justify-content:space-between;font-size:12px;font-weight:900;color:#2c382e}
-      .bk-quick{padding:0 7% 42px;max-width:1240px;margin:auto}
+      .bk-reveal{opacity:0;transform:translateY(28px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.8,.2,1)}.bk-reveal.is-visible{opacity:1;transform:none}.bk-quick{padding:0 7% 42px;max-width:1240px;margin:auto}
       .bk-quick-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
       .bk-quick-card{border:1px solid var(--bk-line);border-radius:17px;padding:19px;background:#fff;transition:.2s}
       .bk-quick-card{animation:bkRise .65s both}.bk-quick-card:nth-child(2){animation-delay:.08s}.bk-quick-card:nth-child(3){animation-delay:.16s}.bk-quick-card:nth-child(4){animation-delay:.24s}@keyframes bkRise{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}.bk-quick-card:hover{transform:translateY(-3px);box-shadow:0 12px 28px #24351f10}
@@ -70,7 +70,7 @@
       .bk-split{margin:10px 7% 65px;border-radius:26px;background:#f4f8ef;padding:55px 6%;display:grid;grid-template-columns:1fr 1fr;gap:50px;align-items:center}
       .bk-split h2{font-size:clamp(32px,4vw,48px);letter-spacing:-2.5px;margin:8px 0 13px}.bk-split p{color:#69756b;line-height:1.6;max-width:560px}
       .bk-split-points{display:grid;gap:13px;margin-top:22px}.bk-split-point{display:flex;gap:11px;align-items:flex-start}.bk-split-point b{display:grid;place-items:center;width:25px;height:25px;border-radius:50%;background:#dfeecf;color:#5c8d2f;font-size:12px;flex:none}.bk-split-point strong{font-size:13px}.bk-split-point span{display:block;color:#788278;font-size:11px;margin-top:2px}
-      .bk-visual-card{min-height:300px;border-radius:23px;background:linear-gradient(145deg,#dfead6,#f9fbf7);border:1px solid #d5e1cd;position:relative;overflow:hidden}
+      .bk-map-pulse{position:absolute;width:18px;height:18px;border-radius:50%;background:#a8df65;left:24%;top:32%;z-index:4;box-shadow:0 0 0 0 #a8df6566;animation:bkPulse 2.2s infinite}.bk-map-pulse:after{content:"";position:absolute;inset:-5px;border:1px solid #79a94f;border-radius:50%;animation:bkPing 2.2s infinite}@keyframes bkPulse{70%{box-shadow:0 0 0 18px #a8df6500}}@keyframes bkPing{0%{transform:scale(.7);opacity:1}100%{transform:scale(2.3);opacity:0}}.bk-visual-card{min-height:300px;border-radius:23px;background:linear-gradient(145deg,#dfead6,#f9fbf7);border:1px solid #d5e1cd;position:relative;overflow:hidden}
       .bk-road-art{position:absolute;left:-10%;right:-10%;bottom:-100px;height:270px;background:#344336;border-radius:50% 50% 0 0;transform:perspective(300px) rotateX(52deg)}
       .bk-road-art:after{content:"";position:absolute;left:50%;height:100%;border-left:5px dashed #dce7d6}
       .bk-bike-art{position:absolute;animation:bkBikeFloat 4s ease-in-out infinite;left:50%;top:54%;transform:translate(-50%,-50%);font-size:95px;filter:drop-shadow(0 15px 14px #1b2a1a22)}
@@ -122,7 +122,7 @@
         </div>
       </div>
 
-      <div class="bk-quick">
+      <div class="bk-quick bk-reveal">
         <div class="bk-quick-grid">
           <article class="bk-quick-card"><div class="bk-quick-icon">🏍️</div><h3>Find a ride</h3><p>Search routes and discover riders going your way.</p></article>
           <article class="bk-quick-card"><div class="bk-quick-icon">＋</div><h3>Offer a ride</h3><p>Share an empty seat and split everyday travel costs.</p></article>
@@ -131,7 +131,7 @@
         </div>
       </div>
 
-      <div class="bk-popular">
+      <div class="bk-popular bk-reveal">
         <div class="bk-section-head"><small>POPULAR ROUTES</small><h2>Where are people going?</h2><p>Start with a route, then choose the ride that fits your plans.</p></div>
         <div class="bk-route-grid">
           <div class="bk-route-card"><div><strong>Narasaraopet → Hyderabad</strong><small>Everyday travel</small></div><span>→</span></div>
@@ -143,7 +143,7 @@
         </div>
       </div>
 
-      <div class="bk-split">
+      <div class="bk-split bk-reveal">
         <div>
           <div class="bk-eyebrow"><i></i> Share the journey</div>
           <h2>Turn empty seats into shared journeys.</h2>
@@ -154,10 +154,10 @@
             <div class="bk-split-point"><b>✓</b><div><strong>Share travel costs</strong><span>Make everyday journeys more affordable.</span></div></div>
           </div>
         </div>
-        <div class="bk-visual-card"><div class="bk-badge">🛡 Verified community</div><div class="bk-bike-art">🏍️</div><div class="bk-road-art"></div></div>
+        <div class="bk-visual-card"><div class="bk-map-pulse"></div><div class="bk-badge">🛡 Verified community</div><div class="bk-bike-art">🏍️</div><div class="bk-road-art"></div></div>
       </div>
 
-      <div class="bk-how2">
+      <div class="bk-how2 bk-reveal">
         <div class="bk-section-head"><small>HOW IT WORKS</small><h2>Simple from search to ride.</h2><p>Everything you need is right inside BIKUBOO.</p></div>
         <div class="bk-steps2">
           <div class="bk-step2"><div class="bk-num">1</div><h3>Create your profile</h3><p>Add your details and build trust with other riders.</p></div>
@@ -167,9 +167,9 @@
         </div>
       </div>
 
-      <div class="bk-safety2"><div class="bk-safe-copy"><div class="bk-safe-icon">🛡️</div><div><h3>Safety comes first</h3><p>Verification, ride-start checks, private chat and emergency tools help make every journey more comfortable.</p></div></div><button class="bk-safe-btn" id="bkSafetyBtn" type="button">Explore safety</button></div>
+      <div class="bk-safety2 bk-reveal"><div class="bk-safe-copy"><div class="bk-safe-icon">🛡️</div><div><h3>Safety comes first</h3><p>Verification, ride-start checks, private chat and emergency tools help make every journey more comfortable.</p></div></div><button class="bk-safe-btn" id="bkSafetyBtn" type="button">Explore safety</button></div>
 
-      <div class="bk-final"><h2>Ready to <span>share the ride?</span></h2><p>Find your next journey or offer a seat to someone going your way.</p><a href="#find" id="bkFinalFind">Find a ride →</a></div>
+      <div class="bk-final bk-reveal"><h2>Ready to <span>share the ride?</span></h2><p>Find your next journey or offer a seat to someone going your way.</p><a href="#find" id="bkFinalFind">Find a ride →</a></div>
     `;
     find.parentNode.insertBefore(section,find);
 
@@ -190,6 +190,11 @@
       if(safetyBtn) safetyBtn.onclick=function(){document.getElementById('safety')?.scrollIntoView({behavior:'smooth'});};
     }
     wire();
+    var revealEls=document.querySelectorAll('#bikuboo-launch-home .bk-reveal');
+    if('IntersectionObserver' in window){
+      var io=new IntersectionObserver(function(entries){entries.forEach(function(e){if(e.isIntersecting){e.target.classList.add('is-visible');io.unobserve(e.target)}})},{threshold:.12});
+      revealEls.forEach(function(el){io.observe(el)});
+    }else revealEls.forEach(function(el){el.classList.add('is-visible')});
   }
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',init); else init();
 })();
