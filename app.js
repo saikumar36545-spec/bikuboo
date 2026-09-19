@@ -949,6 +949,7 @@ let activeChatRideId=null;
 let activeChatChannel=null;
 let activeChatSession=null;
 
+function chatParticipantInitial(name){const s=String(name||'B').trim().split(/\s+/).filter(Boolean);return ((s[0]?.[0]||'B')+(s[1]?.[0]||'')).toUpperCase().slice(0,2);}
 function stopChatRealtime(){
   if(activeChatChannel){try{supabaseClient.removeChannel(activeChatChannel);}catch(e){} activeChatChannel=null;}
 }
@@ -996,7 +997,9 @@ window.openChat=async function(requestId){
   const otherName=isDriver?chatParticipantLabel(req.profiles?.full_name):chatParticipantLabel(ride.profiles?.full_name);
   document.getElementById('chatTitle').textContent=`Chat with ${otherName}`;
   document.getElementById('chatSubtitle').textContent=`${ride.from_location||ride.from_place||'Pickup'} → ${ride.to_location||ride.to_place||'Destination'}`;
-  document.getElementById('chatStatus').textContent='🔒 Private';
+  document.getElementById('chatRouteText').textContent=`${ride.from_location||ride.from_place||'Pickup'} → ${ride.to_location||ride.to_place||'Destination'}`;
+  document.getElementById('chatAvatar').textContent=chatParticipantInitial(otherName);
+  document.getElementById('chatStatus').textContent='🔒 Secure';
   document.getElementById('chatInput').value='';
   clearAuthMessage('chatMsg');
   openModal('chatModal');
@@ -1007,6 +1010,8 @@ window.openChat=async function(requestId){
 };
 
 window.closeChat=function(){stopChatRealtime();activeChatRequestId=null;activeChatRideId=null;activeChatSession=null;closeModal('chatModal');};
+
+document.querySelectorAll('#chatQuick button').forEach(b=>b.addEventListener('click',()=>{const input=document.getElementById('chatInput');input.value=b.dataset.message||'';input.focus();}));
 
 document.getElementById('chatForm')?.addEventListener('submit',async e=>{
   e.preventDefault();
