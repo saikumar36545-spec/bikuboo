@@ -535,3 +535,7 @@ html{background:#fbfdf9}body{min-height:100vh;padding-bottom:env(safe-area-inset
   .bk-launch .bk-mainhero{width:100%!important;max-width:none!important;}
   .bk-launch .bk-intercity-hero .bk-hero-grid{width:100%!important;max-width:none!important;}
 }
+
+
+/* Mobile header: label the menu control clearly on phones. */
+@media(max-width:900px){.site-header .mobile-menu-btn{width:auto!important;min-width:76px!important;height:42px!important;padding:0 16px!important;font-size:15px!important;font-weight:800!important;color:#173b2a!important;background:#fff!important;border:1px solid #dfe8d9!important;border-radius:12px!important}.site-header .mobile-menu-btn{font-family:Inter,Arial,sans-serif!important}}
