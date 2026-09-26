@@ -7,45 +7,46 @@ main>.bk-launch,.bk-launch{margin-top:0!important}
 /* Turn any remaining top breathing room into a useful compact feature strip. */
 main:before{
   content:"🏍️  Verified riders   •   🛡️  Safety first   •   💚  Lower travel cost   •   📍  City-to-city rides";
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  min-height:52px;
-  padding:8px 24px;
-  background:linear-gradient(90deg,#f5faef,#ffffff,#f5faef);
-  border-bottom:1px solid #e7eee2;
-  color:#58645a;
-  font-family:Inter,Arial,sans-serif;
-  font-size:12px;
-  font-weight:800;
-  letter-spacing:.15px;
-  text-align:center;
-  white-space:nowrap;
-  overflow:hidden;
+  display:flex;align-items:center;justify-content:center;min-height:52px;padding:8px 24px;
+  background:linear-gradient(90deg,#f5faef,#ffffff,#f5faef);border-bottom:1px solid #e7eee2;
+  color:#58645a;font-family:Inter,Arial,sans-serif;font-size:12px;font-weight:800;letter-spacing:.15px;
+  text-align:center;white-space:nowrap;overflow:hidden;
 }
 
-/* Make the More control visually identical to the other navigation links. */
-.more-wrap{display:flex;align-items:center;position:relative}
-.more-nav-btn{
+/* Header navigation: every item uses exactly the same typography. */
+#mainNav,.site-header nav{font-family:Inter,Arial,sans-serif!important;font-size:14px!important;line-height:1!important;align-items:center!important}
+#mainNav .nav-main,.site-header nav .nav-main{
   appearance:none;-webkit-appearance:none;
   border:0!important;background:transparent!important;
   color:#59635a!important;padding:0!important;margin:0!important;
-  font-family:Inter,Arial,sans-serif!important;font-size:14px!important;
-  font-weight:600!important;line-height:1.2!important;letter-spacing:0!important;
-  cursor:pointer;display:inline-flex!important;align-items:center;gap:7px;
-  box-shadow:none!important;transform:none!important;
+  font-family:Inter,Arial,sans-serif!important;font-size:14px!important;font-weight:600!important;
+  line-height:1.2!important;letter-spacing:0!important;border-radius:0!important;
+  box-shadow:none!important;transform:none!important;display:inline-flex!important;align-items:center!important;
+}
+#mainNav .nav-main:hover,.site-header nav .nav-main:hover{color:#355b21!important;transform:none!important}
+#mainNav .nav-main.active,.site-header nav .nav-main.active{
+  background:transparent!important;color:#355b21!important;border:0!important;border-radius:0!important;
+  padding:0!important;box-shadow:none!important;transform:none!important;
+}
+/* Keep the normal underline hover treatment; no bubble/pill around the active item. */
+#mainNav .nav-main:after,.site-header nav .nav-main:after{bottom:-8px!important;height:2px!important}
+#mainNav .nav-main.active:after,.site-header nav .nav-main.active:after{right:0!important;background:#8fd34a!important}
+
+/* More control matches the nav items and uses a clean CSS chevron. */
+.more-wrap{display:flex;align-items:center;position:relative}
+.more-nav-btn{
+  appearance:none;-webkit-appearance:none;border:0!important;background:transparent!important;
+  color:#59635a!important;padding:0!important;margin:0!important;font-family:Inter,Arial,sans-serif!important;
+  font-size:14px!important;font-weight:600!important;line-height:1.2!important;letter-spacing:0!important;
+  cursor:pointer;display:inline-flex!important;align-items:center;gap:7px;box-shadow:none!important;transform:none!important;
 }
 .more-nav-btn:hover{color:#355b21!important}
 .more-nav-btn span{
-  display:inline-block;width:7px;height:7px;
-  border-right:1.5px solid currentColor;border-bottom:1.5px solid currentColor;
-  transform:rotate(45deg) translateY(-2px);
-  font-size:0;line-height:0;margin-left:1px;transition:transform .18s ease;
+  display:inline-block;width:7px;height:7px;border-right:1.5px solid currentColor;border-bottom:1.5px solid currentColor;
+  transform:rotate(45deg) translateY(-2px);font-size:0;line-height:0;margin-left:1px;transition:transform .18s ease;
 }
 .more-wrap.open .more-nav-btn span,.more-nav-btn[aria-expanded="true"] span{transform:rotate(225deg) translate(-1px,-1px)}
 .more-nav-btn:after{display:none!important}
 
 @media(max-width:900px){.more-nav-btn{font-size:14px!important}}
-@media(max-width:600px){
-  main:before{min-height:46px;padding:7px 12px;font-size:10px}
-}
+@media(max-width:600px){main:before{min-height:46px;padding:7px 12px;font-size:10px}}
