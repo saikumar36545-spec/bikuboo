@@ -9,7 +9,7 @@ main>.bk-launch{margin-top:-68px!important}
 .bk-launch .bk-mainhero{min-width:0!important}
 .bk-launch .bk-hero-grid{width:min(1240px,86vw)!important;max-width:1240px!important;margin-left:auto!important;margin-right:auto!important}
 
-.site-header{height:74px!important;min-height:74px!important;display:flex!important;align-items:center!important;justify-content:space-between!important;gap:24px!important;padding:0 5%!important;box-sizing:border-box!important;position:sticky!important;top:0!important;z-index:100!important;background:rgba(255,255,255,.97)!important;border-bottom:1px solid #e8eee4!important}
+.site-header{height:74px!important;min-height:74px!important;display:flex!important;align-items:center!important;justify-content:space-between!important;gap:24px!important;padding:0 5%!important;box-sizing:border-box!important;position:sticky!important;top:0!important;z-index:10000!important;background:rgba(255,255,255,.98)!important;border-bottom:1px solid #e8eee4!important}
 .site-header .logo{flex:0 0 auto!important;display:flex!important;align-items:center!important;min-width:110px!important;color:#172019!important;font-family:Inter,Arial,sans-serif!important;font-size:23px!important;font-weight:900!important;line-height:1!important;white-space:nowrap!important}
 .site-header nav#mainNav{flex:1 1 auto!important;display:flex!important;align-items:center!important;justify-content:center!important;gap:24px!important;margin:0!important;padding:0!important;font:600 14px/1 Inter,Arial,sans-serif!important}
 .site-header nav#mainNav .nav-main{position:relative!important;display:inline-flex!important;align-items:center!important;height:74px!important;padding:0!important;margin:0!important;border:0!important;border-radius:0!important;background:transparent!important;color:#59635a!important;font:600 14px/1 Inter,Arial,sans-serif!important;white-space:nowrap!important;box-shadow:none!important}
@@ -25,14 +25,54 @@ main>.bk-launch{margin-top:-68px!important}
 .site-header #authArea{display:flex!important;align-items:center!important}
 .site-header #authArea .outline{display:inline-flex!important;align-items:center!important;justify-content:center!important;height:40px!important;padding:0 18px!important;border:1px solid #dce5d7!important;border-radius:12px!important;background:#fff!important;color:#172019!important;font:700 14px/1 Inter,Arial,sans-serif!important}
 
-/* Homepage search */
-.bk-launch .bk-search,.bk-launch .search-box,.bk-launch .bk-search-box{display:grid!important;grid-template-columns:minmax(0,1fr) 44px minmax(0,1fr) 178px!important;align-items:stretch!important;width:100%!important;min-width:0!important}
-.bk-launch .bk-field{width:auto!important;min-width:0!important;flex:none!important;padding:12px 16px!important;box-sizing:border-box!important}
-.bk-launch .bk-swap{width:auto!important;min-width:0!important;flex:none!important;display:flex!important;align-items:center!important;justify-content:center!important}
-.bk-launch button[type="submit"],.bk-launch .bk-search-btn,.bk-launch .find-ride-btn{width:auto!important;min-width:0!important;height:52px!important;margin:6px!important;border-radius:14px!important;font:750 15px/1 Inter,Arial,sans-serif!important;white-space:nowrap!important}
-.bk-launch .bk-field input,.bk-launch input[placeholder="Leaving from?"],.bk-launch input[placeholder="Going to?"]{display:block!important;width:100%!important;min-width:0!important;box-sizing:border-box!important;font:600 15px/1.35 Inter,Arial,sans-serif!important;color:#263129!important;white-space:nowrap!important;overflow:visible!important;text-overflow:clip!important}
-.bk-launch .bk-field input::placeholder,.bk-launch input[placeholder="Leaving from?"]::placeholder,.bk-launch input[placeholder="Going to?"]::placeholder{color:#4f5c52!important;opacity:1!important;font:600 15px/1.35 Inter,Arial,sans-serif!important;white-space:nowrap!important}
-.bk-launch .bk-field small{display:block!important;margin-bottom:3px!important;font:700 11px/1.2 Inter,Arial,sans-serif!important;color:#68736a!important}
-
-@media(max-width:900px){.site-header{padding:0 3%!important}.site-header nav#mainNav{gap:13px!important}.bk-launch .bk-hero-grid{width:92vw!important}.bk-launch .bk-search,.bk-launch .search-box,.bk-launch .bk-search-box{grid-template-columns:minmax(0,1fr) 40px minmax(0,1fr) 155px!important}.bk-launch .bk-field{padding:10px 12px!important}.bk-launch button[type="submit"],.bk-launch .bk-search-btn,.bk-launch .find-ride-btn{font-size:14px!important}}
-@media(max-width:700px){.site-header{height:70px!important;min-height:70px!important}.site-header nav#mainNav{display:none!important}.site-header .logo{min-width:auto!important}.bk-launch .bk-hero-grid{width:90vw!important}.bk-launch .bk-search,.bk-launch .search-box,.bk-launch .bk-search-box{grid-template-columns:minmax(0,1fr) 34px minmax(0,1fr) 125px!important}.bk-launch .bk-field{padding:9px 10px!important}.bk-launch .bk-field input,.bk-launch input[placeholder="Leaving from?"],.bk-launch input[placeholder="Going to?"]{font-size:14px!important}.bk-launch button[type="submit"],.bk-launch .bk-search-btn,.bk-launch .find-ride-btn{font-size:14px!important}}
+/* Mobile header: show the hamburger in the actual sticky header. */
+@media(max-width:700px){
+  body>.site-header{
+    margin-top:0!important;
+    top:0!important;
+    height:70px!important;
+    min-height:70px!important;
+    padding:0 14px!important;
+    z-index:10000!important;
+  }
+  .site-header .logo{min-width:auto!important;font-size:22px!important}
+  .site-header nav#mainNav{display:none!important}
+  .site-header .mobile-menu-btn{
+    display:flex!important;
+    align-items:center!important;
+    justify-content:center!important;
+    flex:0 0 42px!important;
+    width:42px!important;
+    height:42px!important;
+    margin-left:auto!important;
+    padding:0!important;
+    border:1px solid #dfe8d9!important;
+    border-radius:12px!important;
+    background:#fff!important;
+    color:#172019!important;
+    font-size:21px!important;
+    line-height:1!important;
+    cursor:pointer!important;
+    z-index:10001!important;
+  }
+  .site-header .header-tools{display:none!important}
+  #mobileAuthActions{
+    position:sticky!important;
+    top:70px!important;
+    z-index:9999!important;
+  }
+  .bk-launch{margin-top:0!important}
+  .bk-launch .bk-hero-grid{width:90vw!important}
+  .bk-launch .bk-search,.bk-launch .search-box,.bk-launch .bk-search-box{grid-template-columns:minmax(0,1fr) 34px minmax(0,1fr) 125px!important}
+  .bk-launch .bk-field{padding:9px 10px!important}
+  .bk-launch .bk-field input,.bk-launch input[placeholder="Leaving from?"],.bk-launch input[placeholder="Going to?"]{font-size:14px!important}
+  .bk-launch button[type="submit"],.bk-launch .bk-search-btn,.bk-launch .find-ride-btn{font-size:14px!important}
+}
+@media(max-width:900px){
+  .site-header{padding:0 3%!important}
+  .site-header nav#mainNav{gap:13px!important}
+  .bk-launch .bk-hero-grid{width:92vw!important}
+  .bk-launch .bk-search,.bk-launch .search-box,.bk-launch .bk-search-box{grid-template-columns:minmax(0,1fr) 40px minmax(0,1fr) 155px!important}
+  .bk-launch .bk-field{padding:10px 12px!important}
+  .bk-launch button[type="submit"],.bk-launch .bk-search-btn,.bk-launch .find-ride-btn{font-size:14px!important}
+}
