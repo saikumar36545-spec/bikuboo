@@ -1,0 +1,22 @@
+/* BIKUBOO — final contained hero composition */
+.hero-vibrant{overflow:hidden!important;grid-template-columns:minmax(0,1fr) minmax(420px,1fr)!important;gap:46px!important}
+.hero-vibrant .visual-vibrant{position:relative!important;overflow:hidden!important;width:100%!important;max-width:100%!important;height:430px!important;min-width:0!important;box-sizing:border-box!important;border-radius:30px!important;padding:0!important;isolation:isolate!important}
+/* Remove the old decorative/pseudo composition that was escaping the right edge. */
+.visual-vibrant *::before,.visual-vibrant *::after{content:none!important}
+/* One controlled title, centered inside the panel. */
+.visual-vibrant::before{content:"Explore Together\A Across Cities"!important;white-space:pre!important;position:absolute!important;z-index:8!important;top:27px!important;left:50%!important;right:auto!important;width:82%!important;transform:translateX(-50%)!important;text-align:center!important;font-size:clamp(25px,2.8vw,38px)!important;line-height:.98!important;font-style:italic!important;font-weight:950!important;letter-spacing:-1.4px!important;color:#13231a!important;pointer-events:none!important}
+.visual-vibrant::after{content:""!important;position:absolute!important;z-index:-1!important;inset:0!important;background:radial-gradient(circle at 50% 30%,rgba(255,255,255,.95),transparent 48%),linear-gradient(145deg,#ccecff,#eef9fb 58%,#dcefd4)!important;pointer-events:none!important}
+/* Keep the actual route artwork inside safe boundaries. */
+.visual-vibrant .hero-route-art{position:absolute!important;inset:92px 28px 25px!important;max-width:none!important;overflow:hidden!important}
+.visual-vibrant .route-line{max-width:76%!important;left:12%!important;right:12%!important}
+.visual-vibrant .route-city{max-width:150px!important;width:31%!important;box-sizing:border-box!important;overflow:hidden!important;text-overflow:ellipsis!important;white-space:nowrap!important}
+.visual-vibrant .city-a{left:8%!important;top:22%!important}
+.visual-vibrant .city-b{right:8%!important;left:auto!important;top:34%!important}
+.visual-vibrant .route-chip-a{left:10%!important;top:18%!important;right:auto!important;max-width:145px!important}
+.visual-vibrant .route-chip-b{right:10%!important;left:auto!important;top:43%!important;max-width:145px!important}
+.visual-vibrant .ride-float{left:50%!important;right:auto!important;bottom:18px!important;transform:translateX(-50%)!important;width:min(300px,68%)!important;max-width:68%!important}
+.visual-vibrant .floating-stat{max-width:125px!important;white-space:normal!important}
+.visual-vibrant .stat-one{left:4%!important;right:auto!important;bottom:23%!important}
+.visual-vibrant .stat-two{right:4%!important;left:auto!important;bottom:23%!important}
+@media(max-width:1050px){.hero-vibrant{grid-template-columns:minmax(0,1fr) minmax(360px,.9fr)!important;gap:28px!important}.hero-vibrant .visual-vibrant{height:400px!important}.visual-vibrant::before{font-size:29px!important}.visual-vibrant .hero-route-art{inset:88px 20px 20px!important}}
+@media(max-width:760px){.hero-vibrant{grid-template-columns:1fr!important;gap:30px!important}.hero-vibrant .visual-vibrant{height:340px!important}.visual-vibrant::before{font-size:27px!important;top:22px!important}.visual-vibrant .hero-route-art{inset:82px 16px 18px!important}.visual-vibrant .route-city{width:36%!important}.visual-vibrant .ride-float{width:70%!important;max-width:70%!important}.visual-vibrant .floating-stat{display:none!important}}
