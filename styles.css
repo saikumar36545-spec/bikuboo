@@ -548,3 +548,14 @@ html{background:#fbfdf9}body{min-height:100vh;padding-bottom:env(safe-area-inset
   .site-header .header-tools{order:4}
 }
 @media(max-width:390px){.site-header:before{content:"Ride • Share";font-size:10px;padding:7px 8px}.site-header{gap:5px}}
+
+
+/* Mobile header: Create account action replaces the status pill. */
+@media(max-width:900px){
+  .site-header:before{display:none!important;content:none!important}
+  .site-header .mobile-create-btn{display:block;order:3;height:42px;padding:0 13px;border:0;border-radius:12px;background:#ff6a1a;color:#fff;font:800 13px/1 Inter,Arial,sans-serif;white-space:nowrap;cursor:pointer}
+  .site-header .mobile-menu-btn{order:4}
+  .site-header .header-tools{order:5}
+}
+@media(max-width:600px){.site-header .mobile-create-btn{height:40px;padding:0 10px;font-size:12px}.site-header{gap:6px}}
+@media(max-width:390px){.site-header .mobile-create-btn{padding:0 8px;font-size:11px}}
