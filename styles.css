@@ -559,3 +559,25 @@ html{background:#fbfdf9}body{min-height:100vh;padding-bottom:env(safe-area-inset
 }
 @media(max-width:600px){.site-header .mobile-create-btn{height:40px;padding:0 10px;font-size:12px}.site-header{gap:6px}}
 @media(max-width:390px){.site-header .mobile-create-btn{padding:0 8px;font-size:11px}}
+
+
+/* FINAL MOBILE HEADER NORMALIZATION - iOS/Android consistent */
+@media screen and (max-width:900px){
+  .site-header{height:68px!important;width:100%!important;max-width:100vw!important;box-sizing:border-box!important;padding:0 10px!important;gap:5px!important;display:flex!important;align-items:center!important;overflow:visible!important}
+  .site-header:before{display:none!important;content:none!important}
+  .site-header .logo{order:1!important;display:flex!important;flex:0 0 92px!important;width:92px!important;min-width:92px!important;height:50px!important;overflow:hidden!important;align-items:center!important}
+  .site-header .logo img{width:90px!important;height:auto!important;max-height:46px!important;object-fit:contain!important}
+  .site-header .logo:after{display:none!important;content:none!important}
+  .site-header .mobile-create-btn{order:2!important;display:flex!important;flex:0 0 86px!important;width:86px!important;min-width:86px!important;height:38px!important;padding:0 7px!important;align-items:center!important;justify-content:center!important;border:0!important;border-radius:11px!important;background:#ff6a1a!important;color:#fff!important;font-family:Inter,Arial,sans-serif!important;font-size:12px!important;font-weight:800!important;line-height:1.05!important;text-align:center!important;white-space:normal!important;box-sizing:border-box!important}
+  .site-header .mobile-menu-btn{order:3!important;display:flex!important;flex:0 0 66px!important;width:66px!important;min-width:66px!important;height:38px!important;padding:0!important;align-items:center!important;justify-content:center!important;border:1px solid #dfe8d9!important;border-radius:11px!important;background:#fff!important;color:#173b2a!important;font-family:Inter,Arial,sans-serif!important;font-size:13px!important;font-weight:800!important;line-height:1!important}
+  .site-header .header-tools{order:4!important;display:flex!important;flex:1 1 auto!important;min-width:0!important;margin:0!important;gap:0!important}
+  .site-header .header-tools #authArea{width:100%!important;min-width:0!important}
+  .site-header .header-tools #authArea .outline{display:flex!important;width:100%!important;min-width:0!important;height:38px!important;padding:0 8px!important;align-items:center!important;justify-content:center!important;border:0!important;border-radius:11px!important;background:#062018!important;color:#fff!important;font:800 13px/1 Inter,Arial,sans-serif!important;white-space:nowrap!important}
+}
+@media screen and (max-width:360px){
+ .site-header{padding:0 7px!important;gap:4px!important}
+ .site-header .logo{flex-basis:82px!important;width:82px!important;min-width:82px!important}
+ .site-header .logo img{width:80px!important}
+ .site-header .mobile-create-btn{flex-basis:80px!important;width:80px!important;min-width:80px!important;font-size:11px!important}
+ .site-header .mobile-menu-btn{flex-basis:62px!important;width:62px!important;min-width:62px!important;font-size:12px!important}
+}
