@@ -1,0 +1,8 @@
+/* BIKUBOO first-paint guard: keep the legacy shell invisible until the refreshed homepage is ready. */
+html,body{background:#fff}
+body:not(.bk-home-ready) .site-header,
+body:not(.bk-home-ready) #mobileAuthActions{visibility:hidden!important;opacity:0!important;pointer-events:none!important}
+body:not(.bk-home-ready) main{visibility:hidden!important}
+body.bk-home-ready .site-header,
+body.bk-home-ready #mobileAuthActions,
+body.bk-home-ready main{visibility:visible}
