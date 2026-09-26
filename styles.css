@@ -22,7 +22,7 @@ body:before,body:after{content:"";position:fixed;z-index:-2;border-radius:50%;fi
 body:before{width:360px;height:360px;background:#c9f48f;top:80px;left:-180px}body:after{width:420px;height:420px;background:#e1f7c7;right:-220px;top:42%;animation-delay:-5s}
 @keyframes orb{to{transform:translate(80px,55px) scale(1.12)}}
 header{height:74px;background:rgba(255,255,255,.78);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-bottom:1px solid rgba(220,231,216,.75);box-shadow:0 5px 30px rgba(30,50,25,.04)}
-.logo{position:relative;font-size:25px;letter-spacing:-1.6px}.logo:after{content:"";display:inline-block;width:7px;height:7px;background:var(--lime2);border-radius:50%;margin:0 0 4px 5px;box-shadow:0 0 0 5px rgba(143,211,74,.16);animation:pulse 2s infinite}
+.logo{position:relative;font-size:25px;letter-spacing:-1.6px}.logo:after{content:"";display:none}
 @keyframes pulse{50%{box-shadow:0 0 0 9px rgba(143,211,74,0)}}
 nav a{position:relative;transition:.25s ease}nav a:hover{color:#355b21;transform:translateY(-1px)}nav a:after{content:"";position:absolute;left:0;right:100%;bottom:-8px;height:2px;background:var(--lime2);transition:.25s}nav a:hover:after{right:0}
 .outline,.secondary,.tab-btn{transition:transform .2s ease,box-shadow .2s ease,background .2s ease}.outline:hover,.secondary:hover,.tab-btn:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(25,45,20,.09)}
@@ -539,3 +539,12 @@ html{background:#fbfdf9}body{min-height:100vh;padding-bottom:env(safe-area-inset
 
 /* Mobile header: label the menu control clearly on phones. */
 @media(max-width:900px){.site-header .mobile-menu-btn{width:auto!important;min-width:76px!important;height:42px!important;padding:0 16px!important;font-size:15px!important;font-weight:800!important;color:#173b2a!important;background:#fff!important;border:1px solid #dfe8d9!important;border-radius:12px!important}.site-header .mobile-menu-btn{font-family:Inter,Arial,sans-serif!important}}
+
+
+/* Replace old header status dot with a compact mobile ride tagline. */
+@media(max-width:900px){
+  .site-header:before{content:"Ride together";display:block;order:2;margin-left:auto;margin-right:6px;padding:7px 10px;border-radius:999px;background:#f1f8e9;color:#4f7d2d;font:800 11px/1 Inter,Arial,sans-serif;white-space:nowrap}
+  .site-header .mobile-menu-btn{order:3}
+  .site-header .header-tools{order:4}
+}
+@media(max-width:390px){.site-header:before{content:"Ride • Share";font-size:10px;padding:7px 8px}.site-header{gap:5px}}
