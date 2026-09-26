@@ -1,52 +1,30 @@
-/* BIKUBOO homepage/header polish */
-
-/* Remove the legacy main top gap and keep the refreshed homepage tight to the header. */
+/* BIKUBOO homepage/header polish — clean header */
 main{padding-top:0!important;margin-top:0!important}
+main:before{display:none!important;content:none!important}
 main>.bk-launch,.bk-launch{margin-top:0!important}
 
-/* Turn any remaining top breathing room into a useful compact feature strip. */
-main:before{
-  content:"🏍️  Verified riders   •   🛡️  Safety first   •   💚  Lower travel cost   •   📍  City-to-city rides";
-  display:flex;align-items:center;justify-content:center;min-height:52px;padding:8px 24px;
-  background:linear-gradient(90deg,#f5faef,#ffffff,#f5faef);border-bottom:1px solid #e7eee2;
-  color:#58645a;font-family:Inter,Arial,sans-serif;font-size:12px;font-weight:800;letter-spacing:.15px;
-  text-align:center;white-space:nowrap;overflow:hidden;
+.site-header{
+  height:74px!important;min-height:74px!important;display:flex!important;align-items:center!important;justify-content:space-between!important;gap:24px!important;padding:0 5%!important;box-sizing:border-box!important;position:sticky!important;top:0!important;z-index:100!important;background:rgba(255,255,255,.96)!important;border-bottom:1px solid #e8eee4!important;
 }
+.site-header .logo{flex:0 0 auto!important;display:flex!important;align-items:center!important;width:auto!important;min-width:110px!important;color:#172019!important;font-family:Inter,Arial,sans-serif!important;font-size:23px!important;font-weight:900!important;line-height:1!important;white-space:nowrap!important}
+.site-header nav#mainNav{flex:1 1 auto!important;display:flex!important;align-items:center!important;justify-content:center!important;gap:24px!important;margin:0!important;padding:0!important;color:#59635a!important;font-family:Inter,Arial,sans-serif!important;font-size:14px!important;font-weight:600!important;line-height:1!important}
+.site-header nav#mainNav .nav-main{position:relative!important;display:inline-flex!important;align-items:center!important;height:74px!important;padding:0!important;margin:0!important;border:0!important;border-radius:0!important;background:transparent!important;color:#59635a!important;font:600 14px/1 Inter,Arial,sans-serif!important;white-space:nowrap!important;box-shadow:none!important;transform:none!important}
+.site-header nav#mainNav .nav-main:hover{color:#355b21!important}
+.site-header nav#mainNav .nav-main:after{content:""!important;position:absolute!important;left:0!important;right:100%!important;bottom:17px!important;height:2px!important;background:#8fd34a!important;transition:right .2s ease!important}
+.site-header nav#mainNav .nav-main:hover:after,.site-header nav#mainNav .nav-main.active:after{right:0!important}
+.site-header nav#mainNav .nav-main.active{color:#172019!important;background:transparent!important;border:0!important;box-shadow:none!important;border-radius:0!important}
 
-/* Header navigation: every item uses exactly the same typography. */
-#mainNav,.site-header nav{font-family:Inter,Arial,sans-serif!important;font-size:14px!important;line-height:1!important;align-items:center!important}
-#mainNav .nav-main,.site-header nav .nav-main{
-  appearance:none;-webkit-appearance:none;
-  border:0!important;background:transparent!important;
-  color:#59635a!important;padding:0!important;margin:0!important;
-  font-family:Inter,Arial,sans-serif!important;font-size:14px!important;font-weight:600!important;
-  line-height:1.2!important;letter-spacing:0!important;border-radius:0!important;
-  box-shadow:none!important;transform:none!important;display:inline-flex!important;align-items:center!important;
-}
-#mainNav .nav-main:hover,.site-header nav .nav-main:hover{color:#355b21!important;transform:none!important}
-#mainNav .nav-main.active,.site-header nav .nav-main.active{
-  background:transparent!important;color:#355b21!important;border:0!important;border-radius:0!important;
-  padding:0!important;box-shadow:none!important;transform:none!important;
-}
-/* Keep the normal underline hover treatment; no bubble/pill around the active item. */
-#mainNav .nav-main:after,.site-header nav .nav-main:after{bottom:-8px!important;height:2px!important}
-#mainNav .nav-main.active:after,.site-header nav .nav-main.active:after{right:0!important;background:#8fd34a!important}
-
-/* More control matches the nav items and uses a clean CSS chevron. */
-.more-wrap{display:flex;align-items:center;position:relative}
-.more-nav-btn{
-  appearance:none;-webkit-appearance:none;border:0!important;background:transparent!important;
-  color:#59635a!important;padding:0!important;margin:0!important;font-family:Inter,Arial,sans-serif!important;
-  font-size:14px!important;font-weight:600!important;line-height:1.2!important;letter-spacing:0!important;
-  cursor:pointer;display:inline-flex!important;align-items:center;gap:7px;box-shadow:none!important;transform:none!important;
-}
+.more-wrap{display:flex!important;align-items:center!important;position:relative!important;margin:0!important;padding:0!important}
+.more-nav-btn{appearance:none!important;-webkit-appearance:none!important;border:0!important;background:transparent!important;color:#59635a!important;padding:0!important;margin:0!important;font-family:Inter,Arial,sans-serif!important;font-size:14px!important;font-weight:600!important;line-height:1!important;letter-spacing:0!important;cursor:pointer!important;display:inline-flex!important;align-items:center!important;gap:8px!important;height:74px!important;box-shadow:none!important;transform:none!important}
 .more-nav-btn:hover{color:#355b21!important}
-.more-nav-btn span{
-  display:inline-block;width:7px;height:7px;border-right:1.5px solid currentColor;border-bottom:1.5px solid currentColor;
-  transform:rotate(45deg) translateY(-2px);font-size:0;line-height:0;margin-left:1px;transition:transform .18s ease;
-}
-.more-wrap.open .more-nav-btn span,.more-nav-btn[aria-expanded="true"] span{transform:rotate(225deg) translate(-1px,-1px)}
+.more-nav-btn span{display:inline-block!important;width:6px!important;height:6px!important;border-right:1.5px solid currentColor!important;border-bottom:1.5px solid currentColor!important;transform:rotate(45deg)!important;font-size:0!important;line-height:0!important;margin-top:-3px!important;transition:transform .18s ease!important}
+.more-wrap.open .more-nav-btn span,.more-nav-btn[aria-expanded="true"] span{transform:rotate(225deg)!important;margin-top:3px!important}
 .more-nav-btn:after{display:none!important}
 
-@media(max-width:900px){.more-nav-btn{font-size:14px!important}}
-@media(max-width:600px){main:before{min-height:46px;padding:7px 12px;font-size:10px}}
+.site-header .header-tools{flex:0 0 auto!important;display:flex!important;align-items:center!important;margin-left:auto!important}
+.site-header #authArea{display:flex!important;align-items:center!important}
+.site-header #authArea .outline{display:inline-flex!important;align-items:center!important;justify-content:center!important;height:40px!important;padding:0 18px!important;border:1px solid #dce5d7!important;border-radius:12px!important;background:#fff!important;color:#172019!important;font:700 14px/1 Inter,Arial,sans-serif!important;white-space:nowrap!important}
+
+@media(max-width:1100px){.site-header nav#mainNav{gap:17px!important}.site-header{padding:0 3%!important}}
+@media(max-width:900px){.site-header nav#mainNav{gap:13px!important}}
+@media(max-width:700px){.site-header{height:70px!important;min-height:70px!important}.site-header nav#mainNav{display:none!important}.site-header .logo{min-width:auto!important}}
