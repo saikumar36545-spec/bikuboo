@@ -1,4 +1,4 @@
-const CACHE = 'bikuboo-shell-v7';
+const CACHE = 'bikuboo-shell-v8';
 const APP_SHELL = [
   './', './index.html', './styles.css', './app.js', './brand-logo.js', './auth-launcher.js', './mobile-top-actions.js', './landing-refresh.js', './landing-click-fix.js', './phone-auth-actions.js', './homepage-visual-cleanup.js', './landing-polish.js', './manifest.webmanifest',
   './privacy.html', './terms.html', './refund.html', './safety.html',
@@ -27,8 +27,6 @@ self.addEventListener('fetch', event => {
   const url = new URL(event.request.url);
   if (url.origin !== self.location.origin) return;
 
-  // Always prefer the network for HTML/navigation so deployments are never
-  // hidden behind an old cached homepage. Fall back to the cached shell offline.
   if (event.request.mode === 'navigate' || url.pathname === '/' || url.pathname.endsWith('/index.html')) {
     event.respondWith(
       fetch(event.request, {cache: 'no-store'})
@@ -44,7 +42,6 @@ self.addEventListener('fetch', event => {
     return;
   }
 
-  // Use network-first for first-party CSS/JS so deployments appear immediately.
   if (['script','style'].includes(event.request.destination)) {
     event.respondWith(
       fetch(event.request, {cache:'no-store'}).then(response => {
