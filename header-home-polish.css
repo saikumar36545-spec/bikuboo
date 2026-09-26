@@ -331,3 +331,22 @@ main>.bk-launch{margin-top:-68px!important}
     box-sizing:border-box!important;
   }
 }
+
+
+/* FINAL COMPACT MOBILE HEADER - loaded last to override all earlier mobile rules */
+@media(max-width:700px){
+  body>.site-header{display:grid!important;grid-template-columns:92px 88px 62px minmax(0,1fr)!important;gap:5px!important;width:100%!important;max-width:100vw!important;height:64px!important;min-height:64px!important;padding:0 8px!important;box-sizing:border-box!important;overflow:visible!important}
+  body>.site-header .logo{grid-column:1!important;grid-row:1!important;width:92px!important;min-width:92px!important;max-width:92px!important;height:50px!important;flex:none!important;overflow:hidden!important}
+  body>.site-header .logo img{width:90px!important;max-width:90px!important;height:auto!important;max-height:46px!important;object-fit:contain!important}
+  body>.site-header .mobile-create-btn{grid-column:2!important;grid-row:1!important;width:88px!important;min-width:88px!important;height:38px!important;display:flex!important;align-items:center!important;justify-content:center!important;flex:none!important;padding:0 6px!important;box-sizing:border-box!important;border:0!important;border-radius:11px!important;background:#ff6a1a!important;color:#fff!important;font:800 11px/1.05 Inter,Arial,sans-serif!important;text-align:center!important;white-space:normal!important;order:initial!important}
+  body>.site-header .mobile-menu-btn{grid-column:3!important;grid-row:1!important;width:62px!important;min-width:62px!important;height:38px!important;display:flex!important;align-items:center!important;justify-content:center!important;flex:none!important;margin:0!important;padding:0!important;box-sizing:border-box!important;font:800 12px/1 Inter,Arial,sans-serif!important;border-radius:11px!important;order:initial!important}
+  body>.site-header .header-tools{grid-column:4!important;grid-row:1!important;width:100%!important;min-width:0!important;display:flex!important;flex:1 1 auto!important;order:initial!important;margin:0!important}
+  body>.site-header #authArea{width:100%!important;min-width:0!important;display:flex!important}
+  body>.site-header #authArea .outline{width:100%!important;min-width:0!important;height:38px!important;padding:0 6px!important;box-sizing:border-box!important;font:800 13px/1 Inter,Arial,sans-serif!important;white-space:nowrap!important;border-radius:11px!important}
+}
+@media(max-width:360px){
+ body>.site-header{grid-template-columns:78px 78px 58px minmax(0,1fr)!important;gap:4px!important;padding:0 6px!important}
+ body>.site-header .logo,body>.site-header .logo img{width:78px!important;min-width:78px!important;max-width:78px!important}
+ body>.site-header .mobile-create-btn{width:78px!important;min-width:78px!important;font-size:10px!important}
+ body>.site-header .mobile-menu-btn{width:58px!important;min-width:58px!important;font-size:11px!important}
+}
