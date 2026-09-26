@@ -1,0 +1,22 @@
+/* BIKUBOO premium ride-results cards */
+#results{display:grid;gap:14px;margin-top:22px}
+#results .result-ride{display:grid;grid-template-columns:52px minmax(0,1fr) 180px;gap:18px;align-items:center;margin:0;padding:20px 22px;border:1px solid #e3eadf;border-radius:18px;background:rgba(255,255,255,.96);box-shadow:0 12px 32px rgba(23,32,25,.07);transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease;animation:bkRideIn .38s ease both}
+#results .result-ride:hover{transform:translateY(-2px);box-shadow:0 18px 38px rgba(23,32,25,.11);border-color:#cfe2c2}
+#results .ride-avatar{width:52px;height:52px;border-radius:16px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#e7f6d9,#b7e87a);color:#31551d;font-size:17px;font-weight:900;letter-spacing:.3px}
+#results .ride-main{min-width:0}
+#results .ride-route{font-size:19px;font-weight:850;letter-spacing:-.3px;color:#172019;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+#results .ride-route span{color:#79ad46;font-weight:900}
+#results .ride-meta{display:flex;flex-wrap:wrap;gap:10px 16px;margin-top:9px;color:#667168;font-size:12px;font-weight:650}
+#results .verify-badge{display:inline-flex;margin-top:10px;padding:6px 9px;border-radius:999px;background:#f0f8e9;color:#47752c;font-size:11px;font-weight:800}
+#results .ride-main>.muted{font-size:12px!important;color:#7a837b!important}
+#results .ride-price{display:flex;flex-direction:column;align-items:flex-end;gap:5px;color:#172019;font-size:22px;font-weight:900;white-space:nowrap}
+#results .ride-price small{font-size:10px;color:#7b857c;font-weight:650}
+#results .ride-price .primary{width:100%;margin-top:7px;padding:11px 14px;border-radius:11px;font-size:13px;text-align:center}
+#results .map-route-btn{width:100%;border:1px solid #d8e4d1;background:#fff;color:#41682a;border-radius:11px;padding:9px 12px;font-size:12px;font-weight:800;cursor:pointer}
+#results .map-route-btn:hover{background:#f3f9ed}
+#results .status-badge{margin-top:7px}
+#results>.ride:not(.result-ride){padding:28px;border:1px dashed #ccd9c5;border-radius:18px;background:#fbfdf9;text-align:center}
+#results>.ride:not(.result-ride) b{display:block;font-size:17px;margin-bottom:5px}
+#results>.ride:not(.result-ride) small{font-size:13px;color:#737d74}
+@keyframes bkRideIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@media(max-width:760px){#results .result-ride{grid-template-columns:44px minmax(0,1fr);gap:13px;padding:16px}.#results .ride-avatar{width:44px;height:44px;border-radius:13px}#results .ride-price{grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:7px;font-size:19px;padding-top:10px;border-top:1px solid #edf1eb}.#results .ride-price small{grid-column:1}.#results .ride-price .primary,.#results .map-route-btn{width:100%;margin-top:0}.#results .ride-route{font-size:16px}.#results .ride-meta{gap:7px 12px}}
