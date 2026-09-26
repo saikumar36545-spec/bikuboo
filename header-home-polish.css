@@ -1,0 +1,53 @@
+/* BIKUBOO homepage/header polish */
+
+/* Remove the legacy main top gap now that the refreshed homepage controls its own spacing. */
+main{padding-top:0!important;margin-top:0!important}
+
+/* Keep the refreshed landing strip tight to the sticky header. */
+main>.bk-launch,
+.bk-launch{margin-top:0!important}
+
+/* Make the More control visually identical to the other navigation links. */
+.more-wrap{display:flex;align-items:center;position:relative}
+.more-nav-btn{
+  appearance:none;
+  -webkit-appearance:none;
+  border:0!important;
+  background:transparent!important;
+  color:#59635a!important;
+  padding:0!important;
+  margin:0!important;
+  font-family:Inter,Arial,sans-serif!important;
+  font-size:14px!important;
+  font-weight:600!important;
+  line-height:1.2!important;
+  letter-spacing:0!important;
+  cursor:pointer;
+  display:inline-flex!important;
+  align-items:center;
+  gap:7px;
+  box-shadow:none!important;
+  transform:none!important;
+}
+.more-nav-btn:hover{color:#355b21!important}
+.more-nav-btn span{
+  display:inline-block;
+  width:7px;
+  height:7px;
+  border-right:1.5px solid currentColor;
+  border-bottom:1.5px solid currentColor;
+  transform:rotate(45deg) translateY(-2px);
+  font-size:0;
+  line-height:0;
+  margin-left:1px;
+  transition:transform .18s ease;
+}
+.more-wrap.open .more-nav-btn span,
+.more-nav-btn[aria-expanded="true"] span{transform:rotate(225deg) translate(-1px,-1px)}
+
+/* The nav underline belongs to links; More gets a matching hover treatment without a mismatched line. */
+.more-nav-btn:after{display:none!important}
+
+@media(max-width:900px){
+  .more-nav-btn{font-size:14px!important}
+}
