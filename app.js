@@ -1275,7 +1275,7 @@ const _adminAuthHook=updateAuthArea;
 updateAuthArea=function(user){_adminAuthHook(user);setTimeout(()=>checkAdminAccess(),200);};
 setTimeout(()=>checkAdminAccess(),700);
 
-// Vibrant navigation: compact mobile menu without changing app navigation behavior.
+// Mobile navigation: render a dedicated panel outside the header so no legacy CSS can hide the menu.
 document.addEventListener('DOMContentLoaded', () => {
   const moreBtn = document.getElementById('moreNavBtn');
   const moreMenu = document.getElementById('moreNavMenu');
@@ -1284,17 +1284,51 @@ document.addEventListener('DOMContentLoaded', () => {
     moreMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => moreMenu.classList.remove('open')));
     document.addEventListener('click', (e) => { if (!moreMenu.contains(e.target) && e.target !== moreBtn) moreMenu.classList.remove('open'); });
   }
+
   const menu = document.getElementById('mobileMenuBtn');
   const nav = document.getElementById('mainNav');
   if (!menu || !nav) return;
-  menu.addEventListener('click', () => {
-    const open = nav.classList.toggle('open');
+
+  let panel = document.getElementById('bkMobileMenuPanel');
+  if (!panel) {
+    panel = document.createElement('div');
+    panel.id = 'bkMobileMenuPanel';
+    panel.setAttribute('aria-hidden','true');
+    const links = Array.from(nav.querySelectorAll(':scope > .nav-main'))
+      .map(el => '<a class="bk-mobile-menu-link" href="'+(el.getAttribute('href')||'#')+'">'+el.textContent.trim()+'</a>')
+      .join('');
+    panel.innerHTML = links +
+      '<div class="bk-mobile-menu-divider"></div>' +
+      '<a class="bk-mobile-menu-link" href="#activity">Activity</a>' +
+      '<a class="bk-mobile-menu-link" href="#payments">Payments</a>' +
+      '<a class="bk-mobile-menu-link" href="#rewards">Rewards</a>';
+    document.body.appendChild(panel);
+
+    const style = document.createElement('style');
+    style.id = 'bk-mobile-menu-style';
+    style.textContent = `
+      #bkMobileMenuPanel{display:none;position:fixed;left:12px;right:12px;top:78px;z-index:20000;background:#fff;border:1px solid #dfe8d9;border-radius:18px;box-shadow:0 20px 55px rgba(15,35,20,.22);padding:8px;max-height:calc(100vh - 96px);overflow:auto}
+      #bkMobileMenuPanel.open{display:block}
+      .bk-mobile-menu-link{display:flex;align-items:center;min-height:46px;padding:0 14px;border-radius:11px;color:#172019!important;text-decoration:none!important;font:700 15px/1.2 Inter,Arial,sans-serif;background:#fff}
+      .bk-mobile-menu-link:active,.bk-mobile-menu-link:hover{background:#f2f8ed}
+      .bk-mobile-menu-divider{height:1px;background:#edf2ea;margin:5px 4px}
+      @media(min-width:701px){#bkMobileMenuPanel{display:none!important}}
+    `;
+    document.head.appendChild(style);
+    panel.querySelectorAll('.bk-mobile-menu-link').forEach(link => link.addEventListener('click', () => {
+      panel.classList.remove('open');
+      panel.setAttribute('aria-hidden','true');
+      menu.setAttribute('aria-expanded','false');
+      menu.textContent = '☰';
+    }));
+  }
+
+  menu.addEventListener('click', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    const open = panel.classList.toggle('open');
+    panel.setAttribute('aria-hidden', String(!open));
     menu.setAttribute('aria-expanded', String(open));
     menu.textContent = open ? '×' : '☰';
   });
-  nav.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
-    nav.classList.remove('open');
-    menu.setAttribute('aria-expanded', 'false');
-    menu.textContent = '☰';
-  }));
 });
