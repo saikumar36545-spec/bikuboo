@@ -147,4 +147,27 @@ if ('serviceWorker' in navigator) { window.addEventListener('load', () => naviga
 <script src="mobile-menu-fix.js?v=20260926-1"></script>
 
 <script src="mobile-top-actions.js"></script>
+
+<!-- BIKUBOO MOBILE HEADER CLEANUP v14 -->
+<script>
+(function(){
+  function cleanMobileExtras(){
+    if(window.innerWidth>900) return;
+    // Remove any legacy mobile auth/action strip that may have been injected or restored from an older cache.
+    document.querySelectorAll('[id*="mobileAuth" i],[id*="mobileInstall" i],[id*="mobileLogin" i],[id*="mobileSignup" i]').forEach(function(el){el.remove();});
+    document.querySelectorAll('.bk-mobile-actions,.mobile-auth-actions,.mobile-top-actions').forEach(function(el){el.remove();});
+    document.querySelectorAll('body *').forEach(function(el){
+      var t=(el.textContent||'').trim().replace(/\\s+/g,' ');
+      if(t==='📲 Install App' || t==='📲 Install' || t==='Log in Create account' || t==='Install Log in Create account'){
+        if(el.children.length<=4) el.remove();
+      }
+    });
+    var style=document.getElementById('bk-mobile-final-cleanup');
+    if(!style){style=document.createElement('style');style.id='bk-mobile-final-cleanup';style.textContent='@media(max-width:900px){.site-header .logo:after{display:none!important}.site-header:before{display:none!important;content:none!important}}';document.head.appendChild(style);}
+  }
+  cleanMobileExtras();
+  setTimeout(cleanMobileExtras,50);setTimeout(cleanMobileExtras,300);setTimeout(cleanMobileExtras,1000);
+  new MutationObserver(cleanMobileExtras).observe(document.body,{childList:true,subtree:true});
+})();
+</script>
 </body></html>
