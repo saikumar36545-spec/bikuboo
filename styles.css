@@ -525,3 +525,13 @@ html{background:#fbfdf9}body{min-height:100vh;padding-bottom:env(safe-area-inset
 .result-ride{position:relative}.bk-profile-trigger{flex:none}.bk-rider-line{display:flex;align-items:center;gap:3px}.bk-inline-profile strong{font-weight:850}.result-ride .ride-avatar{background:linear-gradient(135deg,#e4f5d6,#b9df93);color:#355c26;box-shadow:0 8px 18px rgba(70,110,42,.1)}
 .result-ride .ride-main{min-width:0}.result-ride .ride-route{font-weight:900}.result-ride .verify-badge{display:inline-flex;align-items:center;max-width:100%;margin-top:9px}
 @media(max-width:760px){.bk-search-tools{align-items:stretch;flex-direction:column}.bk-search-controls{width:100%}.bk-search-controls label:first-child{flex:1}.bk-search-controls select{width:100%;box-sizing:border-box}.bk-check-filter{flex:1;justify-content:center}.result-ride{grid-template-columns:44px 1fr!important}.result-ride .ride-price{grid-column:1/-1;display:grid!important;grid-template-columns:1fr 1fr;align-items:center;gap:8px;margin-top:5px}.result-ride .ride-price small{grid-column:1}.result-ride .map-route-btn{grid-column:1}.result-ride .ride-price .primary,.result-ride .ride-price .status-badge{grid-column:2;grid-row:1 / span 2}.bk-rider-line{flex-wrap:wrap}}
+
+
+/* BIKUBOO landing shell reset: the refreshed homepage is itself a <section>, so do not inherit global section padding. */
+.bk-launch{padding:0!important;margin:0!important;width:100%!important;max-width:none!important;}
+.bk-launch .bk-mainhero,.bk-launch .bk-quick,.bk-launch .bk-rider-gallery,.bk-launch .bk-popular,.bk-launch .bk-split{box-sizing:border-box;}
+@media(max-width:900px){
+  .bk-launch{padding:0!important;margin:0!important;width:100%!important;max-width:none!important;}
+  .bk-launch .bk-mainhero{width:100%!important;max-width:none!important;}
+  .bk-launch .bk-intercity-hero .bk-hero-grid{width:100%!important;max-width:none!important;}
+}
